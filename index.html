@@ -10,32 +10,32 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #E0FFFF; /* Sfondo celeste chiaro */
       margin: 0;
-      padding: 10px;
+      padding: 10px; /* Ridotto il padding per schermi piccoli */
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      min-height: 100vh;
+      /* Rimosso min-height: 100vh; per consentire lo scorrimento verticale */
       color: #333;
     }
     .container {
       max-width: 960px;
       width: 100%;
       margin: auto;
-      padding: 15px;
+      padding: 15px; /* Ridotto il padding per il container su schermi piccoli */
       background-color: #ffffff;
       border-radius: 12px;
       box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
       text-align: center;
     }
     .header b {
-      font-size: 1.5em;
+      font-size: 1.5em; /* Lievemente ridotto per schermi piccoli */
       color: #8B0000; /* Rosso granata per LHI Lecce */
       font-weight: bold; /* Grassetto */
       display: block;
       margin-bottom: 5px;
     }
     .header .crowdfunding-text {
-        color: #0000FF; /* Blu per The First Crown Founding International */
+        color: #0000FF; /* Blu per The First Crown Funding International */
         font-weight: bold;
         display: block;
         font-size: 1.1em;
@@ -65,6 +65,16 @@
     }
     .scientific-project li {
         margin-bottom: 2px;
+        color: #28a745; /* Verde per le cifre */
+        font-weight: bold; /* Grassetto per le cifre */
+    }
+    .call-to-action {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #0000FF; /* Blu per la frase */
+        margin-top: 20px;
+        margin-bottom: 20px;
+        display: block;
     }
 
     .link {
@@ -89,7 +99,7 @@
 
     #preview {
       margin: 15px auto;
-      width: 80%;
+      width: 80%; /* Percentuale della larghezza del contenitore */
       max-width: 200px; /* Ridotto drasticamente la dimensione massima dell'immagine per schermi piccoli */
       height: auto;
       border: 3px solid #007bff;
@@ -158,7 +168,7 @@
         white-space: nowrap;
     }
     .actions input[type="number"], .actions input[type="email"], .actions textarea {
-      padding: 8px;
+      padding: 8px; /* Padding ridotto */
       border: 1px solid #ccc;
       border-radius: 5px;
       text-align: center;
@@ -364,12 +374,15 @@
 <body>
   <div class="container">
     <div class="header">
-      <b>LHI Lecce MEDICAL HOTEL ITALIA Salento</b> <span class="crowdfunding-text">The First Crowdfunding International</span> <span class="blockchain-text">over Blockchain su rete POLYGON: Progetto scientifico di ricerca in corso:</span> <div class="scientific-project">
+      <b>LHI Lecce MEDICAL HOTEL ITALIA Salento</b>
+      <span class="crowdfunding-text">The First Crowdfunding International</span>
+      <span class="blockchain-text">over Blockchain su rete POLYGON: Progetto scientifico di ricerca in corso:</span>
+      <div class="scientific-project">
         <ul>
-          <li>Fibromialgia e Depressione: 1) Diagnosi; 2) Cura; 3) Guarigione</li> </ul>
+          <li><span class="green">Fibromialgia e Depressione:</span> <b>1)</b> Diagnosi; <b>2)</b> Cura; <b>3)</b> Guarigione</li> </ul>
       </div>
-      <a class="link" href="https://lhilecce.it" target="_blank">lhilecce.it</a>
-      <a class="link" href="https://www.google.com/maps/search/LHI+Lecce" target="_blank">Esplora Posizione</a>     </div>
+      <span class="call-to-action">Finanzia la ricerca e ricevi i tuoi NFT!</span>       <a class="link" href="https://lhilecce.it" target="_blank">lhilecce.it</a>
+      <a class="link" href="http://maps.google.com/?q=Via+Giuseppe+Garibaldi+24,+Lecce1" target="_blank">Esplora Posizione</a>     </div>
     <img id="preview" src="" alt="Anteprima NFT" />
     <div class="grid" id="button-container"></div>
     <div class="actions">
@@ -470,8 +483,8 @@
             const userAddress = await currentSigner.getAddress();
             contractInstance = new ethers.Contract(contractAddress, contractABI, currentSigner);
 
-            updateLog(`Wallet connesso: <span class="math-inline">\{userAddress\.substring\(0, 6\)\}\.\.\.</span>{userAddress.substring(userAddress.length - 4)}`, 'success');
-            connectBtn.textContent = `Connesso: <span class="math-inline">\{userAddress\.substring\(0, 6\)\}\.\.\.</span>{userAddress.substring(userAddress.length - 4)}`;
+            updateLog(`Wallet connesso: ${userAddress.substring(0, 6)}...${userAddress.substring(userAddress.length - 4)}`, 'success');
+            connectBtn.textContent = `Connesso: ${userAddress.substring(0, 6)}...${userAddress.substring(userAddress.length - 4)}`;
             connectBtn.disabled = true; // Disabilita il pulsante di connessione una volta connesso
             mintBtn.disabled = selectedTokenId === null; // Abilita/disabilita Mint in base alla selezione
 
@@ -486,8 +499,8 @@
                     mintBtn.disabled = true;
                         totalCostDisplay.textContent = `Costo totale: 0 MATIC`;
                 } else {
-                    updateLog(`Account cambiato a: <span class="math-inline">\{accounts\[0\]\.substring\(0, 6\)\}\.\.\.</span>{accounts[0].substring(accounts[0].length - 4)}`, 'success');
-                    connectBtn.textContent = `Connesso: <span class="math-inline">\{accounts\[0\]\.substring\(0, 6\)\}\.\.\.</span>{accounts[0].substring(accounts[0].length - 4)}`;
+                    updateLog(`Account cambiato a: ${accounts[0].substring(0, 6)}...${accounts[0].substring(accounts[0].length - 4)}`, 'success');
+                    connectBtn.textContent = `Connesso: ${accounts[0].substring(0, 6)}...${accounts[0].substring(accounts[0].length - 4)}`;
                         updateTotalPriceDisplay();
                 }
             });
@@ -549,7 +562,7 @@
             );
 
             updateLog(`Transazione inviata! Hash: ${tx.hash}\nIn attesa di conferma...`, 'info');
-           
+            
             // Disabilita il pulsante di mint durante la transazione
             mintBtn.disabled = true;
 
@@ -557,7 +570,7 @@
             updateLog("NFT mintato con successo! Transazione confermata.", 'success');
             console.log("Transazione confermata:", receipt);
             alert("NFT mintato con successo! Controlla il tuo wallet.");
-           
+            
             mintBtn.disabled = false; // Riabilita dopo la conferma
 
         } catch (error) {
@@ -579,45 +592,45 @@
         }
     }
 
-    // Funzione per inviare email (apre client email dell'utente)
-    function sendEmail() {
-        const recipientEmail = 'servizioclienti@lhilecce.it';
-        const senderEmail = senderEmailInput.value;
-        const requestMessage = emailRequestTextarea.value;
-        const subject = encodeURIComponent('Richiesta da LHI Lecce NFT Frontend');
-        const body = encodeURIComponent(`Mittente: <span class="math-inline">\{senderEmail\}\\n\\nMessaggio\:\\n</span>{requestMessage}`);
+    // Funzione per inviare email (apre client email dell'utente)
+    function sendEmail() {
+        const recipientEmail = 'servizioclienti@lhilecce.it';
+        const senderEmail = senderEmailInput.value;
+        const requestMessage = emailRequestTextarea.value;
+        const subject = encodeURIComponent('Richiesta da LHI Lecce NFT Frontend');
+        const body = encodeURIComponent(`Mittente: ${senderEmail}\n\nMessaggio:\n${requestMessage}`);
 
-        if (!senderEmail || !requestMessage) {
-            alert("Per favore, inserisci la tua email e la richiesta.");
-            return;
-        }
+        if (!senderEmail || !requestMessage) {
+            alert("Per favor, inserisci la tua email e la richiesta.");
+            return;
+        }
 
-        const mailtoLink = `mailto:<span class="math-inline">\{recipientEmail\}?subject\=</span>{subject}&body=${body}`;
-        window.location.href = mailtoLink; // Apre il client di posta
-        alert("La tua email è stata preparata! Si aprirà il tuo client di posta. Clicca invia da lì.");
-        updateLog("Email preparata per l'invio.", 'success');
-    }
+        const mailtoLink = `mailto:${recipientEmail}?subject=${subject}&body=${body}`;
+        window.location.href = mailtoLink; // Apre il client di posta
+        alert("La tua email è stata preparata! Si aprirà il tuo client di posta. Clicca invia da lì.");
+        updateLog("Email preparata per l'invio.", 'success');
+    }
 
-    // Funzione per inviare messaggio WhatsApp (apre WhatsApp dell'utente)
-    function sendWhatsapp() {
-        const whatsappNumber = '+393294550111'; // <-- Numero di telefono configurato
-        const requestMessage = emailRequestTextarea.value; // Riutilizza la stessa textarea per il messaggio
-        const encodedMessage = encodeURIComponent(`Messaggio di assistenza da LHI Lecce NFT Frontend:\n${requestMessage}`);
+    // Funzione per inviare messaggio WhatsApp (apre WhatsApp dell'utente)
+    function sendWhatsapp() {
+        const whatsappNumber = '+393294550111'; // <-- Numero di telefono configurato
+        const requestMessage = emailRequestTextarea.value; // Riutilizza la stessa textarea per il messaggio
+        const encodedMessage = encodeURIComponent(`Messaggio di assistenza da LHI Lecce NFT Frontend:\n${requestMessage}`);
 
-        if (!requestMessage) {
-            alert("Per favore, inserisci il messaggio per WhatsApp.");
-            return;
-        }
-        if (whatsappNumber === 'NUMERO_DI_TELEFONO_ASSISTENZA') {
-            alert("Il numero di telefono per WhatsApp non è ancora stato configurato. Si prega di contattare LHI Lecce tramite email.");
-            return;
-        }
+        if (!requestMessage) {
+            alert("Per favore, inserisci il messaggio per WhatsApp.");
+            return;
+        }
+        if (whatsappNumber === 'NUMERO_DI_TELEFONO_ASSISTENZA') {
+            alert("Il numero di telefono per WhatsApp non è ancora stato configurato. Si prega di contattare LHI Lecce tramite email.");
+            return;
+        }
 
-        const whatsappLink = `https://wa.me/<span class="math-inline">\{whatsappNumber\}?text\=</span>{encodedMessage}`;
-        window.open(whatsappLink, '_blank'); // Apre WhatsApp in una nuova scheda
-        alert("Il tuo messaggio è stato inviato a WhatsApp, grazie! Si aprirà l'app. Clicca invia da lì.");
-        updateLog("Messaggio WhatsApp preparato per l'invio.", 'success');
-    }
+        const whatsappLink = `https://wa.me/${whatsappNumber}?text=${encodedMessage}`;
+        window.open(whatsappLink, '_blank'); // Apre WhatsApp in una nuova scheda
+        alert("Il tuo messaggio è stato inviato a WhatsApp, grazie! Si aprirà l'app. Clicca invia da lì.");
+        updateLog("Messaggio WhatsApp preparato per l'invio.", 'success');
+    }
 
     // --- Inizializzazione UI e Gestione Pulsanti Token ---
     const tokenRange = Array.from({ length: 20 }, (_, i) => (i + 1) * 5); // Genera 5, 10, ..., 100
@@ -639,8 +652,8 @@
 
                 const padded = val.toString().padStart(2, '0');
                 const baseUrl = `https://avvstancamarcello.github.io/LHISA-lecce-Italy-salento/images/`; // Modificato il path base
-                const tryLower = `<span class="math-inline">\{baseUrl\}</span>{padded}.jpg`;
-                const tryUpper = `<span class="math-inline">\{baseUrl\}</span>{padded}.JPG`;
+                const tryLower = `${baseUrl}${padded}.jpg`;
+                const tryUpper = `${baseUrl}${padded}.JPG`;
 
                 let imageUrl = "";
                 try {
