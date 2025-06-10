@@ -1,324 +1,318 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <title>LHI Lecce NFT - Mint Frontend</title>
-  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #ffffff;
-      padding: 20px;
-      margin: 0;
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LHI Lecce NFT - Mint Frontend</title>
+  <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      margin: 0;
+      padding: 10px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      padding: 15px;
+      text-align: center;
+    }
+    .header b {
+      font-size: 1.2em;
+      color: #b22222;
+    }
+    .link {
+      display: block;
+      margin-top: 5px;
+      font-size: 0.95em;
+      color: #1a0dab;
+    }
+    .subtitle {
+      margin-top: 10px;
+      font-size: 1em;
+    }
+    .green { color: green; font-weight: bold; }
+    .red { color: red; font-weight: bold; }
+    .darkgreen { color: darkgreen; font-weight: bold; }
+    #preview {
+      margin: 15px auto;
+      width: 90%;
+      max-width: 300px;
+      height: auto;
+      border: 2px solid blue;
+      object-fit: contain;
+    }
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin: 10px 0;
+    }
+    .token-button {
+      background: #00bcd4;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      padding: 8px 12px;
+      font-size: 0.95em;
+      cursor: pointer;
+      margin: 2px; /* Aggiunto per un migliore spacing */
+    }
+    .token-button.selected {
+        background: #ff5722; /* Colore diverso per il pulsante selezionato */
     }
-    .header {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .header b {
-      font-size: 110%;
-      color: #b22222;
-    }
-    .header .link {
-      display: block;
-      font-size: 100%;
-      margin-top: 4px;
-      color: #1a0dab;
-    }
-    .header .subtitle {
-      font-size: 110%;
-      margin-top: 10px;
-    }
-    .green {
-      color: green;
-      font-weight: bold;
-    }
-    .red {
-      color: red;
-      font-weight: bold;
-    }
-    .darkgreen {
-      color: darkgreen;
-      font-weight: bold;
-    }
-    .container {
-      max-width: 800px;
-      margin: auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-    }
-    #preview {
-      display: block;
-      margin: 10px auto;
-      width: 350px;
-      height: 350px;
-      object-fit: contain;
-      border: 3px solid blue;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
-      gap: 10px;
-      justify-items: center;
-      margin-bottom: 20px;
-    }
-    .token-button {
-      background-color: #00bcd4;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .token-button:hover {
-      background-color: #0097a7;
-    }
-    #log {
-      margin-top: 20px;
-      background: #f1f1f1;
-      padding: 10px;
-      border-radius: 5px;
-      min-height: 40px;
-      text-align: center;
-    }
-    .actions {
-      text-align: center;
-      margin-top: 20px;
-    }
-    .actions input, .actions button {
-      font-size: 16px;
-      padding: 10px;
-      margin: 5px;
-    }
-  </style>
+    .token-button:hover {
+      background: #0097a7;
+    }
+    .actions {
+      margin-top: 15px;
+    }
+    .actions input, .actions button {
+      font-size: 1em;
+      margin: 5px;
+      padding: 8px;
+    }
+    #log {
+      margin-top: 10px;
+      padding: 10px;
+      background: #f1f1f1;
+      border-radius: 4px;
+      min-height: 30px;
+      font-size: 0.9em;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <b>LHI Lecce MEDICAL HOTEL ITALIA</b>
-      <a class="link" href="https://lhilecce.it" target="_blank">lhilecce.it</a>
-      <a class="link" href="https://maps.app.goo.gl/mJDgv9wgqtEVovZGA" target="_blank">Esplora Posizione</a>
-      <div class="subtitle">
-        <span class="green">CROWNFOUNDING INTERNATIONAL</span> su blockchain Polygon (Matic-Ethereum)<br>
-        <span class="red">FIBROMIALGIA</span> & <span class="darkgreen">DEPRESSIONE</span>
-      </div>
-    </div>
-
-    <img id="preview" src="" alt="Anteprima NFT" />
-
-    <div class="grid" id="button-container"></div>
-
-    <div class="actions">
-      <button id="connect-btn">Connetti Metamask</button><br/>
-      Quantità: <input type="number" id="quantity" value="1" min="1" max="10" />
-      <button id="mint-btn" disabled>Mint NFT</button>
-    </div>
-
-    <div id="log">Status: In attesa di connessione...</div>
-  </div>
-
-  <script>
-    const tokenValues = [1,2,3,4,5,10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,85,90,95,100];
-    const CONTRACT_ADDRESS = "0x6a6d5Dc29ad8ff23209186775873e123b31c26E9";
-    const CONTRACT_ABI = [
-    // COSTRUTTORE CORRETTO (due input: _baseURI, _owner)
-    {"inputs":[{"internalType":"string","name":"_baseURI","type":"string"},{"internalType":"address","name":"_owner","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},
-
-    // FUNZIONE mintNFT (come era, sembra corretta per l'ABI del tuo contratto)
-    {"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"uint256","name":"quantity","type":"uint256"},{"internalType":"bool","name":"stake","type":"bool"}],"name":"mintNFT","outputs":[],"stateMutability":"payable","type":"function"},
-
-    // FUNZIONE pricesInWei (come era, sembra corretta)
-    {"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"pricesInWei","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},
-
-    // AGGIUNTO: FUNZIONE getEncryptedURI
-    {"inputs": [{"internalType": "uint256", "name": "tokenId", "type": "uint256"}],
-    "name": "getEncryptedURI",
-    "outputs": [{"internalType": "string", "name": "", "type": "string"}],
-    "stateMutability": "view",
-    "type": "function"
-    },
-
-    // AGGIUNTO: FUNZIONE balanceOf (NECESSARIO per showOwnedNFTs)
-    {
-    "inputs": [{"internalType": "address", "name": "account", "type": "address"}, {"internalType": "uint256", "name": "id", "type": "uint256"}],
-    "name": "balanceOf",
-    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-    "stateMutability": "view",
-    "type": "function"
-    }
+  <div class="container">
+    <div class="header">
+      <b>LHI Lecce MEDICAL HOTEL ITALIA</b>
+      <a class="link" href="https://lhilecce.it" target="_blank">lhilecce.it</a>
+      <a class="link" href="https://maps.app.goo.gl/mJDgv9wgqtEVovZGA" target="_blank">Esplora Posizione</a>
+      <div class="subtitle">
+        <span class="green">CROWNFOUNDING INTERNATIONAL</span> su blockchain Polygon<br>
+        <span class="red">FIBROMIALGIA</span> & <span class="darkgreen">DEPRESSIONE</span>
+      </div>
+    </div>
+    <img id="preview" src="" alt="Anteprima NFT" />
+    <div class="grid" id="button-container"></div>
+    <div class="actions">
+      <button id="connect-btn">Connetti Metamask</button><br/>
+      Quantità: <input type="number" id="quantity" value="1" min="1" max="10" />
+      <button id="mint-btn" disabled>Mint NFT</button>
+    </div>
+    <div id="log">Status: In attesa di connessione...</div>
+  </div>
+  <script>
+    // --- Variabili Globali ---
+    const contractAddress = "0x6a6d5dc29ad8ff23209186775873e123b31c26e9";
+    const contractABI = [
+        // Incolla qui l'ABI completo che mi hai fornito
+        {"inputs":[{"internalType":"string","name":"_baseURI","type":"string"},{"internalType":"address","name":"_owner","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"uint256","name":"balance","type":"uint256"},{"internalType":"uint256","name":"needed","type":"uint256"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"ERC1155InsufficientBalance","type":"error"},{"inputs":[{"internalType":"address","name":"approver","type":"address"}],"name":"ERC1155InvalidApprover","type":"error"},{"inputs":[{"internalType":"uint256","name":"idsLength","type":"uint256"},{"internalType":"uint256","name":"valuesLength","type":"uint256"}],"name":"ERC1155InvalidArrayLength","type":"error"},{"inputs":[{"internalType":"address","name":"operator","type":"address"}],"name":"ERC1155InvalidOperator","type":"error"},{"inputs":[{"internalType":"address","name":"receiver","type":"address"}],"name":"ERC1155InvalidReceiver","type":"error"},{"inputs":[{"internalType":"address","name":"sender","type":"address"}],"name":"ERC1155InvalidSender","type":"error"},{"inputs":[{"internalType":"address","name":"operator","type":"address"},{"internalType":"address","name":"owner","type":"address"}],"name":"ERC1155MissingApprovalForAll","type":"error"},{"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"OwnableInvalidOwner","type":"error"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"OwnableUnauthorizedAccount","type":"error"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"account","type":"address"},{"indexed":true,"internalType":"address","name":"operator","type":"address"},{"indexed":false,"internalType":"bool","name":"approved","type":"bool"}],"name":"ApprovalForAll","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"string","name":"newBaseURI","type":"string"}],"name":"BaseURIUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"requestId","type":"uint256"},{"indexed":true,"internalType":"address","name":"requester","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokenId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"quantity","type":"uint256"}],"name":"BurnApproved","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"requestId","type":"uint256"},{"indexed":true,"internalType":"address","name":"requester","type":"address"},{"indexed":false,"internalType":"uint256", "name": "tokenId", "type": "uint256"},{"indexed":false,"internalType":"uint256","name":"quantity","type":"uint256"}],"name":"BurnDenied", "type": "event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"requester","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokenId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"quantity","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"requestId","type":"uint256"}],"name":"BurnRequested","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"FundsWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokenId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"quantity","type":"uint256"}],"name":"NFTBurned","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"buyer","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokenId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"quantity","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"price","type":"uint256"},{"indexed":false,"internalType":"string","name":"encryptedURI","type":"string"}],"name":"NFTMinted", "type": "event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"operator","type":"address"},{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256[]","name":"ids","type":"uint256[]"},{"indexed":false,"internalType":"uint256[]","name":"values","type":"uint256[]"}],"name":"TransferBatch","type": "event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"operator","type":"address"},{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"id","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"TransferSingle","type": "event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"string","name":"value", "type": "string"},{"indexed":true,"internalType":"uint256","name":"id", "type": "uint256"}],"name":"URI", "type": "event"},{"inputs":[],"name":"MINIMUM_TOTAL_VALUE","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"requestId","type":"uint256"},{"internalType":"bool","name":"approve","type":"bool"}],"name":"approveBurn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"},{"internalType":"uint256","name":"id","type":"uint256"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address[]","name":"accounts","type":"address[]"},{"internalType":"uint256[]","name":"ids","type":"uint256[]"}],"name":"balanceOfBatch","outputs":[{"internalType":"uint256[]","name":"","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"burnRequests","outputs":[{"internalType":"address","name":"requester","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"uint256","name":"quantity","type":"uint256"},{"internalType":"bool","name":"approved","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"uint256","name":"quantity","type":"uint256"}],"name":"calculateTotalValueAfterBurn","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getEncryptedURI","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"},{"internalType":"address","name":"operator","type":"address"}],"name":"isApprovedForAll","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"isValidTokenId","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"maxSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"uint256","name":"quantity","type":"uint256"}],"name":"mintNFT","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"onlyOwnerFunction","outputs":[],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"pricesInWei","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"uint256","name":"quantity","type":"uint256"}],"name":"requestBurn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256[]","name":"ids","type":"uint256[]"},{"internalType":"uint256[]","name":"values","type":"uint256[]"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"safeBatchTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"id","type":"uint256"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"operator","type":"address"},{"internalType":"bool","name":"approved","type":"bool"}],"name":"setApprovalForAll","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"newBaseURI","type":"string"}],"name":"setBaseURI","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"string","name":"cid","type":"string"}],"name":"setTokenCID","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes4","name":"interfaceId","type":"bytes4"}],"name":"supportsInterface","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"totalMinted","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"uri","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"withdrawFunds","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"withdrawWallet","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}
     ];
 
-    let provider, signer, contract, selectedTokenId = null;
+    let selectedTokenId = null; // Variabile per tenere traccia del tokenId selezionato
+    let currentProvider; // Variabile per ethers provider
+    let currentSigner;   // Variabile per ethers signer
+    let contractInstance; // Variabile per l'istanza del contratto
 
-    const previewImg = document.getElementById('preview');
-    const logDiv = document.getElementById('log');
+    const logElement = document.getElementById('log');
+    const connectBtn = document.getElementById('connect-btn');
     const mintBtn = document.getElementById('mint-btn');
     const quantityInput = document.getElementById('quantity');
+    const preview = document.getElementById('preview');
+    const buttonContainer = document.getElementById('button-container');
 
-    // Definisci l'URL del tuo backend Heroku
-    const BACKEND_DECRYPT_URL = "https://lhileccenft-f81f1a577d45.herokuapp.com/get-key"; // CAMBIA QUI
+    function updateLog(message, type = 'info') {
+        logElement.textContent = `Status: ${message}`;
+        logElement.className = ''; // Resetta classi precedenti
+        if (type === 'error') logElement.classList.add('red');
+        if (type === 'success') logElement.classList.add('green');
+        if (type === 'warning') logElement.classList.add('darkgreen');
+    }
 
-    // Assicurati che il tuo backend abbia un endpoint come /decrypt che accetti POST con { encryptedURI: 'cid' }
+    // Funzione per la connessione a Metamask
+    async function connectMetamask() {
+        if (typeof window.ethereum === 'undefined') {
+            updateLog("Metamask non è installato o non rilevato.", 'error');
+            alert("Si prega di installare Metamask o un wallet compatibile con Web3 per continuare.");
+            return;
+        }
 
-    // Funzione per decifrare e visualizzare l'NFT
-    async function displayDecryptedNFT(tokenId) {
         try {
-            log(`⏳ Recupero e decifro NFT per TokenID ${tokenId}...`);
+            updateLog("Connessione a Metamask in corso...");
+            currentProvider = new ethers.providers.Web3Provider(window.ethereum);
+            await currentProvider.send("eth_requestAccounts", []); // Richiede connessione
+            currentSigner = currentProvider.getSigner();
+            const userAddress = await currentSigner.getAddress();
+            contractInstance = new ethers.Contract(contractAddress, contractABI, currentSigner);
 
-            // 1. Ottieni l'URI criptato (CID) dal contratto
-            // Assicurati che 'getEncryptedURI' sia nel CONTRACT_ABI
-            const encryptedURI = await contract.getEncryptedURI(tokenId);
-            log(`🔎 URI criptato dal contratto: ${encryptedURI}`);
+            updateLog(`Wallet connesso: ${userAddress.substring(0, 6)}...${userAddress.substring(userAddress.length - 4)}`, 'success');
+            connectBtn.textContent = `Connesso: ${userAddress.substring(0, 6)}...${userAddress.substring(userAddress.length - 4)}`;
+            connectBtn.disabled = true; // Disabilita il pulsante di connessione una volta connesso
+            mintBtn.disabled = selectedTokenId === null; // Abilita/disabilita Mint in base alla selezione
 
-            // 2. Invia l'URI criptato al tuo backend Heroku per la decifrazione
-            const response = await fetch(BACKEND_DECRYPT_URL, {
-                method: 'POST', // O 'GET' a seconda di come hai implementato l'endpoint nel backend
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ encryptedURI: encryptedURI })
+            // Aggiungi listener per i cambiamenti di account o rete in Metamask
+            window.ethereum.on('accountsChanged', (accounts) => {
+                if (accounts.length === 0) {
+                    updateLog("Wallet disconnesso.", 'warning');
+                    connectBtn.textContent = "Connetti Metamask";
+                    connectBtn.disabled = false;
+                    mintBtn.disabled = true;
+                } else {
+                    updateLog(`Account cambiato a: ${accounts[0].substring(0, 6)}...${accounts[0].substring(accounts[0].length - 4)}`, 'success');
+                    connectBtn.textContent = `Connesso: ${accounts[0].substring(0, 6)}...${accounts[0].substring(accounts[0].length - 4)}`;
+                }
             });
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(`Errore dal backend (${response.status}): ${errorData.message || response.statusText}`);
-            }
-
-            const data = await response.json();
-            const decryptedImageUrl = data.decryptedImageUrl; // O il campo che il tuo backend restituisce
-            if (!decryptedImageUrl) {
-                throw new Error("Il backend non ha restituito un URL di immagine valido.");
-            }
-
-            // 3. Visualizza l'immagine decifrata
-            previewImg.src = decryptedImageUrl;
-            log(`✅ Immagine NFT decifrata e caricata: ${decryptedImageUrl}`);
-
-        } catch (err) {
-            log(`❌ Errore durante la decifrazione/visualizzazione dell'NFT: ${err.message}`);
-            previewImg.src = ""; // Pulisci l'immagine in caso di errore
-        }
-    }
-
-    // Modifica il gestore del click del pulsante Mint per chiamare displayDecryptedNFT dopo il successo
-    mintBtn.onclick = async () => {
-        if (!selectedTokenId) return log("❌ Seleziona un NFT.");
-        const quantity = parseInt(quantityInput.value);
-        try {
-            const price = await contract.pricesInWei(selectedTokenId);
-            const total = price.mul(quantity);
-            log(`⏳ Mint NFT ${selectedTokenId}...`);
-            const tx = await contract.mintNFT(selectedTokenId, quantity, false, { value: total }); // 'false' per lo staking
-            await tx.wait();
-            log("✅ Mint completato. Tx Hash: " + tx.hash);
-
-            // QUI: Dopo il mint riuscito, chiama la funzione per visualizzare l'NFT decifrato
-            await displayDecryptedNFT(selectedTokenId);
-
-        } catch (err) {
-            log("❌ Mint fallito: " + (err.data?.message || err.message));
-        }
-    };
-
-    // Aggiungi una funzione per mostrare gli NFT già posseduti (opzionale, ma consigliato)
-    async function showOwnedNFTs() {
-        if (!provider || !signer) return; // Assicurati che Metamask sia connesso
-        try {
-            const userAddress = await signer.getAddress();
-            log(`🔎 Controllo NFT posseduti per: ${userAddress}`);
-
-            // Dovrai implementare una logica qui per interrogare la blockchain sui token NFT che possiede l'utente.
-            // Il contratto ERC1155 ha una funzione balanceOf(address account, uint256 id)
-            // Potresti iterare da tokenId 1 a 24 e chiamare balanceOf per ciascuno.
-            // Se balanceOf > 0, l'utente possiede quel tokenId.
-            // Poi potresti chiamare displayDecryptedNFT(tokenId) per ciascuno.
-
-            // Esempio:
-            for (let i = 1; i <= 24; i++) {
-                const balance = await contract.balanceOf(userAddress, i);
-                if (balance > 0) {
-                    log(`🎉 Possiedi ${balance}x NFT TokenID ${i}. Tentativo di visualizzazione...`);
-                    // Chiama displayDecryptedNFT per il primo token posseduto che trovi
-                    // O potresti creare un pulsante per visualizzare ciascun NFT posseduto
-                    await displayDecryptedNFT(i); // Visualizza l'ultimo token posseduto per esempio
-                    break; // Per ora mostriamo solo il primo trovato
+            window.ethereum.on('chainChanged', (chainId) => {
+                if (chainId !== '0x89') { // ID della catena di Polygon Mainnet è 0x89 (137 in decimale)
+                    updateLog("Rete cambiata. Passa a Polygon Mainnet.", 'warning');
+                    mintBtn.disabled = true;
+                } else {
+                    updateLog("Connesso a Polygon Mainnet.", 'success');
+                    mintBtn.disabled = selectedTokenId === null;
                 }
+            });
+
+
+        } catch (error) {
+            console.error("Errore durante la connessione a Metamask:", error);
+            if (error.code === 4001) {
+                updateLog("Connessione a Metamask rifiutata dall'utente.", 'error');
+            } else {
+                updateLog(`Errore di connessione: ${error.message || error.code}`, 'error');
             }
-
-
-        } catch (err) {
-            log("❌ Errore nel caricamento NFT posseduti: " + err.message);
         }
     }
 
-    // Chiama questa funzione all'avvio o dopo la connessione Metamask
-    // connectBtn.onclick = async () => { ... }
-    // All'interno del try, dopo `log("✅ Connesso a Metamask.");`
-    // potresti aggiungere: await showOwnedNFTs();
+    // Funzione per il mint dell'NFT
+    async function mintNFT() {
+        if (!currentSigner || !contractInstance) {
+            updateLog("Wallet non connesso. Si prega di connettere Metamask prima.", 'error');
+            return;
+        }
+        if (selectedTokenId === null) {
+            updateLog("Si prega di selezionare un NFT da coniare.", 'error');
+            return;
+        }
 
-    const connectBtn = document.getElementById('connect-btn');
-    connectBtn.onclick = async () => {
-      if (!window.ethereum) return log("❌ Installa Metamask.");
-      try {
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-        provider = new ethers.providers.Web3Provider(window.ethereum);
-        signer = provider.getSigner();
-        contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
-        log("✅ Connesso a Metamask.");
-        mintBtn.disabled = false;
-      } catch (err) {
-        log("❌ Connessione fallita: " + err.message);
-      }
-    };
+        const quantity = parseInt(quantityInput.value);
+        if (isNaN(quantity) || quantity <= 0) {
+            updateLog("Quantità non valida. Inserire un numero maggiore di 0.", 'error');
+            return;
+        }
 
-    mintBtn.onclick = async () => {
-      if (!selectedTokenId) return log("❌ Seleziona un NFT.");
-      const quantity = parseInt(quantityInput.value);
-      try {
-        const price = await contract.pricesInWei(selectedTokenId);
-        const total = price.mul(quantity);
-        log(`⏳ Mint NFT ${selectedTokenId}...`);
-        const tx = await contract.mintNFT(selectedTokenId, quantity, false, {
-        value: total, gasLimit: 10000000 // Imposta un gas limit elevato, simile a quello dello script
-    });
-        await tx.wait();
-        log("✅ Mint completato. Tx Hash: " + tx.hash);
-      } catch (err) {
-        log("❌ Mint fallito: " + (err.data?.message || err.message));
-      }
-    };
+        updateLog("Calcolo del prezzo e preparazione transazione...", 'info');
+        try {
+            // Leggi il prezzo dal contratto per il tokenId selezionato
+            const priceInWei = await contractInstance.pricesInWei(selectedTokenId);
+            const totalCostInWei = priceInWei.mul(quantity); // Moltiplica per la quantità
+            const totalCostInMatic = ethers.utils.formatEther(totalCostInWei);
 
-    function renderButtons() {
-      const container = document.getElementById("button-container");
-      tokenValues.forEach(val => {
-        const btn = document.createElement("button");
-        btn.textContent = val;
-        btn.className = "token-button";
-        btn.onclick = () => {
-          selectedTokenId = val;
-          const padded = val.toString().padStart(2, '0');
-          const path = `images/${padded}.jpg`;
-          fetch(path, { method: "HEAD" }).then(res => {
-            if (res.ok) {
-              previewImg.src = path;
-              log("");
+            updateLog(`Tentativo di mint di ${quantity} NFT (ID: ${selectedTokenId}) per un costo totale di ${totalCostInMatic} MATIC...`, 'warning');
+
+            // Esegui la transazione di mint
+            const tx = await contractInstance.mintNFT(
+                selectedTokenId,
+                quantity,
+                { value: totalCostInWei }
+            );
+
+            updateLog(`Transazione inviata! Hash: ${tx.hash}\nIn attesa di conferma...`, 'info');
+            
+            // Disabilita il pulsante di mint durante la transazione
+            mintBtn.disabled = true;
+
+            const receipt = await tx.wait();
+            updateLog("NFT mintato con successo! Transazione confermata.", 'success');
+            console.log("Transazione confermata:", receipt);
+            alert("NFT mintato con successo! Controlla il tuo wallet.");
+            
+            mintBtn.disabled = false; // Riabilita dopo la conferma
+
+        } catch (error) {
+            console.error("Errore durante il mint dell'NFT:", error);
+            if (error.code === 4001) {
+                updateLog("Transazione rifiutata dall'utente in Metamask.", 'error');
+            } else if (error.message.includes("Incorrect ETH amount")) {
+                updateLog("Errore: Importo MATIC inviato non corrisponde al prezzo richiesto.", 'error');
+            } else if (error.message.includes("insufficient funds")) {
+                updateLog("Errore: Fondi insufficienti nel tuo wallet per coprire la transazione e il gas.", 'error');
+            } else if (error.message.includes("Exceeds max supply")) {
+                updateLog("Errore: Hai tentato di mintare più NFT di quelli disponibili per questo tipo.", 'error');
+            } else if (error.message.includes("Invalid tokenId")) {
+                updateLog("Errore: ID del token non valido o non disponibile per il mint.", 'error');
             } else {
-              previewImg.src = "";
-              log("⚠️ Anteprima non trovata.");
+                updateLog(`Errore durante il mint: ${error.message || error.code}`, 'error');
             }
-          });
-        };
-        container.appendChild(btn);
-      });
+            mintBtn.disabled = false; // Riabilita in caso di errore
+        }
     }
 
-    function log(message) {
-      logDiv.textContent = message;
-    }
+    // --- Inizializzazione UI e Gestione Pulsanti Token ---
+    const tokenRange = Array.from({ length: 20 }, (_, i) => (i + 1) * 5); // Genera 5, 10, ..., 100
 
-    window.onload = renderButtons;
-  </script>
+    window.onload = function() {
+        tokenRange.forEach(val => {
+            const btn = document.createElement("button");
+            btn.textContent = `NFT ${val} - ${0.5 * val} MATIC`; // Mostra prezzo in MATIC
+            btn.className = "token-button";
+            btn.dataset.tokenId = val; // Memorizza il tokenId nel dataset
+            btn.onclick = async () => {
+                // Rimuovi la classe 'selected' da tutti i pulsanti
+                document.querySelectorAll('.token-button').forEach(b => b.classList.remove('selected'));
+                // Aggiungi la classe 'selected' al pulsante cliccato
+                btn.classList.add('selected');
+
+                selectedTokenId = val; // Imposta il tokenId selezionato
+                mintBtn.disabled = currentSigner ? false : true; // Abilita/disabilita Mint
+
+                const padded = val.toString().padStart(2, '0');
+                const baseUrl = "https://avvstancamarcello.github.io/images/";
+                const tryLower = `${baseUrl}${padded}.jpg`;
+                const tryUpper = `${baseUrl}${padded}.JPG`;
+
+                let imageUrl = "";
+                try {
+                    const res = await fetch(tryLower, { method: "HEAD" });
+                    if (res.ok) {
+                        imageUrl = tryLower;
+                    } else {
+                        const res2 = await fetch(tryUpper, { method: "HEAD" });
+                        if (res2.ok) {
+                            imageUrl = tryUpper;
+                        }
+                    }
+                } catch (error) {
+                    console.error(`Errore nel tentativo di caricamento immagine per token ${val}:`, error);
+                }
+
+                if (imageUrl) {
+                    preview.src = imageUrl;
+                } else {
+                    preview.src = "";
+                    console.warn(`Immagine non trovata per token ${val}`);
+                }
+            };
+            buttonContainer.appendChild(btn);
+        });
+
+        // Event listener per il pulsante Connetti Metamask
+        connectBtn.addEventListener('click', connectMetamask);
+        // Event listener per il pulsante Mint NFT
+        mintBtn.addEventListener('click', mintNFT);
+
+        // Inizializza lo stato del pulsante Mint
+        mintBtn.disabled = true;
+        updateLog("In attesa di connessione Metamask...", 'info');
+
+        // Tentativo di riconnessione automatica se l'utente era già connesso
+        if (window.ethereum && window.ethereum.selectedAddress) {
+            connectMetamask();
+        }
+    };
+    </script>
 </body>
 </html>
