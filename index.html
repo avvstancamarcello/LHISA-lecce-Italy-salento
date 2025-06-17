@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mint NFT Moneta Elettronica Solidale</title>
   <script src="https://cdn.jsdelivr.net/npm/web3@1.10.0/dist/web3.min.js"></script>
+  <script src="abi.js"></script>
   <style>
     body {
       background-color: #e0f7fa;
@@ -89,10 +90,10 @@
     </ol>
   </div>
 
-  <script src="abi.js"></script>
   <script>
-    const CONTRACT_ADDRESS = "0x6a6d5Dc29ad8ff23209186775873e123b31c26E9";
-    
+    const CONTRACT_ADDRESS = window.CONTRACT_ADDRESS;
+    const CONTRACT_ABI = window.CONTRACT_ABI;
+
     let web3;
     let userAccount;
 
@@ -118,6 +119,7 @@
 
       if (!userAccount) {
         alert("Connetti prima MetaMask.");
+        status.style.display = 'none';
         return;
       }
 
@@ -131,7 +133,10 @@
       try {
         const res = await fetch('https://lhileccenft-f81f1a577d45.herokuapp.com/get-key', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            'Origin': window.location.origin
+          },
           body: JSON.stringify({
             address: userAccount,
             tokenId: tokenId.toString()
@@ -158,7 +163,6 @@
       }
     }
 
-    // genera dinamicamente la griglia
     window.addEventListener('load', () => {
       const grid = document.getElementById('nftGrid');
       for (let i = 5; i <= 100; i += 5) {
