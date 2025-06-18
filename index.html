@@ -91,46 +91,92 @@
   </div>
 
   <script>
+    // Assicurati che CONTRACT_ADDRESS e CONTRACT_ABI siano correttamente definiti in abi.js
     const CONTRACT_ADDRESS = window.CONTRACT_ADDRESS;
     const CONTRACT_ABI = window.CONTRACT_ABI;
 
     let web3;
     let userAccount;
 
+    // Funzione per mostrare e nascondere il messaggio di caricamento
+    function showLoading(show) {
+      const statusElement = document.getElementById('loading');
+      if (statusElement) {
+        statusElement.style.display = show ? 'block' : 'none';
+      }
+    }
+
     async function connectWallet() {
+      console.log("Tentativo di connessione a MetaMask...");
       if (window.ethereum) {
         web3 = new Web3(window.ethereum);
         try {
-          const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+          // Richiedi gli account all'utente
+          const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
           userAccount = accounts[0];
+          console.log("Wallet connesso:", userAccount);
+
+          // Verifica la rete
+          const chainId = await web3.eth.getChainId();
+          // Polygon Mainnet Chain ID è 137
+          // Polygon Mumbai Testnet Chain ID è 80001
+          const POLYGON_MAINNET_CHAIN_ID = 137;
+          const POLYGON_MUMBAI_CHAIN_ID = 80001; // Se stai usando la testnet
+
+          if (chainId !== POLYGON_MAINNET_CHAIN_ID && chainId !== POLYGON_MUMBAI_CHAIN_ID) {
+            console.warn(`Attenzione: MetaMask non è sulla rete Polygon corretta. ID Rete attuale: ${chainId}`);
+            alert(`Attenzione: Sei connesso alla rete sbagliata (ID: ${chainId}). Si prega di passare a Polygon Mainnet (ID: ${POLYGON_MAINNET_CHAIN_ID}) o Polygon Mumbai Testnet (ID: ${POLYGON_MUMBAI_CHAIN_ID}) in MetaMask.`);
+            // Potresti anche aggiungere logica per suggerire il cambio di rete
+            // await window.ethereum.request({
+            //   method: 'wallet_switchEthereumChain',
+            //   params: [{ chainId: web3.utils.toHex(POLYGON_MAINNET_CHAIN_ID) }],
+            // });
+          } else {
+            console.log(`Connesso a rete Polygon. Chain ID: ${chainId}`);
+          }
+
           alert("Wallet connesso: " + userAccount);
         } catch (err) {
-          alert("Errore: " + err.message);
+          console.error("Errore durante la connessione del wallet:", err);
+          if (err.code === 4001) {
+            alert("Connessione MetaMask rifiutata dall'utente.");
+          } else {
+            alert("Errore durante la connessione del wallet: " + err.message);
+          }
         }
       } else {
+        console.error("MetaMask non è installato o rilevato.");
         alert("Installa MetaMask per continuare.");
       }
     }
 
     async function mintToken(tokenId) {
-      const count = document.getElementById(`mint-count-${tokenId}`).value;
-      const status = document.getElementById('loading');
-      status.style.display = 'block';
+      console.log("------------------------------------------");
+      console.log(`Inizio operazione di Mint NFT per Token ID: ${tokenId}`);
+      showLoading(true);
 
       if (!userAccount) {
+        console.error("Errore: MetaMask non connesso. Connetti prima il wallet.");
         alert("Connetti prima MetaMask.");
-        status.style.display = 'none';
-        return;
-      }
-
-      const balance = await web3.eth.getBalance(userAccount);
-      if (parseFloat(web3.utils.fromWei(balance, 'ether')) < 0.05) {
-        alert("⚠ Saldo MATIC insufficiente.");
-        status.style.display = 'none';
+        showLoading(false);
         return;
       }
 
       try {
+        // Verifica saldo MATIC
+        const balance = await web3.eth.getBalance(userAccount);
+        const balanceInMatic = parseFloat(web3.utils.fromWei(balance, 'ether'));
+        console.log(`Saldo MATIC dell'utente (${userAccount}): ${balanceInMatic}`);
+
+        if (balanceInMatic < 0.05) { // Una soglia minima per il gas e il valore del mint
+          console.error(`Saldo MATIC insufficiente. Richiesto: >0.05 MATIC, Disponibile: ${balanceInMatic} MATIC.`);
+          alert("⚠ Saldo MATIC insufficiente per la transazione.");
+          showLoading(false);
+          return;
+        }
+
+        // Recupera la chiave dal backend
+        console.log(`Richiesta chiave di decrittazione dal backend per Token ID: ${tokenId}...`);
         const res = await fetch('https://lhileccenft-f81f1a577d45.herokuapp.com/get-key', {
           method: 'POST',
           headers: {
@@ -143,23 +189,65 @@
           })
         });
 
-        const json = await res.json();
-        if (!json.success) throw new Error(json.error || "Backend failure");
+        if (!res.ok) { // Gestione errori HTTP
+          const errorText = await res.text();
+          throw new Error(`Errore backend (HTTP ${res.status}): ${errorText}`);
+        }
 
+        const json = await res.json();
+        if (!json.success) {
+          throw new Error(json.error || "Backend failure: 'success' è falso.");
+        }
+        console.log("Chiave di decrittazione ricevuta dal backend (Successo).");
+
+        // Interazione con lo Smart Contract
+        console.log("Inizializzazione contratto smart...");
         const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+        
+        // Recupera il prezzo del token dal contratto
         const price = await contract.methods.pricesInWei(tokenId).call();
         const totalPrice = web3.utils.toBN(price).mul(web3.utils.toBN(count));
+        console.log(`Prezzo per token ${tokenId}: ${web3.utils.fromWei(price, 'ether')} MATIC`);
+        console.log(`Prezzo totale per ${count} token ${tokenId}: ${web3.utils.fromWei(totalPrice, 'ether')} MATIC`);
 
-        await contract.methods.mint(tokenId, count).send({
+        console.log("Invio transazione di Mint a MetaMask...");
+        const transaction = await contract.methods.mintNFT(tokenId, count).send({ // Cambiato da .mint a .mintNFT
           from: userAccount,
-          value: totalPrice
+          value: totalPrice.toString() // Web3.js richiede la stringa per `value`
         });
 
+        console.log("Transazione inviata! Dettagli:", transaction);
         alert(`✅ Mint completato per ${count} NFT token ${tokenId}`);
+        
       } catch (e) {
-        alert("Errore: " + e.message);
+        console.error("------------------------------------------");
+        console.error("ERRORE DURANTE IL PROCESSO DI MINTING:");
+        console.error("Messaggio di errore:", e.message);
+
+        // Debug dettagliato per tipi di errori comuni
+        if (e.code) { // Codici di errore di MetaMask/provider (EIP-1193)
+            console.error(`Codice Errore (MetaMask/EIP-1193): ${e.code}`);
+        }
+        if (e.data) { // Dati extra, spesso contengono il messaggio di revert del contratto
+            console.error(`Dati extra errore:`, e.data);
+            if (e.data.message) {
+                console.error(`Messaggio di Revert dal contratto: ${e.data.message}`);
+            }
+        }
+        if (e.receipt && e.receipt.transactionHash) { // Se la transazione è stata inviata ma fallita
+            console.error(`Hash della transazione (fallita): ${e.receipt.transactionHash}`);
+            console.error(`Controlla su Polygonscan per dettagli: https://polygonscan.com/tx/${e.receipt.transactionHash}`);
+        }
+        // Specifici errori CORS
+        if (e.message.includes("Failed to fetch") || e.message.includes("NetworkError")) {
+            console.error("Possibile errore CORS o di rete con il backend. Controlla la configurazione del tuo server backend per consentire richieste da https://avvstancamarcello.github.io");
+        }
+        
+        alert("Errore durante il minting: " + e.message);
       } finally {
-        status.style.display = 'none';
+        showLoading(false);
+        console.log("Fine operazione di Mint NFT.");
+        console.log("------------------------------------------");
       }
     }
 
@@ -179,6 +267,30 @@
         grid.appendChild(div);
       }
     });
+
+    // Aggiungi un listener per quando l'account di MetaMask cambia
+    if (window.ethereum) {
+        window.ethereum.on('accountsChanged', (accounts) => {
+            if (accounts.length === 0) {
+                console.log('Account MetaMask disconnesso.');
+                userAccount = undefined;
+                alert('Account MetaMask disconnesso.');
+            } else {
+                userAccount = accounts[0];
+                console.log('Account MetaMask cambiato a:', userAccount);
+                alert('Account MetaMask cambiato a: ' + userAccount);
+            }
+        });
+
+        window.ethereum.on('chainChanged', (chainId) => {
+            console.log('Rete MetaMask cambiata a:', chainId);
+            // Si raccomanda di ricaricare la pagina o di riconnettere il wallet
+            // per assicurarsi che Web3.js abbia il contesto della rete corretto.
+            alert('Rete MetaMask cambiata! Ricarica la pagina o riconnetti il wallet per sicurezza.');
+            // location.reload(); // Potresti voler ricaricare la pagina automaticamente
+        });
+    }
+
   </script>
 </body>
 </html>
