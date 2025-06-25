@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LHI Lecce NFT Minting</title>
+  <style>
+    body {
+      background-color: #fafafa;
+      font-family: 'Arial', sans-serif;
+      color: #222;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .important {
+      font-size: 18px;
+      margin: 10px;
+    }
+    .preview-container img {
+      max-width: 8cm;
+      max-height: 8cm;
+      border: 2px solid blue;
+    }
+    .grid-buttons {
+      display: grid;
+      grid-template-columns: repeat(6, 50px);
+      gap: 10px;
+      justify-content: center;
+      margin: 20px auto;
+    }
+    .grid-buttons button {
+      padding: 15px;
+      background-color: #55c5e6;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .image-gallery {
+      margin: 20px auto;
+    }
+    .image-gallery img {
+      width: 80%;
+      max-width: 400px;
+      margin: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+    .warning-box {
+      background: #ffeeba;
+      color: #856404;
+      padding: 15px;
+      border: 1px solid #ffeeba;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>LHI LECCE ITALY</h1>
+  <p class="important">
+    <a href="https://lhilecce.it" target="_blank">LHI Lecce Official Site</a> | 
+    <a href="https://www.hotels.com/ho3614717792/?mdpcid=HCOM.META.HPA.IMAGES-LOCALUNIVERSAL.HOTEL" target="_blank">Hotel Booking</a>
+  </p>
+
+  <div class="warning-box">
+    PER IL MINTING: accedi a questa pagina direttamente dal browser interno dell'app MetaMask mobile per evitare errori di connessione.<br>
+    Assicurati di avere sufficiente MATIC per coprire gas fees.
+  </div>
+
+  <div class="image-gallery">
+    <img src="LHI-panoramica.png" alt="LHI Panoramica">
+    <img src="LHI-edificio.png" alt="LHI Edificio">
+  </div>
+
+  <div class="preview-container">
+    <img id="preview" src="" alt="Anteprima NFT">
+  </div>
+
+  <div class="grid-buttons">
+    <button>1</button><button>2</button><button>3</button><button>4</button><button>5</button><button>10</button>
+    <button>15</button><button>20</button><button>25</button><button>30</button><button>35</button><button>40</button>
+    <button>45</button><button>50</button><button>55</button><button>60</button><button>65</button><button>70</button>
+    <button>75</button><button>80</button><button>85</button><button>90</button><button>95</button><button>100</button>
+  </div>
+
+  <div>
+    <button>Connetti Metamask</button>
+    <p>Quantità: <input type="number" value="1" min="1" max="100"></p>
+    <button>Mint NFT</button>
+  </div>
+
+  <p>Status: In attesa di connessione...</p>
+
+</body>
+</html>
