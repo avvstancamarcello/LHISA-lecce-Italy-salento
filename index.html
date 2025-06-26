@@ -4,8 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LHI Lecce NFT - Un Valore Reale per la Ricerca</title>
-    <meta name="description" content="Sostieni la ricerca e acquista un NFT LHI, un valore digitale ancorato a un bene immobiliare da 10 milioni di euro. Un progetto dal valore destinato a crescere.">
+    <meta name="description" content="Sostieni la ricerca e acquista un NFT LHI, un valore digitale ancorato a un bene immobiliare da 10 milioni di euro.">
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script src="abi.js"></script>
     <style>
         html { scroll-behavior: smooth; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #e8f5e9; margin: 0; padding: 15px; display: flex; justify-content: center; color: #333; }
@@ -47,11 +48,11 @@
   <div class="container">
     <div class="header">
       <h1 data-i18n="mainTitle">LHI Lecce MEDICAL HOTEL ITALIA</h1>
-      <h2>
+      <h2 data-i18n="projectTitle">Progetto Scientifico: DEPRESSIONE E FIBROMIALGIA - Cura e Guarigione</h2>
+       <h2>
         <a href="https://lhilecce.it" target="_blank" data-i18n="officialSite">Sito Ufficiale</a> &nbsp;|&nbsp;
         <a href="https://polygonscan.com/address/0x2a4364c0E9fc125D831257b289b70b0B16A02315" target="_blank" data-i18n="verifiedContract">Contratto Verificato</a>
       </h2>
-      <h2 data-i18n="projectTitle">Progetto Scientifico: DEPRESSIONE E FIBROMIALGIA - Cura e Guarigione</h2>
     </div>
     <div class="lang-selector">
       <button class="lang-btn" onclick="changeLanguage('it')" title="Italiano">🇮🇹</button>
@@ -68,11 +69,11 @@
     
     <div class="dapp-container">
         <h3 data-i18n="selectNft">Scegli un NFT per Sostenere la Ricerca</h3>
-        <div class="nft-grid" id="nft-grid-container"></div>
         <div class="global-controls">
             <button id="connect-btn" data-i18n="connectWallet">🔗 Connetti MetaMask</button>
             <div id="log" data-i18n-status="statusLabel">Status: In attesa di connessione...</div>
         </div>
+        <div class="nft-grid" id="nft-grid-container"></div>
     </div>
     
     <div class="footer-link">
@@ -80,19 +81,19 @@
     </div>
 
     <div id="whitepaper-section" class="whitepaper-section">
-        <h2 data-i18n="wpTitle">La Moneta NFT: Cos'è la Creazione e il Suo Valore?</h2>
-        <p data-i18n="wpIntro">Benvenuto nel futuro della proprietà digitale. Quando acquisti un NFT dal nostro progetto, non stai semplicemente comprando un'immagine, ma stai partecipando a un processo rivoluzionario, sicuro e trasparente. Ecco cosa succede e perché il tuo supporto è così prezioso e garantito.</p>
-        <h3 data-i18n="wpS1Title">1. La Nostra Zecca Digitale: Sicurezza e Affidabilità</h3>
-        <p data-i18n="wpS1Text">Pensa al nostro Smart Contract come a una <strong>Zecca Digitale di Stato</strong>. È costruito sulla blockchain Polygon usando gli strumenti informatici più robusti e moderni, continuamente monitorati da un ecosistema globale di sviluppatori. La sua architettura è progettata per essere altamente resistente agli attacchi, garantendo che le regole del "conio" siano immutabili e sicure.</p>
-        <h3 data-i18n="wpS2Title_new">2. Il Valore Reale Dietro il Tuo NFT: Un Bene Tangibile</h3>
-        <p data-i18n="wpS2Text_new">A differenza di molti progetti digitali, il valore di un NFT LHI non è astratto. È direttamente collegato a un <strong>bene immobile e reale del valore di 10 milioni di euro</strong>: la struttura del Medical Hotel a Lecce. Non è una promessa futura, ma una solida realtà esistente, aperta a qualsiasi visita, che puoi vedere con i tuoi occhi. Questa struttura di <strong>4.000 metri quadrati su 5 piani</strong> è il risultato di <strong>20 anni di lavoro</strong> e dell'investimento di decine di famiglie che hanno creduto in questo progetto fin dall'inizio. La sua posizione è strategica e pubblica, facilmente verificabile su Google Maps: si trova di fronte all'Ospedale Regionale "Vito Fazzi" e all'Ospedale Oncologico "Giovanni Paolo II" di Lecce, raggiungibile dalla tangenziale in direzione Gallipoli. Il tuo NFT rappresenta una quota ideale di questo immenso valore, sia materiale che sociale.</p>
-        <h3 data-i18n="wpS3Title">3. Il Tuo NFT: Un Bene Unico come una Moneta della Zecca</h3>
-        <p data-i18n="wpS3Text">Quando clicchi "Mint", attivi la nostra Zecca Digitale per "coniare" una moneta di realtà virtuale solo per te. Questo NFT (Non-Fungible Token) ha le stesse, potenti caratteristiche di una moneta fisica emessa da uno Stato Sovrano: <strong>Irripetibile</strong>, <strong>Non Falsificabile</strong> e <strong>Immutabile</strong>.</p>
-        <h3 data-i18n="wpS4Title">4. Il Certificato di Nascita e di Residenza del Tuo Valore</h3>
-        <p data-i18n="wpS4Text">Ogni operazione di "Mint" genera due certificati indistruttibili: il <strong>Certificato di Nascita</strong> (la transazione sulla blockchain con data e ora esatte) e il <strong>Certificato di Residenza</strong> (la registrazione della proprietà sul tuo wallet pubblico). Questo ti garantisce il pieno e verificabile possesso.</p>
-        <h3 data-i18n="wpS5Title_new">5. Un Valore Destinato a Crescere: Oltre l'NFT</h3>
-        <p data-i18n="wpS5Text_new">La tua moneta NFT non solo manterrà il suo valore nel tempo, ma è destinata a <strong>crescere in funzione dell'eccellenza e dell'unicità</strong> dei servizi di ospitalità, assistenza e cura che la struttura LHI potrà offrire. La sua posizione strategica, adiacente a due dei più importanti poli ospedalieri del Salento, crea un valore intrinseco e una richiesta costante. Ma LHI vuole essere anche un <strong>centro di sollievo dalla sofferenza</strong>, offrendo una piscina con acqua di mare purissima, talassoterapia, sauna e servizi di riabilitazione. Sostenere questo progetto significa investire in un ecosistema di benessere reale, il cui successo si rifletterà direttamente sul valore del tuo asset digitale.</p>
-        <a href="#" class="link" style="display:inline-block; margin-top: 15px;">Torna su</a>
+      <h2 data-i18n="wpTitle">La Moneta NFT: Cos'è la Creazione e il Suo Valore?</h2>
+      <p data-i18n="wpIntro">Benvenuto nel futuro della proprietà digitale. Quando acquisti un NFT dal nostro progetto, non stai semplicemente comprando un'immagine, ma stai partecipando a un processo rivoluzionario, sicuro e trasparente. Ecco cosa succede e perché il tuo supporto è così prezioso e garantito.</p>
+      <h3 data-i18n="wpS1Title">1. La Nostra Zecca Digitale: Sicurezza e Affidabilità</h3>
+      <p data-i18n="wpS1Text">Pensa al nostro Smart Contract come a una <strong>Zecca Digitale di Stato</strong>. È costruito sulla blockchain Polygon usando gli strumenti informatici più robusti e moderni, continuamente monitorati da un ecosistema globale di sviluppatori. La sua architettura è progettata per essere altamente resistente agli attacchi, garantendo che le regole del "conio" siano immutabili e sicure.</p>
+      <h3 data-i18n="wpS2Title_new">2. Il Valore Reale Dietro il Tuo NFT: Un Bene Tangibile</h3>
+      <p data-i18n="wpS2Text_new">A differenza di molti progetti digitali, il valore di un NFT LHI non è astratto. È direttamente collegato a un <strong>bene immobile e reale del valore di 10 milioni di euro</strong>: la struttura del Medical Hotel a Lecce. Non è una promessa futura, ma una solida realtà esistente, aperta a qualsiasi visita, che puoi vedere con i tuoi occhi. Questa struttura di <strong>4.000 metri quadrati su 5 piani</strong> è il risultato di <strong>20 anni di lavoro</strong> e dell'investimento di decine di famiglie che hanno creduto in questo progetto fin dall'inizio. La sua posizione è strategica e pubblica, facilmente verificabile su Google Maps: si trova di fronte all'Ospedale Regionale "Vito Fazzi" e all'Ospedale Oncologico "Giovanni Paolo II" di Lecce, raggiungibile dalla tangenziale in direzione Gallipoli. Il tuo NFT rappresenta una quota ideale di questo immenso valore, sia materiale che sociale.</p>
+      <h3 data-i18n="wpS3Title">3. Il Tuo NFT: Un Bene Unico come una Moneta della Zecca</h3>
+      <p data-i18n="wpS3Text">Quando clicchi "Mint", attivi la nostra Zecca Digitale per "coniare" una moneta di realtà virtuale solo per te. Questo NFT (Non-Fungible Token) ha le stesse, potenti caratteristiche di una moneta fisica emessa da uno Stato Sovrano: <strong>Irripetibile</strong>, <strong>Non Falsificabile</strong> e <strong>Immutabile</strong>.</p>
+      <h3 data-i18n="wpS4Title">4. Il Certificato di Nascita e di Residenza del Tuo Valore</h3>
+      <p data-i18n="wpS4Text">Ogni operazione di "Mint" genera due certificati indistruttibili: il <strong>Certificato di Nascita</strong> (la transazione sulla blockchain con data e ora esatte) e il <strong>Certificato di Residenza</strong> (la registrazione della proprietà sul tuo wallet pubblico). Questo ti garantisce il pieno e verificabile possesso.</p>
+      <h3 data-i18n="wpS5Title_new">5. Un Valore Destinato a Crescere: Oltre l'NFT</h3>
+      <p data-i18n="wpS5Text_new">La tua moneta NFT non solo manterrà il suo valore nel tempo, ma è destinata a <strong>crescere in funzione dell'eccellenza e dell'unicità</strong> dei servizi di ospitalità, assistenza e cura che la struttura LHI potrà offrire. La sua posizione strategica, adiacente a due dei più importanti poli ospedalieri del Salento, crea un valore intrinseco e una richiesta costante. Ma LHI vuole essere anche un <strong>centro di sollievo dalla sofferenza</strong>, offrendo una piscina con acqua di mare purissima, talassoterapia, sauna e servizi di riabilitazione. Sostenere questo progetto significa investire in un ecosistema di benessere reale, il cui successo si rifletterà direttamente sul valore del tuo asset digitale.</p>
+      <a href="#" class="link" style="display:inline-block; margin-top: 15px;">Torna su</a>
     </div>
 
     <div class="about-us-section">
@@ -112,10 +113,79 @@
   </div>
 
   <script>
-    // --- CONFIGURAZIONE GLOBALE ---
     const contractAddress = "0x2a4364c0E9fc125D831257b289b70b0B16A02315";
-    const contractABI = [{"inputs":[{"internalType":"string","name":"_baseURI","type":"string"},{"internalType":"address","name":"_ownerAddress","type":"address"},{"internalType":"address","name":"_creatorWalletAddress","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[{"internalType":"address","name":"sender","type":"address"},{"internalType":"uint256","name":"balance","type":"uint256"},{"internalType":"uint256","name":"needed","type":"uint256"},{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"ERC1155InsufficientBalance","type":"error"},{"inputs":[{"internalType":"address","name":"approver","type":"address"}],"name":"ERC1155InvalidApprover","type":"error"},{"inputs":[{"internalType":"uint256","name":"idsLength","type":"uint256"},{"internalType":"uint256","name":"valuesLength","type":"uint256"}],"name":"ERC1155InvalidArrayLength","type":"error"},{"inputs":[{"internalType":"address","name":"operator","type":"address"}],"name":"ERC1155InvalidOperator","type":"error"},{"inputs":[{"internalType":"address","name":"receiver","type":"address"}],"name":"ERC1155InvalidReceiver","type":"error"},{"inputs":[{"internalType":"address","name":"sender","type":"address"}],"name":"ERC1155InvalidSender","type":"error"},{"inputs":[{"internalType":"address","name":"operator","type":"address"},{"internalType":"address","name":"owner","type":"address"}],"name":"ERC1155MissingApprovalForAll","type":"error"},{"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"OwnableInvalidOwner","type":"error"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"OwnableUnauthorizedAccount","type":"error"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"account","type":"address"},{"indexed":true,"internalType":"address","name":"operator","type":"address"},{"indexed":false,"internalType":"bool","name":"approved","type":"bool"}],"name":"ApprovalForAll","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"string","name":"newBaseURI","type":"string"}],"name":"BaseURIUpdated","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"requestId","type":"uint256"},{"indexed":true,"internalType":"address","name":"requester","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokenId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"quantity","type":"uint256"}],"name":"BurnApproved","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint256","name":"requestId","type":"uint256"},{"indexed":true,"internalType":"address","name":"requester","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokenId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"quantity","type":"uint256"}],"name":"BurnDenied","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"requester","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokenId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"quantity","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"requestId","type":"uint256"}],"name":"BurnRequested","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"receiver","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"CreatorShareTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"FundsWithdrawn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokenId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"quantity","type":"uint256"}],"name":"NFTBurned","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"buyer","type":"address"},{"indexed":false,"internalType":"uint256","name":"tokenId","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"quantity","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"price","type":"uint256"},{"indexed":false,"internalType":"string","name":"encryptedURI","type":"string"}],"name":"NFTMinted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"proposalId","type":"uint256"},{"indexed":false,"internalType":"string","name":"description","type":"string"},{"indexed":false,"internalType":"uint256","name":"startTime","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"endTime","type":"uint256"}],"name":"ProposalCreated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"operator","type":"address"},{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256[]","name":"ids","type":"uint256[]"},{"indexed":false,"internalType":"uint256[]","name":"values","type":"uint256[]"}],"name":"TransferBatch","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"operator","type":"address"},{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"id","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"TransferSingle","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"string","name":"value","type":"string"},{"indexed":true,"internalType":"uint256","name":"id","type":"uint256"}],"name":"URI","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"proposalId","type":"uint256"},{"indexed":true,"internalType":"address","name":"voter","type":"address"},{"indexed":false,"internalType":"bool","name":"vote","type":"bool"}],"name":"Voted","type":"event"},{"inputs":[],"name":"MINIMUM_TOTAL_VALUE","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"requestId","type":"uint256"},{"internalType":"bool","name":"approve","type":"bool"}],"name":"approveBurn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"},{"internalType":"uint256","name":"id","type":"uint256"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address[]","name":"accounts","type":"address[]"},{"internalType":"uint256[]","name":"ids","type":"uint256[]"}],"name":"balanceOfBatch","outputs":[{"internalType":"uint256[]","name":"","type":"uint256[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"burnRequests","outputs":[{"internalType":"address","name":"requester","type":"address"},{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"uint256","name":"quantity","type":"uint256"},{"internalType":"bool","name":"approved","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"uint256","name":"quantity","type":"uint256"}],"name":"calculateTotalValueAfterBurn","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"string","name":"_description","type":"string"},{"internalType":"uint256","name":"_durationInDays","type":"uint256"},{"internalType":"bool","name":"_allowNewMintsToVote","type":"bool"}],"name":"createProposal","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"creatorSharePercentage","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"creatorWallet","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"encryptedURIs","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_proposalId","type":"uint256"}],"name":"endProposal","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"getEncryptedURI","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_proposalId","type":"uint256"}],"name":"getProposalResults","outputs":[{"internalType":"string","name":"description","type":"string"},{"internalType":"uint256","name":"yesVotes","type":"uint256"},{"internalType":"uint256","name":"noVotes","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"},{"internalType":"uint256","name":"endTime","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"},{"internalType":"address","name":"","type":"address"}],"name":"hasVoted","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"},{"internalType":"address","name":"operator","type":"address"}],"name":"isApprovedForAll","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"isValidTokenId","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"maxSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"uint256","name":"quantity","type":"uint256"}],"name":"mintNFT","outputs":[],"stateMutability":"payable","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"nextProposalId","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"onlyOwnerFunction","outputs":[],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"pricesInWei","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"proposals","outputs":[{"internalType":"string","name":"description","type":"string"},{"internalType":"uint256","name":"startTime","type":"uint256"},{"internalType":"uint256","name":"endTime","type":"uint256"},{"internalType":"uint256","name":"yesVotes","type":"uint256"},{"internalType":"uint256","name":"noVotes","type":"uint256"},{"internalType":"bool","name":"active","type":"bool"},{"internalType":"bool","name":"allowNewMintsToVote","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"uint256","name":"quantity","type":"uint256"}],"name":"requestBurn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256[]","name":"ids","type":"uint256[]"},{"internalType":"uint256[]","name":"values","type":"uint256[]"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"safeBatchTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"id","type":"uint256"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"safeTransferFrom","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"operator","type":"address"},{"internalType":"bool","name":"approved","type":"bool"}],"name":"setApprovalForAll","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"newBaseURI","type":"string"}],"name":"setBaseURI","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"_newCreatorSharePercentage","type":"uint256"}],"name":"setCreatorSharePercentage","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"_newCreatorWallet","type":"address"}],"name":"setCreatorWallet","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"string","name":"uri_","type":"string"}],"name":"setEncryptedURI","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"},{"internalType":"string","name":"cid","type":"string"}],"name":"setTokenCID","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"bytes4","name":"interfaceId","type":"bytes4"}],"name":"supportsInterface","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"tokenCIDs","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"","type":"uint256"}],"name":"totalMinted","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"tokenId","type":"uint256"}],"name":"uri","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"_proposalId","type":"uint256"},{"internalType":"bool","name":"_vote","type":"bool"}],"name":"vote","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"withdrawFunds","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"withdrawWallet","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"}
-    ];
+    const contractABI = window.CONTRACT_ABI; // Carica l'ABI dal file esterno abi.js
+
+    const translations = {
+        it: {
+            mainTitle: "LHI Lecce MEDICAL HOTEL ITALIA",
+            officialSite: "Sito Ufficiale",
+            verifiedContract: "Contratto Verificato",
+            projectTitle: "Progetto Scientifico: DEPRESSIONE E FIBROMIALGIA - Cura e Guarigione",
+            selectNft: "Scegli un NFT per Sostenere la Ricerca",
+            nftPreview: "Anteprima NFT",
+            connectWallet: "🔗 Connetti MetaMask",
+            quantity: "Quantità:",
+            costLabel: "Costo",
+            mintButton: "Mint NFT",
+            metamaskWarning: "⚠ IMPORTANTE: Per eseguire il MINT, usa il browser integrato nell'App MetaMask.",
+            statusLabel: "Status:",
+            newsTitle: "News e Aggiornamenti del Progetto",
+            news1Title: "Avvio della Fase 2 del Progetto di Ricerca",
+            news1Text: "Siamo entusiasti di annunciare l'inizio della Fase 2 del nostro progetto scientifico...",
+            whatIsNftLink: "La Moneta NFT. Cos'è la creazione ed il suo valore?",
+            wpTitle: "La Moneta NFT: Cos'è la Creazione e il Suo Valore?",
+            wpIntro: "Benvenuto nel futuro della proprietà digitale...",
+            wpS1Title: "1. La Nostra Zecca Digitale: Sicurezza e Affidabilità",
+            wpS1Text: "Pensa al nostro Smart Contract come a una <strong>Zecca Digitale di Stato</strong>...",
+            wpS2Title_new: "2. Il Valore Reale Dietro il Tuo NFT: Un Bene Tangibile",
+            wpS2Text_new: "A differenza di molti progetti digitali...",
+            wpS3Title: "3. Il Tuo NFT: Un Bene Unico come una Moneta della Zecca",
+            wpS3Text: "Quando clicchi \"Mint\", attivi la nostra Zecca Digitale...",
+            wpS4Title: "4. Il Certificato di Nascita e di Residenza del Tuo Valore",
+            wpS4Text: "Ogni operazione di \"Mint\" genera due certificati indistruttibili...",
+            wpS5Title_new: "5. Un Valore Destinato a Crescere: Oltre l'NFT",
+            wpS5Text_new: "La tua moneta NFT non solo manterrà il suo valore nel tempo...",
+            aboutUsTitle: "Chi Siamo",
+            aboutLhi: "<strong>LHI</strong> è una Società per Azioni...",
+            aboutManagement: "La gestione della struttura immobiliare è affidata a <strong>Santa Rita Gestioni Spa</strong>...",
+            aboutPartners: "La struttura è stata realizzata con il prezioso contributo economico...",
+            aboutPresident: "<strong>Presidente del CdA:</strong> Dott.ssa Cinzia Colizzi (Dottore Commercialista).",
+            aboutEngineers: "<strong>Ingegneri Progettisti:</strong> Ing. Pietro Licignano e Ing. Roberto Paladini.",
+            footerCopyright: "© 2025 Avv. Marcello Stanca - Firenze. Tutti i diritti riservati.",
+            footerAICredit: "Realizzato in collaborazione con AI Gemini di Google (Giugno 2025)."
+        },
+        en: {
+             // ... English translations here ...
+        }
+        // ... fr, de translations ...
+    };
+
+    let userAccount, contractInstance, flipperInterval, slideshowInterval;
+
+    const buildingImages = ['images/banner.png', 'images/edificio-1.png', 'images/edificio-2.png', 'images/edificio-3.png'];
+    let currentSlideIndex = 0;
+    const slideshowImage = document.getElementById('building-slideshow');
+    
+    function changeSlide(n) { /* ... */ }
+    function manualChangeSlide(n) { /* ... */ }
+    function startSlideshow() { /* ... */ }
+    function changeLanguage(lang) { /* ... */ }
+    async function connectWallet() { /* ... */ }
+    async function mintNFT(tokenId) { /* ... */ }
+    
+    window.onload = function() {
+        const gridContainer = document.getElementById('nft-grid-container');
+        // ... loop to create nft cards ...
+        
+        startFlipperEffect();
+        startSlideshow();
+        // ... event listeners ...
+    };
+
+    function startFlipperEffect() {
+        // ... flipper logic ...
+    }
   </script>
 </body>
 </html>
