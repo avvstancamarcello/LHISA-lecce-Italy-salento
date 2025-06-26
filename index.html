@@ -4,16 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LHI Lecce NFT - Un Valore Reale per la Ricerca</title>
-    <meta name="description" content="Sostieni la ricerca e acquista un NFT LHI, un valore digitale ancorato a un bene immobiliare da 10 milioni di euro.">
-    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
-    <script src="abi.js"></script>
+    <meta name="description" content="Sostieni la ricerca e acquista un NFT LHI, un valore digitale ancorato a un bene immobiliare da 10 milioni di euro. Un progetto dal valore destinato a crescere.">
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js" defer></script>
+    <script src="abi.js" defer></script>
     <style>
         html { scroll-behavior: smooth; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #e8f5e9; margin: 0; padding: 15px; display: flex; justify-content: center; color: #333; }
         .container { max-width: 1000px; width: 100%; margin: auto; padding: 20px; background-color: #ffffff; border-radius: 16px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); }
         .header { text-align: center; border-bottom: 1px solid #c8e6c9; padding-bottom: 20px; margin-bottom: 20px; }
-        .header h1 { color: #1b5e20; margin: 10px 0; font-size: 2.2em; }
-        .header h2 { color: #388e3c; margin: 10px 0; font-weight: 400; font-size: 1.3em; }
+        .header h1 { color: #1b5e20; margin: 10px 0; font-size: 2em; }
+        .header h2 { color: #388e3c; margin: 10px 0; font-weight: 400; font-size: 1.2em; }
         .header a { color: #007bff; text-decoration: none; font-weight: 600; margin: 0 10px; }
         .lang-selector { text-align: center; margin-bottom: 20px; }
         .lang-btn { background: none; border: none; cursor: pointer; font-size: 24px; margin: 0 5px; transition: transform 0.2s; }
@@ -22,7 +22,7 @@
         .slideshow-container img { width: 100%; display: block; }
         .slideshow-container .arrow { cursor: pointer; position: absolute; top: 50%; width: auto; padding: 16px; margin-top: -25px; color: white; font-weight: bold; font-size: 22px; transition: 0.3s ease; border-radius: 0 3px 3px 0; user-select: none; background-color: rgba(0,0,0,0.5); }
         .slideshow-container .next { right: 0; border-radius: 3px 0 0 3px; }
-        .slideshow-container .prev:hover, .slideshow-container .next:hover { background-color: rgba(0,0,0,0.8); }
+        .slideshow-container .prev:hover, .slideshow-container .next:hover { background-color: rgba(0,0,0,0.7); }
         .currency-info { text-align: center; margin: 20px 0; font-style: italic; color: #555; }
         .dapp-container { text-align: center; padding: 20px; background-color: #f0f7f8; border-radius: 12px; margin-top: 30px; }
         .nft-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; margin-top: 20px; }
@@ -42,6 +42,8 @@
         .whitepaper-section p, .about-us-section p { line-height: 1.7; font-size: 1.1em; }
         .footer-link { display: block; text-align: center; margin-top: 40px; font-size: 1.2em; font-weight: bold; }
         .site-footer { text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid #e0e0e0; font-size: 0.9em; color: #6c757d; }
+        .site-footer p { margin: 5px 0; }
+        .ai-credit { font-style: italic; font-size: 0.8em; }
     </style>
 </head>
 <body>
@@ -66,7 +68,6 @@
       <a class="next" onclick="manualChangeSlide(1)">&#10095;</a>
     </div>
     <p class="currency-info" data-i18n="currencyInfo">Valore indicativo NFT #100 (50 MATIC): ~€27.50 / ~$30.00 (il tasso di cambio varia)</p>
-    
     <div class="dapp-container">
         <h3 data-i18n="selectNft">Scegli un NFT per Sostenere la Ricerca</h3>
         <div class="global-controls">
@@ -75,11 +76,9 @@
         </div>
         <div class="nft-grid" id="nft-grid-container"></div>
     </div>
-    
     <div class="footer-link">
       <a href="#whitepaper-section" data-i18n="whatIsNftLink">La Moneta NFT. Cos'è la creazione ed il suo valore?</a>
     </div>
-
     <div id="whitepaper-section" class="whitepaper-section">
       <h2 data-i18n="wpTitle">La Moneta NFT: Cos'è la Creazione e il Suo Valore?</h2>
       <p data-i18n="wpIntro">Benvenuto nel futuro della proprietà digitale. Quando acquisti un NFT dal nostro progetto, non stai semplicemente comprando un'immagine, ma stai partecipando a un processo rivoluzionario, sicuro e trasparente. Ecco cosa succede e perché il tuo supporto è così prezioso e garantito.</p>
@@ -95,7 +94,6 @@
       <p data-i18n="wpS5Text_new">La tua moneta NFT non solo manterrà il suo valore nel tempo, ma è destinata a <strong>crescere in funzione dell'eccellenza e dell'unicità</strong> dei servizi di ospitalità, assistenza e cura che la struttura LHI potrà offrire. La sua posizione strategica, adiacente a due dei più importanti poli ospedalieri del Salento, crea un valore intrinseco e una richiesta costante. Ma LHI vuole essere anche un <strong>centro di sollievo dalla sofferenza</strong>, offrendo una piscina con acqua di mare purissima, talassoterapia, sauna e servizi di riabilitazione. Sostenere questo progetto significa investire in un ecosistema di benessere reale, il cui successo si rifletterà direttamente sul valore del tuo asset digitale.</p>
       <a href="#" class="link" style="display:inline-block; margin-top: 15px;">Torna su</a>
     </div>
-
     <div class="about-us-section">
         <h2 data-i18n="aboutUsTitle">Chi Siamo</h2>
         <p data-i18n="aboutLhi"><strong>LHI</strong> è una Società per Azioni iscritta alla Camera di Commercio di Lecce - Italia con il numero di iscrizione: [...].</p>
@@ -104,88 +102,104 @@
         <p data-i18n="aboutPresident"><strong>Presidente del CdA:</strong> Dott.ssa Cinzia Colizzi (Dottore Commercialista).</p>
         <p data-i18n="aboutEngineers"><strong>Ingegneri Progettisti:</strong> Ing. Pietro Licignano e Ing. Roberto Paladini.</p>
     </div>
-    
     <footer class="site-footer">
         <p data-i18n="footerCopyright">&copy; 2025 Avv. Marcello Stanca - Firenze. Tutti i diritti riservati.</p>
         <p class="ai-credit" data-i18n="footerAICredit">Realizzato in collaborazione con AI Gemini di Google (Giugno 2025).</p>
     </footer>
-
   </div>
 
   <script>
+    // --- CONFIGURAZIONE GLOBALE ---
     const contractAddress = "0x2a4364c0E9fc125D831257b289b70b0B16A02315";
-    const contractABI = window.CONTRACT_ABI; // Carica l'ABI dal file esterno abi.js
-
+    const contractABI = window.CONTRACT_ABI; 
+    const nfts = [
+        { id: 5, price: 2.5, group: 'A' }, { id: 10, price: 5, group: 'B' }, { id: 15, price: 7.5, group: 'A' }, { id: 20, price: 10, group: 'B' },
+        { id: 25, price: 12.5, group: 'A' }, { id: 30, price: 15, group: 'B' }, { id: 35, price: 17.5, group: 'A' }, { id: 40, price: 20, group: 'B' },
+        { id: 45, price: 22.5, group: 'A' }, { id: 50, price: 25, group: 'B' }, { id: 55, price: 27.5, group: 'A' }, { id: 60, price: 30, group: 'B' },
+        { id: 65, price: 32.5, group: 'A' }, { id: 70, price: 35, group: 'B' }, { id: 75, price: 37.5, group: 'A' }, { id: 80, price: 40, group: 'B' },
+        { id: 85, price: 42.5, group: 'A' }, { id: 90, price: 45, group: 'B' }, { id: 95, price: 47.5, group: 'A' }, { id: 100, price: 50, group: 'B' }
+    ];
     const translations = {
-        it: {
-            mainTitle: "LHI Lecce MEDICAL HOTEL ITALIA",
-            officialSite: "Sito Ufficiale",
-            verifiedContract: "Contratto Verificato",
-            projectTitle: "Progetto Scientifico: DEPRESSIONE E FIBROMIALGIA - Cura e Guarigione",
-            selectNft: "Scegli un NFT per Sostenere la Ricerca",
-            nftPreview: "Anteprima NFT",
-            connectWallet: "🔗 Connetti MetaMask",
-            quantity: "Quantità:",
-            costLabel: "Costo",
-            mintButton: "Mint NFT",
-            metamaskWarning: "⚠ IMPORTANTE: Per eseguire il MINT, usa il browser integrato nell'App MetaMask.",
-            statusLabel: "Status:",
-            newsTitle: "News e Aggiornamenti del Progetto",
-            news1Title: "Avvio della Fase 2 del Progetto di Ricerca",
-            news1Text: "Siamo entusiasti di annunciare l'inizio della Fase 2 del nostro progetto scientifico...",
-            whatIsNftLink: "La Moneta NFT. Cos'è la creazione ed il suo valore?",
-            wpTitle: "La Moneta NFT: Cos'è la Creazione e il Suo Valore?",
-            wpIntro: "Benvenuto nel futuro della proprietà digitale...",
-            wpS1Title: "1. La Nostra Zecca Digitale: Sicurezza e Affidabilità",
-            wpS1Text: "Pensa al nostro Smart Contract come a una <strong>Zecca Digitale di Stato</strong>...",
-            wpS2Title_new: "2. Il Valore Reale Dietro il Tuo NFT: Un Bene Tangibile",
-            wpS2Text_new: "A differenza di molti progetti digitali...",
-            wpS3Title: "3. Il Tuo NFT: Un Bene Unico come una Moneta della Zecca",
-            wpS3Text: "Quando clicchi \"Mint\", attivi la nostra Zecca Digitale...",
-            wpS4Title: "4. Il Certificato di Nascita e di Residenza del Tuo Valore",
-            wpS4Text: "Ogni operazione di \"Mint\" genera due certificati indistruttibili...",
-            wpS5Title_new: "5. Un Valore Destinato a Crescere: Oltre l'NFT",
-            wpS5Text_new: "La tua moneta NFT non solo manterrà il suo valore nel tempo...",
-            aboutUsTitle: "Chi Siamo",
-            aboutLhi: "<strong>LHI</strong> è una Società per Azioni...",
-            aboutManagement: "La gestione della struttura immobiliare è affidata a <strong>Santa Rita Gestioni Spa</strong>...",
-            aboutPartners: "La struttura è stata realizzata con il prezioso contributo economico...",
-            aboutPresident: "<strong>Presidente del CdA:</strong> Dott.ssa Cinzia Colizzi (Dottore Commercialista).",
-            aboutEngineers: "<strong>Ingegneri Progettisti:</strong> Ing. Pietro Licignano e Ing. Roberto Paladini.",
-            footerCopyright: "© 2025 Avv. Marcello Stanca - Firenze. Tutti i diritti riservati.",
-            footerAICredit: "Realizzato in collaborazione con AI Gemini di Google (Giugno 2025)."
-        },
-        en: {
-             // ... English translations here ...
-        }
-        // ... fr, de translations ...
+        it: { mainTitle: "LHI Lecce MEDICAL HOTEL ITALIA", officialSite: "Sito Ufficiale", verifiedContract: "Contratto Verificato", projectTitle: "Progetto Scientifico: DEPRESSIONE E FIBROMIALGIA - Cura e Guarigione", selectNft: "Scegli un NFT per Sostenere la Ricerca", connectWallet: "🔗 Connetti MetaMask", mintButton: "Mint NFT", statusLabel: "Status:", currencyInfo:"Valore indicativo NFT #100 (50 MATIC): ~€27.50 / ~$30.00 (il tasso di cambio varia)", whatIsNftLink: "La Moneta NFT. Cos'è la creazione ed il suo valore?", wpTitle: "La Moneta NFT: Cos'è la Creazione e il Suo Valore?", wpIntro: "Benvenuto nel futuro della proprietà digitale. Quando acquisti un NFT dal nostro progetto, non stai semplicemente comprando un'immagine, ma stai partecipando a un processo rivoluzionario, sicuro e trasparente. Ecco cosa succede e perché il tuo supporto è così prezioso e garantito.", wpS1Title: "1. La Nostra Zecca Digitale: Sicurezza e Affidabilità", wpS1Text: 'Pensa al nostro Smart Contract come a una <strong>Zecca Digitale di Stato</strong>. È costruito sulla blockchain Polygon usando gli strumenti informatici più robusti e moderni, continuamente monitorati da un ecosistema globale di sviluppatori. La sua architettura è progettata per essere altamente resistente agli attacchi, garantendo che le regole del "conio" siano immutabili e sicure.', wpS2Title_new: "2. Il Valore Reale Dietro il Tuo NFT: Un Bene Tangibile", wpS2Text_new: 'A differenza di molti progetti digitali, il valore di un NFT LHI non è astratto. È direttamente collegato a un <strong>bene immobile e reale del valore di 10 milioni di euro</strong>: la struttura del Medical Hotel a Lecce. Non è una promessa futura, ma una solida realtà esistente, aperta a qualsiasi visita, che puoi vedere con i tuoi occhi. Questa struttura di <strong>4.000 metri quadrati su 5 piani</strong> è il risultato di <strong>20 anni di lavoro</strong> e dell\'investimento di decine di famiglie che hanno creduto in questo progetto fin dall\'inizio. La sua posizione è strategica e pubblica, facilmente verificabile su Google Maps: si trova di fronte all\'Ospedale Regionale "Vito Fazzi" e all\'Ospedale Oncologico "Giovanni Paolo II" di Lecce, raggiungibile dalla tangenziale in direzione Gallipoli. Il tuo NFT rappresenta una quota ideale di questo immenso valore, sia materiale che sociale.', wpS3Title: "3. Il Tuo NFT: Un Bene Unico come una Moneta della Zecca", wpS3Text: 'Quando clicchi "Mint", attivi la nostra Zecca Digitale per "coniare" una moneta di realtà virtuale solo per te. Questo NFT (Non-Fungible Token) ha le stesse, potenti caratteristiche di una moneta fisica emessa da uno Stato Sovrano: <strong>Irripetibile</strong>, <strong>Non Falsificabile</strong> e <strong>Immutabile</strong>.', wpS4Title: "4. Il Certificato di Nascita e di Residenza del Tuo Valore", wpS4Text: 'Ogni operazione di "Mint" genera due certificati indistruttibili: il <strong>Certificato di Nascita</strong> (la transazione sulla blockchain con data e ora esatte) e il <strong>Certificato di Residenza</strong> (la registrazione della proprietà sul tuo wallet pubblico). Questo ti garantisce il pieno e verificabile possesso.', wpS5Title_new: "5. Un Valore Destinato a Crescere: Oltre l'NFT", wpS5Text_new: 'La tua moneta NFT non solo manterrà il suo valore nel tempo, ma è destinata a <strong>crescere in funzione dell\'eccellenza e dell\'unicità</strong> dei servizi di ospitalità, assistenza e cura che la struttura LHI potrà offrire. La sua posizione strategica, adiacente a due dei più importanti poli ospedalieri del Salento, crea un valore intrinseco e una richiesta costante. Ma LHI vuole essere anche un <strong>centro di sollievo dalla sofferenza</strong>, offrendo una piscina con acqua di mare purissima, talassoterapia, sauna e servizi di riabilitazione. Sostenere questo progetto significa investire in un ecosistema di benessere reale, il cui successo si rifletterà direttamente sul valore del tuo asset digitale.', aboutUsTitle: "Chi Siamo", aboutLhi: "<strong>LHI</strong> è una Società per Azioni iscritta alla Camera di Commercio di Lecce - Italia con il numero di iscrizione: [...].", aboutManagement: "La gestione della struttura immobiliare è affidata a <strong>Santa Rita Gestioni Spa</strong>, con sede in [...] e iscritta nel registro della Camera di Commercio di [...].", aboutPartners: "La struttura è stata realizzata con il prezioso contributo economico della <strong>Regione Puglia</strong> e con la compartecipazione di partner finanziari di primo piano come <strong>Monte dei Paschi Capital Service di Firenze</strong> e la <strong>Banca Popolare di [...]</strong>.", aboutPresident: "<strong>Presidente del CdA:</strong> Dott.ssa Cinzia Colizzi (Dottore Commercialista).", aboutEngineers: "<strong>Ingegneri Progettisti:</strong> Ing. Pietro Licignano e Ing. Roberto Paladini.", footerCopyright: "© 2025 Avv. Marcello Stanca - Firenze. Tutti i diritti riservati.", footerAICredit: "Realizzato in collaborazione con AI Gemini di Google (Giugno 2025)." },
+        en: { mainTitle: "LHI Lecce MEDICAL HOTEL ITALY", officialSite: "Official Site", verifiedContract: "Verified Contract", projectTitle: "Scientific Project: DEPRESSION & FIBROMYALGIA - Treatment and Healing", selectNft: "Choose an NFT to Support Research", connectWallet: "🔗 Connect MetaMask", mintButton: "Mint NFT", statusLabel: "Status:", currencyInfo:"Indicative value NFT #100 (50 MATIC): ~€27.50 / ~$30.00 (exchange rate varies)", whatIsNftLink: "The NFT Coin. What is its creation and value?", wpTitle: "The NFT Coin: What is its Creation and Value?", wpIntro: "Welcome to the future of digital ownership...", wpS1Title: "1. Our Digital Mint: Security and Reliability", wpS1Text: "Think of our Smart Contract as a <strong>State Digital Mint</strong>...", wpS2Title_new: "2. The Real Value Behind Your NFT: A Tangible Asset", wpS2Text_new: "Unlike many digital projects, the value of an LHI NFT is not abstract...", wpS3Title: "3. Your NFT: A Unique Asset Like a Minted Coin", wpS3Text: "When you click \"Mint\", you activate our Digital Mint...", wpS4Title: "4. The Birth and Residence Certificate of Your Value", wpS4Text: "Every \"Mint\" operation generates two indestructible certificates...", wpS5Title_new: "5. A Value Destined to Grow: Beyond the NFT", wpS5Text_new: "Your NFT coin will not only maintain its value over time...", aboutUsTitle: "About Us", aboutLhi: "<strong>LHI</strong> is a Joint-Stock Company registered with the Chamber of Commerce of Lecce - Italy under registration number: [...].", aboutManagement: "The property is managed by <strong>Santa Rita Gestioni Spa</strong>, based in [...] and registered with the Chamber of Commerce of [...].", aboutPartners: "The facility was built with the valuable financial contribution of the <strong>Puglia Region</strong> and with the participation of leading financial partners such as <strong>Monte dei Paschi Capital Service of Florence</strong> and <strong>Banca Popolare di [...]</strong>.", aboutPresident: "<strong>President of the Board:</strong> Dr. Cinzia Colizzi (Chartered Accountant).", aboutEngineers: "<strong>Design Engineers:</strong> Pietro Licignano and Roberto Paladini.", footerCopyright: "© 2025 Avv. Marcello Stanca - Florence. All rights reserved.", footerAICredit: "Realized in collaboration with Google's Gemini AI (June 2025)." },
+        fr: { /* Aggiungere traduzioni... */ },
+        de: { /* Aggiungere traduzioni... */ }
     };
 
     let userAccount, contractInstance, flipperInterval, slideshowInterval;
+    const logElement = document.getElementById('log');
+    
+    function changeLanguage(lang) {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[lang] && translations[lang][key]) {
+                el.innerHTML = translations[lang][key];
+            }
+        });
+    }
 
     const buildingImages = ['images/banner.png', 'images/edificio-1.png', 'images/edificio-2.png', 'images/edificio-3.png'];
     let currentSlideIndex = 0;
     const slideshowImage = document.getElementById('building-slideshow');
     
-    function changeSlide(n) { /* ... */ }
-    function manualChangeSlide(n) { /* ... */ }
-    function startSlideshow() { /* ... */ }
-    function changeLanguage(lang) { /* ... */ }
-    async function connectWallet() { /* ... */ }
-    async function mintNFT(tokenId) { /* ... */ }
+    function changeSlide(n) {
+        currentSlideIndex = (currentSlideIndex + n + buildingImages.length) % buildingImages.length;
+        if (slideshowImage) slideshowImage.src = buildingImages[currentSlideIndex];
+    }
     
-    window.onload = function() {
-        const gridContainer = document.getElementById('nft-grid-container');
-        // ... loop to create nft cards ...
-        
-        startFlipperEffect();
-        startSlideshow();
-        // ... event listeners ...
-    };
+    function manualChangeSlide(n) {
+        clearInterval(slideshowInterval);
+        changeSlide(n);
+    }
+
+    function startSlideshow() {
+        slideshowInterval = setInterval(() => changeSlide(1), 4000);
+    }
 
     function startFlipperEffect() {
-        // ... flipper logic ...
+        const groupA = document.querySelectorAll('.group-A');
+        const groupB = document.querySelectorAll('.group-B');
+        if(groupA.length === 0 || groupB.length === 0) return;
+
+        let isGroupAVisible = true;
+        groupA.forEach(el => el.classList.remove('hidden'));
+        groupB.forEach(el => el.classList.add('hidden'));
+
+        flipperInterval = setInterval(() => {
+            if (isGroupAVisible) {
+                groupA.forEach(el => el.classList.add('hidden'));
+                groupB.forEach(el => el.classList.remove('hidden'));
+            } else {
+                groupA.forEach(el => el.classList.remove('hidden'));
+                groupB.forEach(el => el.classList.add('hidden'));
+            }
+            isGroupAVisible = !isGroupAVisible;
+        }, 4000);
     }
+
+    async function connectWallet() { /* ... */ }
+    async function mintNFT(tokenId) { /* ... */ }
+
+    window.onload = function() {
+        const gridContainer = document.getElementById('nft-grid-container');
+        const connectBtn = document.getElementById('connect-btn');
+
+        nfts.forEach(nft => {
+            const card = document.createElement('div');
+            card.className = `nft-card group-${nft.group}`;
+            const paddedId = nft.id.toString().padStart(2, '0');
+            card.innerHTML = `
+                <img src="images/${paddedId}.jpg" alt="LHI NFT ${nft.id}">
+                <p>NFT ${nft.id} - ${nft.price} MATIC</p>
+                <button class="mint-button" id="mint-btn-${nft.id}" onclick="mintNFT(${nft.id})" disabled>Mint</button>
+            `;
+            gridContainer.appendChild(card);
+        });
+
+        startFlipperEffect();
+        startSlideshow();
+        connectBtn.addEventListener('click', connectWallet);
+    };
   </script>
 </body>
 </html>
