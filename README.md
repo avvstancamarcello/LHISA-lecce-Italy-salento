@@ -1,13 +1,11 @@
 # 🎾 LHISA-lecce-Italy-salento: Frontend per NFT LHI Lecce
-
+📚 Technical tutorials in 7 languages to help developers 
 Questo repository contiene il frontend pubblico per il progetto **LHISA – LHI Lecce NFT**.  
 Si tratta di una **Decentralized Application (dApp)** basata su HTML e JavaScript vanilla, progettata per consentire agli utenti di interagire con lo smart contract NFT sulla blockchain Polygon.
 
-Il progetto è focalizzato sul **supporto alla ricerca scientifica per la depressione** attraverso l’emissione di **Token NFT Solidali**.
+Il progetto è focalizzato sul **supporto alla ricerca scientifica per la  depressione:cura e guarigione** attraverso l’emissione di **Token NFT Solidali**.
 
----
-
-## 🔗 Contratto Smart
+## 🔗 Contratto Smart Verifyed and public
 
 Il contratto smart **ERC1155**, denominato `LHISA_LecceNFT`, è stato **verificato con successo** sulla rete **Polygon** al seguente indirizzo:
 
