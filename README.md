@@ -36,6 +36,19 @@ La pagina web (`index.html`) permette agli utenti di:
 4. 🎨 Naviga tra i 20 NFT a mosaico e fai mint direttamente dal browser.
 
 ---
+🌍 Multilingual Technical Tutorials
+We have prepared a complete multilingual technical guide to help developers all over the world verify and deploy smart contracts with confidence and precision.
+🧠 This is the essence of the Best Practice by Marcello Stanca.
+
+📂 Access the full documentation in your preferred language:
+
+🇮🇹 Italiano (README.md)
+🇬🇧 English (README.en.md)
+🇫🇷 Français (README.fr.md)
+🇪🇸 Español (README.es.md)
+🇩🇪 Deutsch (README.de.md)
+🇵🇹 Português (README.pt.md)
+🇨🇳 中文 Chinese (README.zh.md)
 
 ## 🔍 Debug & Sviluppo
 
@@ -43,7 +56,6 @@ Per il debug:
 - Apri la console sviluppatore del browser (`F12` o `Ctrl+Shift+I`).
 - Sono presenti log avanzati (`console.log`, `console.error`) per il tracciamento completo:  
   dalla connessione al wallet alle transazioni con lo smart contract e backend.
-
 ---
 
 📚 **Tutorial tecnico** multilingua disponibile nella cartella `/TUTORIALS`:  
@@ -53,6 +65,4 @@ Impara tutto sui problemi reali, errori invisibili e best practice per la verifi
 
 > ✨ La pallina perfetta esiste: è quella che non smette mai di giocare.  
 > Progetto uomo–IA per la cura dell’anima e la lotta alla depressione.
-
-
 ---
