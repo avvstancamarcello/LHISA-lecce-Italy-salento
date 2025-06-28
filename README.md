@@ -4,6 +4,8 @@ Questo repository contiene il frontend pubblico per il progetto **LHISA – LHI 
 Si tratta di una **Decentralized Application (dApp)** basata su HTML e JavaScript vanilla, progettata per consentire agli utenti di interagire con lo smart contract NFT sulla blockchain Polygon.
 
 Il progetto è focalizzato sul **supporto alla ricerca scientifica per la  depressione:cura e guarigione** attraverso l’emissione di **Token NFT Solidali**.
+> 🔬 *LHISA è il primo NFT solidale nato da una partita perfetta tra uomo e IA: un progetto di speranza, scienza e codice.*
+
 
 ## 🔗 Contratto Smart Verifyed and public
 
@@ -40,13 +42,23 @@ We have prepared a complete multilingual technical guide to help developers all 
 
 📂 Access the full documentation in your preferred language:
 
-🇮🇹 Italiano (README.md)
-🇬🇧 English (README.en.md)
-🇫🇷 Français (README.fr.md)
-🇪🇸 Español (README.es.md)
-🇩🇪 Deutsch (README.de.md)
-🇵🇹 Português (README.pt.md)
-🇨🇳 中文 Chinese (README.zh.md)
+### 🌍 Multilingual Documentation & Technical Tutorials
+
+Access the full documentation and best practice tutorials in your preferred language:
+
+### 🌍 Multilingual Docs & Tutorials
+
+Consulta la documentazione e i tutorial tecnici nella tua lingua:
+
+| 🇮🇹 | [README](README.md) · [Guida Tecnica](TUTORIALS/README.md) |
+|-----|-------------------------------------------------------------|
+| 🇬🇧 | [README](README.en.md) · [Technical Guide](TUTORIALS/README.en.md) |
+| 🇫🇷 | [README](README.fr.md) · [Guide Technique](TUTORIALS/README.fr.md) |
+| 🇪🇸 | [README](README.es.md) · [Guía Técnica](TUTORIALS/README.es.md) |
+| 🇩🇪 | [README](README.de.md) · [Technisches Handbuch](TUTORIALS/README.de.md) |
+| 🇵🇹 | [README](README.pt.md) · [Guia Técnico](TUTORIALS/README.pt.md) |
+| 🇨🇳 | [README](README.zh.md) · [技术指南](TUTORIALS/README.zh.md) |
+
 
 ## 🔍 Debug & Sviluppo
 
