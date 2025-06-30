@@ -60,7 +60,7 @@
 
     <div class="text-box">
         <h3>Un Progetto Reale, un Valore Tangibile</h3>
-        <p>A differenza di molti progetti digitali, il valore di un NFT LHI non è astratto. È direttamente collegato a un <strong>bene immobile e reale del valore di 10 milioni di euro</strong>: la struttura del Medical Hotel a Lecce. Questa imponente struttura di <strong>7 piani</strong> (4.000 mq) è il risultato di <strong>20 anni di lavoro</strong> e dell'投資 (investimento) di decine di famiglie. La sua posizione strategica, di fronte ai poli ospedalieri di Lecce, le conferisce un ruolo centrale nell'ospitalità sanitaria.</p>
+        <p>A differenza di molti progetti digitali, il valore di un NFT LHI non è astratto. È direttamente collegato a un <strong>bene immobile e reale del valore di 10 milioni di euro</strong>: la struttura del Medical Hotel a Lecce. Questa imponente struttura di <strong>7 piani</strong> (4.000 mq) è il risultato di <strong>20 anni di lavoro</strong> e dell'investimento di decine di famiglie. La sua posizione strategica, di fronte ai poli ospedalieri di Lecce, le conferisce un ruolo centrale nell'ospitalità sanitaria.</p>
     </div>
 
     <div class="image-row">
@@ -147,6 +147,14 @@
     const contractAddress = "0x2a4364c0E9fc125D831257b289b70b0B16A02315"; // Indirizzo del tuo contratto verificato
     const contractABI = window.CONTRACT_ABI; // Assumi che questo carichi correttamente l'ABI da abi.js
 
+    // *** INIZIO AGGIUNTA CRUCIALE: DEFINIZIONE DELL'ARRAY NFTs ***
+    const nfts = Array.from({ length: 100 }, (_, i) => ({
+        id: i + 1,
+        // Puoi aggiungere qui altri dettagli se necessari per la visualizzazione,
+        // ma il prezzo verrà comunque fetched dal contratto.
+    }));
+    // *** FINE AGGIUNTA CRUCIALE ***
+
     let userAccount, contractInstance;
     const logElement = document.getElementById('log');
 
@@ -156,50 +164,52 @@
     }
 
     async function connectWallet() {
-        console.log("Tentativo di connessione a MetaMask..."); // Log iniziale
+        console.log("Tentativo di connessione a MetaMask...");
         if (typeof window.ethereum === 'undefined') {
-            console.error("MetaMask non è installato o non è attivo."); // Log errore
+            console.error("MetaMask non è installato o non è attivo.");
             return alert("Per favore, installa MetaMask per continuare.");
         }
         updateLog("Connessione a MetaMask...");
         try {
-            const provider = new ethers.BrowserProvider(window.ethereum); // CAMBIAMENTO CRUCIALE QUI per Ethers v6
-            console.log("Provider Ethers v6 creato."); // Log successo provider
+            const provider = new ethers.BrowserProvider(window.ethereum); // Ethers v6
+            console.log("Provider Ethers v6 creato.");
             
             await provider.send("eth_requestAccounts", []);
-            console.log("Richiesta account inviata a MetaMask."); // Log richiesta account
+            console.log("Richiesta account inviata a MetaMask.");
             
             const signer = await provider.getSigner(); // Metodo asincrono in v6
             userAccount = await signer.getAddress();
-            console.log("Account utente connesso:", userAccount); // Log account connesso
+            console.log("Account utente connesso:", userAccount);
             
-            contractInstance = new ethers.Contract(contractAddress, contractABI, signer); // CAMBIAMENTO CRUCIALE QUI per Ethers v6
-            console.log("Istanza contratto creata con Ethers v6."); // Log istanza contratto
+            contractInstance = new ethers.Contract(contractAddress, contractABI, signer); // Ethers v6
+            console.log("Istanza contratto creata con Ethers v6.");
 
             const connectBtn = document.getElementById('connect-btn');
             connectBtn.textContent = `Connesso: ${userAccount.substring(0, 6)}...`;
             connectBtn.disabled = true;
             document.querySelectorAll('.mint-button').forEach(btn => { btn.disabled = false; });
             updateLog("Wallet connesso.", false);
-            console.log("Connessione wallet completata con successo!"); // Log finale successo connessione
+            console.log("Connessione wallet completata con successo!");
         } catch (err) {
             updateLog("Connessione fallita.", true);
-            console.error("Errore di connessione MetaMask:", err); // Log errore dettagliato
-            alert("Connessione fallita. Controlla la console per i dettagli."); // Avviso utente
+            console.error("Errore di connessione MetaMask:", err);
+            alert("Connessione fallita. Controlla la console per i dettagli.");
         }
     }
 
     async function mintNFT(tokenId) {
-        console.log(`Tentativo di mint NFT (ID: ${tokenId}, Quantità: ${quantityInput.value})...`); // Log iniziale mint
-        if (!contractInstance) {
-            console.error("Istanza contratto non disponibile. Connetti prima il wallet."); // Log errore
-            return alert("Per favore, connetti prima il tuo wallet.");
-        }
-                const quantityInput = document.getElementById(`quantity-${tokenId}`); // moved declaration
+        // La variabile quantityInput deve essere dichiarata prima di essere usata
+        const quantityInput = document.getElementById(`quantity-${tokenId}`);
         const quantity = parseInt(quantityInput.value);
 
+        console.log(`Tentativo di mint NFT (ID: ${tokenId}, Quantità: ${quantity})...`);
+        if (!contractInstance) {
+            console.error("Istanza contratto non disponibile. Connetti prima il wallet.");
+            return alert("Per favore, connetti prima il tuo wallet.");
+        }
+        
         if (isNaN(quantity) || quantity <= 0) {
-            console.error("Quantità non valida:", quantity); // Log errore
+            console.error("Quantità non valida:", quantity);
             return alert("Per favore, inserisci una quantità valida.");
         }
 
@@ -207,35 +217,34 @@
         mintButton.disabled = true;
         mintButton.textContent = "In corso...";
         updateLog(`Preparazione transazione per ${quantity} NFT (ID: ${tokenId})...`);
-        console.log("Recupero prezzo in Wei dal contratto..."); // Log prezzo
+        console.log("Recupero prezzo in Wei dal contratto...");
 
         try {
             const priceInWei = await contractInstance.pricesInWei(tokenId);
-            console.log(`Prezzo per ${tokenId}: ${priceInWei.toString()} Wei.`); // Log prezzo recuperato
+            console.log(`Prezzo per ${tokenId}: ${priceInWei.toString()} Wei.`);
             
             // CAMBIAMENTO CRUCIALE QUI per Ethers v6: Usare operatori BigInt nativi
-            // priceInWei sarà un BigInt.
             const totalCostInWei = priceInWei * BigInt(quantity); // Moltiplicazione diretta per BigInt
-            console.log(`Costo totale in Wei: ${totalCostInWei.toString()} Wei.`); // Log costo totale
+            console.log(`Costo totale in Wei: ${totalCostInWei.toString()} Wei.`);
 
-            console.log("Invio transazione di mint a MetaMask..."); // Log invio transazione
+            console.log("Invio transazione di mint a MetaMask...");
             const tx = await contractInstance.mintNFT(tokenId, quantity, { value: totalCostInWei });
             updateLog(`Transazione inviata (hash: ${tx.hash.substring(0, 10)}...). Attendo conferma...`);            
-            console.log("Transazione hash:", tx.hash); // Log hash
+            console.log("Transazione hash:", tx.hash);
             
             await tx.wait(); // Attendi la conferma
-            console.log("Transazione confermata sulla blockchain."); // Log conferma
+            console.log("Transazione confermata sulla blockchain.");
             
             updateLog(`NFT ${tokenId} mintato con successo!`, false);
             alert(`Complimenti! Hai mintato ${quantity} NFT (ID: ${tokenId}).`);
         } catch (err) {
-            console.error("Errore di minting nel blocco try-catch:", err); // Log errore dettagliato
+            console.error("Errore di minting nel blocco try-catch:", err);
             // ETHERS v6: migliorato il recupero del messaggio di errore
             const errorMessage = err.cause?.reason || err.info?.error?.message || err.message || "Errore sconosciuto";
             updateLog(`Errore: ${errorMessage}`, true);
             alert(`Errore durante il minting: ${errorMessage}`);
         } finally {
-            console.log("Funzione mintNFT completata."); // Log finale
+            console.log("Funzione mintNFT completata.");
             mintButton.disabled = false;
             mintButton.textContent = "Mint";
         }
