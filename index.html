@@ -144,99 +144,99 @@
 </div>
 
 <script>
-    const contractAddress = "0x2a4364c0E9fc125D831257b289b70b0B16A02315";
-    const contractABI = window.CONTRACT_ABI; 
-    const nfts = [
-        {id: 5}, {id: 10}, {id: 15}, {id: 20}, {id: 25}, {id: 30}, {id: 35}, {id: 40}, {id: 45}, {id: 50},
-        {id: 55}, {id: 60}, {id: 65}, {id: 70}, {id: 75}, {id: 80}, {id: 85}, {id: 90}, {id: 95}, {id: 100}
-    ];
+    const contractAddress = "0x2a4364c0E9fc125D831257b289b70b0B16A02315"; // Indirizzo del tuo contratto verificato
+    const contractABI = window.CONTRACT_ABI; // Assumi che questo carichi correttamente l'ABI da abi.js
 
-    let userAccount, contractInstance;
+    let userAccount, contractInstance;    
     const logElement = document.getElementById('log');
 
-    function updateLog(message, isError = false) {
-        logElement.textContent = `Status: ${message}`;
-        logElement.style.color = isError ? '#d32f2f' : '#333';
+    function updateLog(message, isError = false) {        
+        logElement.textContent = `Status: ${message}`;        
+        logElement.style.color = isError ? '#d32f2f' : '#333';    
     }
 
-    async function connectWallet() {
-        if (typeof window.ethereum === 'undefined') return alert("Per favore, installa MetaMask per continuare.");
-        updateLog("Connessione a MetaMask...");
-        try {
-            const provider = new ethers.providers.Web3Provider(window.ethereum);
+    async function connectWallet() {        
+        if (typeof window.ethereum === 'undefined') return alert("Per favore, installa MetaMask per continuare.");        
+        updateLog("Connessione a MetaMask...");        
+        try {            
+            // CAMBIAMENTO CRUCIALE QUI per Ethers v6: Usare BrowserProvider
+            const provider = new ethers.BrowserProvider(window.ethereum);            
+
+            // Richiedere gli account (come eth_requestAccounts)
             await provider.send("eth_requestAccounts", []);
-            const signer = provider.getSigner();
-            userAccount = await signer.getAddress();
-            contractInstance = new ethers.Contract(contractAddress, contractABI, signer);
-            
-            const connectBtn = document.getElementById('connect-btn');
-            connectBtn.textContent = `Connesso: ${userAccount.substring(0, 6)}...`;
-            connectBtn.disabled = true;
-            document.querySelectorAll('.mint-button').forEach(btn => { btn.disabled = false; });
-            updateLog("Wallet connesso.", false);
-        } catch (err) {
-            updateLog("Connessione fallita.", true); console.error(err);
-        }
+
+            const signer = await provider.getSigner(); // Metodo asincrono in v6            
+            userAccount = await signer.getAddress();            
+
+            // CAMBIAMENTO CRUCIALE QUI per Ethers v6: new ethers.Contract
+            contractInstance = new ethers.Contract(contractAddress, contractABI, signer);                        
+
+            const connectBtn = document.getElementById('connect-btn');            
+            connectBtn.textContent = `Connesso: ${userAccount.substring(0, 6)}...`;            
+            connectBtn.disabled = true;            
+            document.querySelectorAll('.mint-button').forEach(btn => { btn.disabled = false; });            
+            updateLog("Wallet connesso.", false);        
+        } catch (err) {            
+            updateLog("Connessione fallita.", true); console.error(err);        
+        }    
     }
 
-    async function mintNFT(tokenId) {
-        if (!contractInstance) return alert("Per favore, connetti prima il tuo wallet.");
-        
-        const quantityInput = document.getElementById(`quantity-${tokenId}`);
+    async function mintNFT(tokenId) {        
+        if (!contractInstance) return alert("Per favore, connetti prima il tuo wallet.");                
+
+        const quantityInput = document.getElementById(`quantity-${tokenId}`);        
         const quantity = parseInt(quantityInput.value);
 
-        if (isNaN(quantity) || quantity <= 0) {
-            return alert("Per favore, inserisci una quantità valida.");
+        if (isNaN(quantity) || quantity <= 0) {            
+            return alert("Per favor, inserisci una quantità valida.");        
         }
 
-        const mintButton = document.getElementById(`mint-btn-${tokenId}`);
-        mintButton.disabled = true;
-        mintButton.textContent = "In corso...";
+        const mintButton = document.getElementById(`mint-btn-${tokenId}`);        
+        mintButton.disabled = true;        
+        mintButton.textContent = "In corso...";        
         updateLog(`Preparazione transazione per ${quantity} NFT (ID: ${tokenId})...`);
 
-        try {
-            const priceInWei = await contractInstance.pricesInWei(tokenId);
-            const totalCostInWei = priceInWei.mul(quantity);
-            
-            const tx = await contractInstance.mintNFT(tokenId, quantity, { value: totalCostInWei });
-            updateLog(`Transazione inviata (hash: ${tx.hash.substring(0, 10)}...). Attendo conferma...`);
-            
-            await tx.wait();
-            
-            updateLog(`NFT ${tokenId} mintato con successo!`, false);
-            alert(`Complimenti! Hai mintato ${quantity} NFT (ID: ${tokenId}).`);
-        } catch (err) {
-            console.error("Errore di minting:", err);
-            const errorMessage = err.reason || err.data?.message || err.message;
-            updateLog(`Errore: ${errorMessage}`, true);
-            alert(`Errore durante il minting: ${errorMessage}`);
-        } finally {
-            mintButton.disabled = false;
-            mintButton.textContent = "Mint";
-        }
+        try {            
+            const priceInWei = await contractInstance.pricesInWei(tokenId);            
+            // CAMBIAMENTO CRUCIALE QUI per Ethers v6: Usare operatori BigInt nativi
+            // priceInWei sarà un BigInt.
+            const totalCostInWei = priceInWei * BigInt(quantity); // Moltiplicazione diretta per BigInt
+
+            const tx = await contractInstance.mintNFT(tokenId, quantity, { value: totalCostInWei });            
+            updateLog(`Transazione inviata (hash: ${tx.hash.substring(0, 10)}...). Attendo conferma...`);                        
+            await tx.wait();                        
+            updateLog(`NFT ${tokenId} mintato con successo!`, false);            
+            alert(`Complimenti! Hai mintato ${quantity} NFT (ID: ${tokenId}).`);        
+        } catch (err) {            
+            console.error("Errore di minting:", err);            
+            const errorMessage = err.reason || err.data?.message || err.message;            
+            updateLog(`Errore: ${errorMessage}`, true);            
+            alert(`Errore durante il minting: ${errorMessage}`);        
+        } finally {            
+            mintButton.disabled = false;            
+            mintButton.textContent = "Mint";        
+        }    
     }
 
-    window.onload = function() {
-        const gridContainer = document.getElementById('nft-grid-container');
-        nfts.forEach(nft => {
-            const card = document.createElement('div');
-            card.className = 'nft-card';
-            const paddedId = nft.id.toString().padStart(2, '0');
-            
-            card.innerHTML = `
-                <img src="images/${paddedId}.jpg" alt="LHI NFT ${nft.id}">
-                <p>LHI ${nft.id}</p>
-                <div class="mint-controls">
-                    <label for="quantity-${nft.id}" style="display:none;">Quantità</label>
-                    <input type="number" id="quantity-${nft.id}" value="1" min="1" max="100">
-                    <button class="mint-button" id="mint-btn-${nft.id}" onclick="mintNFT(${nft.id})" disabled>Mint</button>
-                </div>
-            `;
-            gridContainer.appendChild(card);
+    window.onload = function() {        
+        const gridContainer = document.getElementById('nft-grid-container');        
+        nfts.forEach(nft => {            
+            const card = document.createElement('div');            
+            card.className = 'nft-card';            
+            const paddedId = nft.id.toString().padStart(2, '0');                        
+            card.innerHTML = `                
+                <img src="images/${paddedId}.jpg" alt="LHI NFT ${nft.id}">                
+                <p>LHI ${nft.id}</p>                
+                <div class="mint-controls">                    
+                    <label for="quantity-${nft.id}" style="display:none;">Quantità</label>                    
+                    <input type="number" id="quantity-${nft.id}" value="1" min="1" max="100">                    
+                    <button class="mint-button" id="mint-btn-${nft.id}" onclick="mintNFT(${nft.id})" disabled>Mint</button>                
+                </div>            
+            `;            
+            gridContainer.appendChild(card);        
         });
 
-        document.getElementById('connect-btn').addEventListener('click', connectWallet);
-    };
+        document.getElementById('connect-btn').addEventListener('click', connectWallet);    
+    };  
   </script>
-</body>
-</html>
+ <body>
