@@ -145,7 +145,9 @@
 <script>
     const contractAddress = "0x2a4364c0E9fc125D831257b289b70b0B16A02315"; // Indirizzo del tuo contratto verificato
     const contractABI = window.CONTRACT_ABI; // Assumi che questo carichi correttamente l'ABI da abi.js
-
+    if (!contractABI) {
+    alert("ABI non caricata! Controlla che abi.js sia referenziato e che window.CONTRACT_ABI sia definita.");
+    }
     // *** INIZIO AGGIUNTA CRUCIALE: DEFINIZIONE DELL'ARRAY NFTs ***
     const nfts = Array.from({ length: 20 }, (_, i) => { // Corretta per 20 NFT multipli di 5
         const tokenId = (i + 1) * 5; // Genera 5, 10, 15... 100
