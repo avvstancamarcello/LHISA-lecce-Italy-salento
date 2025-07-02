@@ -6,7 +6,8 @@
     <title>LHI Lecce NFT - Un Valore Reale per la Ricerca</title>
     <meta name="description" content="Sostieni la ricerca acquistando un NFT LHI, un valore digitale ancorato a un bene immobiliare da 10 milioni di euro.">
     <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js" defer></script>
-    <script src="abi.js"></script> <style>
+    <script src="abi.js"></script>
+    <style>
         html { scroll-behavior: smooth; }
         body { background-color: #f0fff0; font-family: Arial, sans-serif; padding: 15px; color: #333; }
         .container { max-width: 900px; margin: 0 auto; background-color: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
@@ -30,8 +31,21 @@
         .nft-card p { font-weight: bold; margin: 10px 0 5px 0; color: #004d40; }
         .mint-controls { margin-top: 10px; }
         .mint-controls input { width: 60px; padding: 8px; text-align: center; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 10px; }
-        .mint-button { width: 100%; padding: 8px 15px; font-size: 14px; cursor: pointer; background-color: #00796b; color: white; border: none; border-radius: 5px; }
+        .mint-button { width: 100%; padding: 8px 15px; font-size: 14px; cursor: pointer; background-color: #00796b; color: white; border: none; border-radius: 5px; transition: all 0.3s ease; }
         .mint-button:disabled { background-color: #aaa; cursor: not-allowed; }
+        .mint-button:hover:not(:disabled) { background-color: #004d40; }
+        .mint-button.loading { background-color: #ff9800; }
+        .spinner { display: inline-block; width: 12px; height: 12px; border: 2px solid #ffffff; border-radius: 50%; border-top-color: transparent; animation: spin 1s ease-in-out infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+        .success { color: #2e7d32; }
+        .error { color: #d32f2f; }
+        .warning { color: #f57c00; }
+        .info { color: #1976d2; }
+        .network-status { padding: 10px; margin: 10px 0; border-radius: 5px; font-weight: bold; }
+        .network-status.polygon { background-color: #e8f5e9; color: #2e7d32; border: 1px solid #4caf50; }
+        .network-status.wrong-network { background-color: #fff3e0; color: #f57c00; border: 1px solid #ff9800; }
+        .network-status.error { background-color: #ffebee; color: #d32f2f; border: 1px solid #f44336; }
         .global-wallet-section { margin-top: 40px; text-align: center; }
         #connect-btn { padding: 12px 25px; font-size: 18px; cursor: pointer; background-color: #004d40; color: white; border: none; border-radius: 5px; }
         #connect-btn:disabled { background-color: #6c757d; }
@@ -130,8 +144,10 @@
         <h2>Acquista il Tuo NFT</h2>
         <div class="global-wallet-section">
             <p class="warning">⚠ IMPORTANTE: Esegui il MINT dentro l'App MetaMask. Controlla di avere MATIC sufficienti a coprire il costo dell'NFT più le commissioni di gas.</p>
-            <button id="connect-btn">🔗 Connetti MetaMask</button>
-            <p id="log">Status: In attesa di connessione...</p>
+            <div id="network-status" class="network-status" style="display: none;" aria-live="polite"></div>
+            <button id="connect-btn" aria-label="Connetti il tuo wallet MetaMask per iniziare">🔗 Connetti MetaMask</button>
+            <p id="log" aria-live="polite">Status: In attesa di connessione...</p>
+            <div id="user-balance" style="display: none; margin-top: 10px; font-weight: bold;" aria-live="polite"></div>
         </div>
         <div class="nft-grid" id="nft-grid-container"></div>
     </div>
@@ -143,132 +159,412 @@
 </div>
 
 <script>
-    const contractAddress = "0x2a4364c0E9fc125D831257b289b70b0B16A02315"; // Indirizzo del tuo contratto verificato
-    const contractABI = window.CONTRACT_ABI; // Assumi che questo carichi correttamente l'ABI da abi.js
-    if (!contractABI) {
-    alert("ABI non caricata! Controlla che abi.js sia referenziato e che window.CONTRACT_ABI sia definita.");
+    const contractAddress = "0x2a4364c0E9fc125D831257b289b70b0B16A02315";
+    const POLYGON_MAINNET_CHAIN_ID = '0x89'; // 137 in decimal
+    const POLYGON_MAINNET_CONFIG = {
+        chainId: '0x89',
+        chainName: 'Polygon Mainnet',
+        nativeCurrency: {
+            name: 'MATIC',
+            symbol: 'MATIC',
+            decimals: 18
+        },
+        rpcUrls: ['https://polygon-rpc.com'],
+        blockExplorerUrls: ['https://polygonscan.com/']
+    };
+    
+    // Robust ABI loading control
+    let contractABI;
+    function checkABILoading() {
+        if (typeof window.CONTRACT_ABI === 'undefined' || !window.CONTRACT_ABI) {
+            console.error("ABI non caricata! Controlla che abi.js sia referenziato correttamente.");
+            updateLog("Errore: ABI del contratto non caricata. Ricarica la pagina.", true);
+            return false;
+        }
+        contractABI = window.CONTRACT_ABI;
+        console.log("ABI caricata correttamente:", contractABI.length, "metodi disponibili");
+        return true;
     }
-    // *** INIZIO AGGIUNTA CRUCIALE: DEFINIZIONE DELL'ARRAY NFTs ***
-    const nfts = Array.from({ length: 20 }, (_, i) => { // Corretta per 20 NFT multipli di 5
-        const tokenId = (i + 1) * 5; // Genera 5, 10, 15... 100
+
+    // NFT array definition
+    const nfts = Array.from({ length: 20 }, (_, i) => {
+        const tokenId = (i + 1) * 5;
         return { id: tokenId };
     });
-    // *** FINE AGGIUNTA CRUCIALE ***
 
-    let userAccount, contractInstance;
+    let userAccount, contractInstance, provider;
     const logElement = document.getElementById('log');
+    const networkStatusElement = document.getElementById('network-status');
+    const userBalanceElement = document.getElementById('user-balance');
+    let mintingInProgress = new Set(); // Prevent multiple mint attempts
 
-    function updateLog(message, isError = false) {
+    function updateLog(message, isError = false, type = 'info') {
         logElement.textContent = `Status: ${message}`;
-        logElement.style.color = isError ? '#d32f2f' : '#333';
+        logElement.className = isError ? 'error' : type;
+        console.log(`[${type.toUpperCase()}] ${message}`);
+    }
+
+    function updateNetworkStatus(message, status = 'info') {
+        networkStatusElement.textContent = message;
+        networkStatusElement.className = `network-status ${status}`;
+        networkStatusElement.style.display = 'block';
+    }
+
+    function updateUserBalance(balance) {
+        if (balance !== null) {
+            userBalanceElement.textContent = `Saldo MATIC: ${parseFloat(balance).toFixed(4)} MATIC`;
+            userBalanceElement.style.display = 'block';
+            userBalanceElement.className = parseFloat(balance) > 0.01 ? 'success' : 'warning';
+        } else {
+            userBalanceElement.style.display = 'none';
+        }
+    }
+
+    // Check and switch to Polygon network
+    async function checkAndSwitchNetwork() {
+        if (!window.ethereum) {
+            throw new Error("MetaMask non rilevato");
+        }
+
+        try {
+            const currentChainId = await window.ethereum.request({ method: 'eth_chainId' });
+            console.log("Rete corrente:", currentChainId);
+
+            if (currentChainId === POLYGON_MAINNET_CHAIN_ID) {
+                updateNetworkStatus("✅ Connesso alla rete Polygon Mainnet", "polygon");
+                return true;
+            }
+
+            updateNetworkStatus("⚠ Rete non corretta. Cambio alla rete Polygon...", "wrong-network");
+            
+            try {
+                await window.ethereum.request({
+                    method: 'wallet_switchEthereumChain',
+                    params: [{ chainId: POLYGON_MAINNET_CHAIN_ID }],
+                });
+                updateNetworkStatus("✅ Cambiato con successo alla rete Polygon", "polygon");
+                return true;
+            } catch (switchError) {
+                if (switchError.code === 4902) {
+                    console.log("Rete Polygon non trovata, aggiunta in corso...");
+                    await window.ethereum.request({
+                        method: 'wallet_addEthereumChain',
+                        params: [POLYGON_MAINNET_CONFIG],
+                    });
+                    updateNetworkStatus("✅ Rete Polygon aggiunta e selezionata", "polygon");
+                    return true;
+                } else {
+                    throw switchError;
+                }
+            }
+        } catch (error) {
+            console.error("Errore nella gestione della rete:", error);
+            updateNetworkStatus("❌ Errore nel cambio rete: " + error.message, "error");
+            return false;
+        }
+    }
+
+    // Get user balance
+    async function getUserBalance() {
+        if (!provider || !userAccount) return null;
+        
+        try {
+            const balance = await provider.getBalance(userAccount);
+            const balanceInEther = ethers.formatEther(balance);
+            console.log("Saldo utente:", balanceInEther, "MATIC");
+            return balanceInEther;
+        } catch (error) {
+            console.error("Errore nel recupero saldo:", error);
+            return null;
+        }
     }
 
     async function connectWallet() {
-        console.log("Tentativo di connessione a MetaMask..."); // Log iniziale
+        console.log("Tentativo di connessione a MetaMask...");
+        
         if (typeof window.ethereum === 'undefined') {
-            console.error("MetaMask non è installato o non è attivo."); // Log errore
-            return alert("Per favore, installa MetaMask per continuare.");
+            console.error("MetaMask non è installato o non è attivo.");
+            updateLog("Per favore, installa MetaMask per continuare.", true);
+            return;
         }
-        updateLog("Connessione a MetaMask...");
+
+        if (!checkABILoading()) {
+            return;
+        }
+
+        updateLog("Connessione a MetaMask...", false, 'info');
+        
         try {
-            const provider = new ethers.BrowserProvider(window.ethereum); // Ethers v6
-            console.log("Provider Ethers v6 creato."); // Log successo provider
+            // Check and switch network first
+            const networkOK = await checkAndSwitchNetwork();
+            if (!networkOK) {
+                updateLog("Errore: impossibile connettersi alla rete Polygon", true);
+                return;
+            }
+
+            provider = new ethers.BrowserProvider(window.ethereum);
+            console.log("Provider Ethers v6 creato.");
             
             await provider.send("eth_requestAccounts", []);
-            console.log("Richiesta account inviata a MetaMask."); // Log richiesta account
+            console.log("Richiesta account inviata a MetaMask.");
             
-            const signer = await provider.getSigner(); // Metodo asincrono in v6
+            const signer = await provider.getSigner();
             userAccount = await signer.getAddress();
-            console.log("Account utente connesso:", userAccount); // Log account connesso
+            console.log("Account utente connesso:", userAccount);
             
-            contractInstance = new ethers.Contract(contractAddress, contractABI, signer); // Ethers v6
-            console.log("Istanza contratto creata con Ethers v6."); // Log istanza contratto
+            // Get and display user balance
+            const balance = await getUserBalance();
+            updateUserBalance(balance);
+            
+            contractInstance = new ethers.Contract(contractAddress, contractABI, signer);
+            console.log("Istanza contratto creata con Ethers v6.");
 
             const connectBtn = document.getElementById('connect-btn');
-            connectBtn.textContent = `Connesso: ${userAccount.substring(0, 6)}...`;
+            connectBtn.textContent = `Connesso: ${userAccount.substring(0, 6)}...${userAccount.substring(userAccount.length - 4)}`;
             connectBtn.disabled = true;
-            document.querySelectorAll('.mint-button').forEach(btn => { btn.disabled = false; });
-            updateLog("Wallet connesso.", false);
-            console.log("Connessione wallet completata con successo!"); // Log finale successo connessione
+            connectBtn.setAttribute('aria-label', `Wallet connesso: ${userAccount}`);
+            
+            document.querySelectorAll('.mint-button').forEach(btn => { 
+                btn.disabled = false; 
+                btn.setAttribute('aria-label', `Mint NFT ${btn.dataset.tokenId}`);
+            });
+            
+            updateLog("Wallet connesso con successo. Puoi ora effettuare il mint.", false, 'success');
+            console.log("Connessione wallet completata con successo!");
+            
         } catch (err) {
-            updateLog("Connessione fallita.", true);
-            console.error("Errore di connessione MetaMask:", err); // Log errore dettagliato
-            alert("Connessione fallita. Controlla la console per i dettagli."); // Avviso utente
+            updateLog("Connessione fallita: " + (err.message || "Errore sconosciuto"), true);
+            console.error("Errore di connessione MetaMask:", err);
+            updateNetworkStatus("❌ Errore di connessione", "error");
         }
     }
 
-    async function mintNFT(tokenId) {
-        const quantityInput = document.getElementById(`quantity-${tokenId}`); // moved declaration
-        const quantity = parseInt(quantityInput.value);
-
-        console.log(`Tentativo di mint NFT (ID: ${tokenId}, Quantità: ${quantity})...`); // Log iniziale mint
-        if (!contractInstance) {
-            console.error("Istanza contratto non disponibile. Connetti prima il wallet."); // Log errore
-            return alert("Per favor, connetti prima il tuo wallet.");
+    // Enhanced quantity validation
+    function validateQuantity(quantity, tokenId) {
+        const errors = [];
+        
+        if (isNaN(quantity)) {
+            errors.push("La quantità deve essere un numero valido");
         }
         
-        if (isNaN(quantity) || quantity <= 0) {
-            console.error("Quantità non valida:", quantity); // Log errore
-            return alert("Per favor, inserisci una quantità valida.");
+        if (quantity <= 0) {
+            errors.push("La quantità deve essere maggiore di 0");
+        }
+        
+        if (quantity > 100) {
+            errors.push("La quantità non può superare 100 NFT");
+        }
+        
+        if (!Number.isInteger(quantity)) {
+            errors.push("La quantità deve essere un numero intero");
+        }
+        
+        return {
+            isValid: errors.length === 0,
+            errors: errors
+        };
+    }
+
+    async function checkUserBalanceForMint(totalCostInWei) {
+        const balance = await getUserBalance();
+        if (!balance) return false;
+        
+        const balanceInWei = ethers.parseEther(balance);
+        const estimatedGas = ethers.parseEther("0.01"); // Stima conservativa per il gas
+        const totalNeeded = totalCostInWei + estimatedGas;
+        
+        if (balanceInWei < totalNeeded) {
+            const neededInEther = ethers.formatEther(totalNeeded);
+            updateLog(`Saldo insufficiente. Necessari almeno ${parseFloat(neededInEther).toFixed(4)} MATIC`, true);
+            return false;
+        }
+        
+        return true;
+    }
+
+    async function mintNFT(tokenId) {
+        // Prevent multiple mint attempts
+        if (mintingInProgress.has(tokenId)) {
+            updateLog("Mint già in corso per questo NFT. Attendi il completamento.", false, 'warning');
+            return;
         }
 
+        const quantityInput = document.getElementById(`quantity-${tokenId}`);
+        const quantity = parseInt(quantityInput.value);
         const mintButton = document.getElementById(`mint-btn-${tokenId}`);
+
+        console.log(`Tentativo di mint NFT (ID: ${tokenId}, Quantità: ${quantity})...`);
+        
+        if (!contractInstance) {
+            console.error("Istanza contratto non disponibile. Connetti prima il wallet.");
+            updateLog("Per favore, connetti prima il tuo wallet.", true);
+            return;
+        }
+
+        // Enhanced quantity validation
+        const validation = validateQuantity(quantity, tokenId);
+        if (!validation.isValid) {
+            const errorMessage = validation.errors.join("; ");
+            console.error("Validazione quantità fallita:", errorMessage);
+            updateLog(`Errore: ${errorMessage}`, true);
+            return;
+        }
+
+        // Add to minting progress set
+        mintingInProgress.add(tokenId);
+        
+        // Update button state with loading spinner
         mintButton.disabled = true;
-        mintButton.textContent = "In corso...";
-        updateLog(`Preparazione transazione per ${quantity} NFT (ID: ${tokenId})...`);
+        mintButton.classList.add('loading');
+        mintButton.innerHTML = '<span class="spinner"></span> Mintando...';
+        mintButton.setAttribute('aria-label', `Mint in corso per NFT ${tokenId}`);
+        
+        updateLog(`Preparazione transazione per ${quantity} NFT (ID: ${tokenId})...`, false, 'info');
         console.log("Recupero prezzo in Wei dal contratto...");
 
         try {
             const priceInWei = await contractInstance.pricesInWei(tokenId);
             console.log(`Prezzo per ${tokenId}: ${priceInWei.toString()} Wei.`);
             
-            // CAMBIAMENTO CRUCIALE QUI per Ethers v6: Usare operatori BigInt nativi
-            const totalCostInWei = priceInWei * BigInt(quantity); // Moltiplicazione diretta per BigInt
+            const totalCostInWei = priceInWei * BigInt(quantity);
             console.log(`Costo totale in Wei: ${totalCostInWei.toString()} Wei.`);
+            
+            // Check user balance before proceeding
+            const balanceOK = await checkUserBalanceForMint(totalCostInWei);
+            if (!balanceOK) {
+                return;
+            }
 
             console.log("Invio transazione di mint a MetaMask...");
+            updateLog(`Invio transazione a MetaMask per ${quantity} NFT...`, false, 'info');
+            
             const tx = await contractInstance.mintNFT(tokenId, quantity, { value: totalCostInWei });
-            updateLog(`Transazione inviata (hash: ${tx.hash.substring(0, 10)}...). Attendo conferma...`);            
+            updateLog(`Transazione inviata (hash: ${tx.hash.substring(0, 10)}...). Attendo conferma...`, false, 'info');            
             console.log("Transazione hash:", tx.hash);
             
-            await tx.wait(); // Attendi la conferma
+            updateLog("Attendo la conferma della transazione sulla blockchain...", false, 'info');
+            await tx.wait();
             console.log("Transazione confermata sulla blockchain.");
             
-            updateLog(`NFT ${tokenId} mintato con successo!`, false);
-            alert(`Complimenti! Hai mintato ${quantity} NFT (ID: ${tokenId}).`);
+            updateLog(`NFT ${tokenId} mintato con successo! Quantità: ${quantity}`, false, 'success');
+            
+            // Update user balance after successful mint
+            const newBalance = await getUserBalance();
+            updateUserBalance(newBalance);
+            
+            // Show success message
+            alert(`🎉 Complimenti! Hai mintato con successo ${quantity} NFT (ID: ${tokenId}).`);
+            
         } catch (err) {
             console.error("Errore di minting nel blocco try-catch:", err);
-            const errorMessage = err.cause?.reason || err.info?.error?.message || err.message || "Errore sconosciuto";
-            updateLog(`Errore: ${errorMessage}`, true);
-            alert(`Errore durante il minting: ${errorMessage}`);
+            let errorMessage = "Errore sconosciuto";
+            
+            if (err.code === 4001) {
+                errorMessage = "Transazione rifiutata dall'utente";
+            } else if (err.code === -32603) {
+                errorMessage = "Errore interno del provider";
+            } else {
+                errorMessage = err.cause?.reason || err.info?.error?.message || err.reason || err.message || "Errore sconosciuto";
+            }
+            
+            updateLog(`Errore durante il mint: ${errorMessage}`, true);
+            alert(`❌ Errore durante il minting: ${errorMessage}`);
+            
         } finally {
             console.log("Funzione mintNFT completata.");
+            
+            // Remove from minting progress set
+            mintingInProgress.delete(tokenId);
+            
+            // Reset button state
             mintButton.disabled = false;
-            mintButton.textContent = "Mint";
+            mintButton.classList.remove('loading');
+            mintButton.innerHTML = 'Mint NFT';
+            mintButton.setAttribute('aria-label', `Mint NFT ${tokenId}`);
         }
     }
 
+    // Enhanced window.onload with better error handling
     window.onload = function() {
+        console.log("Inizializzazione applicazione...");
+        
+        if (!checkABILoading()) {
+            return;
+        }
+
         const gridContainer = document.getElementById('nft-grid-container');
+        if (!gridContainer) {
+            console.error("Container griglia NFT non trovato");
+            return;
+        }
+
         nfts.forEach(nft => {
             const card = document.createElement('div');
             card.className = 'nft-card';
-            // PaddedId sarà "05", "10", "15" ecc. per le immagini
-            const paddedId = nft.id.toString().padStart(2, '0'); 
+            const paddedId = nft.id.toString().padStart(2, '0');
             
             card.innerHTML = `
-                <img src="images/${paddedId}.jpg" alt="LHI NFT ${nft.id}">
+                <img src="images/${paddedId}.jpg" alt="LHI NFT ${nft.id}" loading="lazy">
                 <p>LHI ${nft.id}</p>
                 <div class="mint-controls">
-                    <label for="quantity-${nft.id}" style="display:none;">Quantità</label>
-                    <input type="number" id="quantity-${nft.id}" value="1" min="1" max="100">
-                    <button class="mint-button" id="mint-btn-${nft.id}" onclick="mintNFT(${nft.id})" disabled>Mint</button>
+                    <label for="quantity-${nft.id}" class="sr-only">Quantità NFT da mintare</label>
+                    <input 
+                        type="number" 
+                        id="quantity-${nft.id}" 
+                        value="1" 
+                        min="1" 
+                        max="100" 
+                        step="1"
+                        aria-label="Quantità per NFT ${nft.id}"
+                        aria-describedby="quantity-help-${nft.id}"
+                    >
+                    <div id="quantity-help-${nft.id}" class="sr-only">
+                        Inserisci un numero da 1 a 100 per specificare quanti NFT mintare
+                    </div>
+                    <button 
+                        class="mint-button" 
+                        id="mint-btn-${nft.id}" 
+                        onclick="mintNFT(${nft.id})" 
+                        disabled
+                        data-token-id="${nft.id}"
+                        aria-label="Mint NFT ${nft.id}"
+                        aria-describedby="mint-help-${nft.id}"
+                    >
+                        Mint NFT
+                    </button>
+                    <div id="mint-help-${nft.id}" class="sr-only">
+                        Clicca per acquistare questo NFT. Devi prima connettere il tuo wallet MetaMask.
+                    </div>
                 </div>
             `;
             gridContainer.appendChild(card);
         });
 
-        document.getElementById('connect-btn').addEventListener('click', connectWallet);
+        // Add event listener for connect button
+        const connectBtn = document.getElementById('connect-btn');
+        if (connectBtn) {
+            connectBtn.addEventListener('click', connectWallet);
+        }
+
+        // Monitor network changes
+        if (window.ethereum) {
+            window.ethereum.on('chainChanged', (chainId) => {
+                console.log('Rete cambiata:', chainId);
+                location.reload(); // Ricarica la pagina per assicurare coerenza dello stato
+            });
+
+            window.ethereum.on('accountsChanged', (accounts) => {
+                console.log('Account cambiato:', accounts);
+                if (accounts.length === 0) {
+                    updateLog("Account disconnesso. Riconnetti il wallet.", false, 'warning');
+                } else {
+                    location.reload(); // Ricarica per aggiornare l'account
+                }
+            });
+        }
+
+        console.log("Inizializzazione completata. Pronto per la connessione del wallet.");
+        updateLog("Applicazione pronta. Connetti il tuo wallet per iniziare.", false, 'info');
     };
 </script>
 </body>
