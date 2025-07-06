@@ -1,83 +1,55 @@
-# 🎾 LHISA-lecce-Italy-salento: Frontend per NFT LHI Lecce
-📚 Technical tutorials in 7 languages to help developers 
-Questo repository contiene il frontend pubblico per il progetto **LHISA – LHI Lecce NFT**.  
-Si tratta di una **Decentralized Application (dApp)** basata su HTML e JavaScript vanilla, progettata per consentire agli utenti di interagire con lo smart contract NFT sulla blockchain Polygon.
+# 🧬 LHISA NFT - Lecce Heritage Identity Smart Assets
 
-Questo repository contiene il **frontend pubblico** per il progetto **LHISA – LHI Lecce NFT**.  
-È una **Decentralized Application (dApp)** sviluppata in **HTML** e **JavaScript vanilla**, progettata per consentire agli utenti di interagire con lo **smart contract NFT** sulla blockchain **Polygon**.
+**LHISA NFT** è un progetto NFT culturale sviluppato per rappresentare, certificare e valorizzare l’identità storica e innovativa della città di **Lecce**, nel Salento, attraverso una collezione numerata di 100 NFT.
 
-🔗 **Visualizza il frontend in azione** su GitHub Pages:  
-👉 [https://avvstancamarcello.github.io/LHISA-lecce-Italy-salento/](https://avvstancamarcello.github.io/LHISA-lecce-Italy-salento/)
+Il contratto smart è stato deployato e verificato su **Polygon Mainnet**, integrando:
+- 📦 [IPFS via Pinata](https://www.pinata.cloud/) per lo storage permanente dei metadati
+- 💰 Royalty sharing automatizzato tra **Owner** e **Creator**
+- 🔐 Autenticazione delle immagini via steganografia
+- ✅ Compatibilità completa con **MetaMask**, **OpenSea** e altre piattaforme NFT
 
-Il progetto è focalizzato sul **supporto alla ricerca scientifica per la  depressione:cura e guarigione** attraverso l’emissione di **Token NFT Solidali**.
-> 🔬 *LHISA è il primo NFT solidale nato da una partita perfetta tra uomo e IA: un progetto di speranza, scienza e codice.*
+## ✨ NOVITÀ: Integrazione con MetaMask Embedded Wallet SDK
 
-## 🔗 Contratto Smart Verifyed and public
+L’interfaccia frontend include ora il nuovo SDK di **MetaMask Embedded Wallet**, che permette:
+- Connessione diretta con MetaMask (senza estensione browser)
+- Onboarding semplificato con login via email/social
+- Compatibilità con oltre **450 wallet**, inclusi:
+  - 🔗 Coinbase Wallet
+  - 🦊 MetaMask Mobile
+  - 🐝 Binance Smart Chain (BNB Wallet)
 
-Il contratto smart **ERC1155**, denominato `LHISA_LecceNFT`, è stato **verificato con successo** sulla rete **Polygon** al seguente indirizzo:
+L'SDK utilizza:
+- ✅ Infura (Polygon): `https://polygon-mainnet.infura.io/v3/c690c86b64b74bd5a69ad2d32cf2a0c6`
+- ✅ Client ID: `BPOZFh3Z8-D35OCK2tAPyeybjWmNA_GAlJ2pw-MSxZlDcMeit73G0PXEVE-EF9GWrX7DSpxktOulSTEuh4cR0fs`
 
-🟢 `0x2a4364c0E9fc125D831257b289b70b0B16A02315`
+## 🌍 Collegamenti e Risorse
 
-🔎 [Visualizza il contratto su Polygonscan](https://polygonscan.com/address/0x2a4364c0E9fc125D831257b289b70b0B16A02315#code)
+- 🔗 **Sito Web ufficiale**: [https://lhilecce.it](https://lhilecce.it)
+- 🗺️ **Esplora il Medical Hotel su Google Maps**: [Esplora il Medical Hotel con Google Maps](https://www.google.com/maps/place/LHI+HEALTHY+HUB/@40.3320047,18.1613206,3a,75y,90t/data=!3m8!1e2!3m6!1shttps:%2F%2Fimages.trvl-media.com%2Flodging%2F113000000%2F112930000%2F112928700%2F112928681%2Fee2855ab_z.jpg!2e7!3e27!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-proxy%2FALd4DhF-dXaxC9wKd6uJHPxdWL6vw_X3XmLpxRMoSbGJ5CXiAaPOiD1ec4Ny9QV3kNHK4ROP9b9-82bWdRnEqKvaEJZyntSHWbzuBQJRjXD218BY6r94S5iwa8M55cP6zVNvqhInjbGawKNeBGDaPCTOr_PozblIctnFUyJa186qtE-zgmmCw21K_TUn%3Dw203-h135-k-no!7i1000!8i667!4m10!3m9!1s0x13442fc918b6d029:0x8ec95204297a6e3!5m2!4m1!1i2!8m2!3d40.3318171!4d18.1616302!10e5!16s%2Fg%2F11px8gr_q0?entry=ttu)
 
----
+## 🧪 Funzionalità disponibili nel frontend
 
-## 🧩 Funzionalità del Frontend
+- ✅ Connessione con Embedded Wallet
+- ✅ Preview 20 NFT numerati (Token IDs da 5 a 100)
+- ✅ Pulsante di mint per ogni NFT
+- 🖼️ Visualizzazione immagini `350x350` pixel
+- 🛠️ Sistema log eventi: feedback interattivo all’utente
 
-La pagina web (`index.html`) permette agli utenti di:
-- Connettersi a **MetaMask**
-- Interagire con il contratto `LHISA_LecceNFT` per eseguire il **minting di NFT solidali**
-- Verificare l’importo, selezionare la quantità e finalizzare la transazione
-- Ricevere feedback in tempo reale sulla **rete Polygon**
+## 📁 Struttura cartelle
 
----
-
-## ⚙️ Come utilizzare / Testare la dApp
-
-1. ✅ **Installa MetaMask** nel tuo browser (desktop o mobile).
-2. 🌐 **Seleziona la rete Polygon** in MetaMask (Mainnet).
-3. 🚀 **Accedi alla dApp** da GitHub Pages:  
-   👉 [https://avvstancamarcello.github.io/LHISA-lecce-Italy-salento/](https://avvstancamarcello.github.io/LHISA-lecce-Italy-salento/)
-4. 🎨 Naviga tra i 20 NFT a mosaico e fai mint direttamente dal browser.
-
----
-🌍 Multilingual Technical Tutorials
-We have prepared a complete multilingual technical guide to help developers all over the world verify and deploy smart contracts with confidence and precision.
-🧠 This is the essence of the Best Practice by Marcello Stanca.
-
-📂 Access the full documentation in your preferred language:
-
-### 🌍 Multilingual Documentation & Technical Tutorials
-
-Access the full documentation and best practice tutorials in your preferred language:
-
-### 🌍 Multilingual Docs & Tutorials
-
-Consulta la documentazione e i tutorial tecnici nella tua lingua:
-
-| 🇮🇹 | [README](README.md) · [Guida Tecnica](TUTORIALS/README.md) |
-|-----|-------------------------------------------------------------|
-| 🇬🇧 | [README](README.en.md) · [Technical Guide](TUTORIALS/README.en.md) |
-| 🇫🇷 | [README](README.fr.md) · [Guide Technique](TUTORIALS/README.fr.md) |
-| 🇪🇸 | [README](README.es.md) · [Guía Técnica](TUTORIALS/README.es.md) |
-| 🇩🇪 | [README](README.de.md) · [Technisches Handbuch](TUTORIALS/README.de.md) |
-| 🇵🇹 | [README](README.pt.md) · [Guia Técnico](TUTORIALS/README.pt.md) |
-| 🇨🇳 | [README](README.zh.md) · [技术指南](TUTORIALS/README.zh.md) |
+├── index.html # Frontend principale integrato con SDK MetaMask
+├── abi.js # ABI del contratto LHISA_LecceNFT
+├── images/ # Immagini watermark NFT
+├── LINK_LOCATION_hotel/ # Informazioni sulla struttura fisica
+└── TUTORIALS/ # Istruzioni tecniche e documentazione
 
 
-## 🔍 Debug & Sviluppo
+## 🧠 Autore
 
-Per il debug:
-- Apri la console sviluppatore del browser (`F12` o `Ctrl+Shift+I`).
-- Sono presenti log avanzati (`console.log`, `console.error`) per il tracciamento completo:  
-  dalla connessione al wallet alle transazioni con lo smart contract e backend.
----
-
-📚 **Tutorial tecnico** multilingua disponibile nella cartella `/TUTORIALS`:  
-Impara tutto sui problemi reali, errori invisibili e best practice per la verifica e deploy di smart contract.
+Avv. Marcello Stanca – [GitHub](https://github.com/avvstancamarcello)
 
 ---
 
-> ✨ La pallina perfetta esiste: è quella che non smette mai di giocare.  
-> Progetto uomo–IA per la cura dell’anima e la lotta alla depressione.
----
+“**Non chi comincia, ma quel che persevera.**” 🇮🇹
+
+
