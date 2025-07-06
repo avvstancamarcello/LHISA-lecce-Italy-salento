@@ -1,68 +1,248 @@
+
 <!DOCTYPE html>
-<html lang="en">
+
+<html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <title>LHISA NFT - MetaMask Embedded</title>
-    <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js"></script>
-    <script src="https://unpkg.com/@metamask/sdk/dist/metamask-sdk.umd.js"></script>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 30px; background: #f4f4f4; }
-        button { padding: 10px 20px; margin: 10px 0; }
-        #log { margin-top: 20px; white-space: pre-wrap; background: #fff; padding: 15px; border-radius: 5px; }
+<meta charset="utf-8"/>
+<title>LHISA NFT | Lecce Historical Building</title>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js">
+    async function mintToken(tokenId) {
+        try {
+            updateLog("⏳ Avvio Mint per Token ID " + tokenId + "...");
+            // Assicurati che contractInstance sia definito correttamente
+            const tx = await contractInstance.mint(tokenId, 1, { value: ethers.parseEther("0") });
+            await tx.wait();
+            updateLog("✅ Mint completato per Token ID " + tokenId + "!");
+        } catch (err) {
+            console.error(err);
+            updateLog("❌ Mint fallito per Token ID " + tokenId + ": " + err.message, true);
+        }
+    }
+    </script>
+<script src="https://unpkg.com/@metamask/sdk/dist/metamask-sdk.umd.js"></script>
+<style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0 auto;
+            max-width: 1000px;
+            background: #f7f7f7;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+        }
+        .preview-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .nft-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            width: 200px;
+            margin: 10px;
+            padding: 10px;
+            text-align: center;
+        }
+        .nft-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 8px 12px;
+        }
+        #log {
+            background: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+        }
     </style>
 </head>
 <body>
-
-<h1>🎨 LHISA NFT - MetaMask Embedded Wallet Demo</h1>
-
-<button id="connect-btn">Connetti MetaMask Wallet</button>
-
+<header>
+<h1>LHISA NFT – Lecce Historical Smart Asset</h1>
+<p>
+    🔎 <a href="https://www.google.com/maps/place/LHI+HEALTHY+HUB/@40.3320047,18.1613206,3a,75y,90t/data=!3m8!1e2!3m6!1shttps:%2F%2Fimages.trvl-media.com%2Flodging%2F113000000%2F112930000%2F112928700%2F112928681%2Fee2855ab_z.jpg!2e7!3e27!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-proxy%2FALd4DhF-dXaxC9wKd6uJHPxdWL6vw_X3XmLpxRMoSbGJ5CXiAaPOiD1ec4Ny9QV3kNHK4ROP9b9-82bWdRnEqKvaEJZyntSHWbzuBQJRjXD218BY6r94S5iwa8M55cP6zVNvqhInjbGawKNeBGDaPCTOr_PozblIctnFUyJa186qtE-zgmmCw21K_TUn%3Dw203-h135-k-no!7i1000!8i667!4m10!3m9!1s0x13442fc918b6d029:0x8ec95204297a6e3!5m2!4m1!1i2!8m2!3d40.3318171!4d18.1616302!10e5!16s%2Fg%2F11px8gr_q0?entry=ttu&amp;g_ep=EgoyMDI1MDYzMC4wIKXMDSoASAFQAw%3D%3D" target="_blank">Esplora il Medical Hotel con Google Maps</a>
+</p><div style="display: flex; gap: 10px; margin-top: 20px;"><img alt="edificio3" height="350" src="images/edificio3.jpg" style="object-fit: cover; border: 2px solid #ccc;" width="350"/><img alt="edificio2" height="350" src="images/edificio2.jpg" style="object-fit: cover; border: 2px solid #ccc;" width="350"/><img alt="edificio1" height="350" src="images/edificio1.jpg" style="object-fit: cover; border: 2px solid #ccc;" width="350"/><img alt="collage" height="350" src="images/collage.jpg" style="object-fit: cover; border: 2px solid #ccc;" width="350"/></div><div style="margin-top: 40px;"><h2>🪙 NFT Monete - Preview</h2><div style="margin: 10px 0;"><img alt="NFT Preview Token 1" height="350" src="images/NFT_1_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 1</div><button class="mint-button" onclick="mintToken(1)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 1</button></div><div style="margin: 10px 0;"><img alt="NFT Preview Token 2" height="350" src="images/NFT_2_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 2</div><button class="mint-button" onclick="mintToken(2)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 2</button></div><div style="margin: 10px 0;"><img alt="NFT Preview Token 3" height="350" src="images/NFT_3_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 3</div><button class="mint-button" onclick="mintToken(3)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 3</button></div><div style="margin: 10px 0;"><img alt="NFT Preview Token 4" height="350" src="images/NFT_4_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 4</div><button class="mint-button" onclick="mintToken(4)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 4</button></div><div style="margin: 10px 0;"><img alt="NFT Preview Token 5" height="350" src="images/NFT_5_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 5</div><button class="mint-button" onclick="mintToken(5)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 5</button></div><div style="margin: 10px 0;"><img alt="NFT Preview Token 6" height="350" src="images/NFT_6_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 6</div><button class="mint-button" onclick="mintToken(6)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 6</button></div><div style="margin: 10px 0;"><img alt="NFT Preview Token 7" height="350" src="images/NFT_7_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 7</div><button class="mint-button" onclick="mintToken(7)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 7</button></div><div style="margin: 10px 0;"><img alt="NFT Preview Token 8" height="350" src="images/NFT_8_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 8</div><button class="mint-button" onclick="mintToken(8)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 8</button></div><div style="margin: 10px 0;"><img alt="NFT Preview Token 9" height="350" src="images/NFT_9_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 9</div><button class="mint-button" onclick="mintToken(9)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 9</button></div><div style="margin: 10px 0;"><img alt="NFT Preview Token 10" height="350" src="images/NFT_10_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 10</div><button class="mint-button" onclick="mintToken(10)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 10</button></div><div style="margin: 10px 0;"><img alt="NFT Preview Token 11" height="350" src="images/NFT_11_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 11</div><button class="mint-button" onclick="mintToken(11)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 11</button></div><div style="margin: 10px 0;"><img alt="NFT Preview Token 12" height="350" src="images/NFT_12_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 12</div><button class="mint-button" onclick="mintToken(12)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 12</button></div><div style="margin: 10px 0;"><img alt="NFT Preview Token 13" height="350" src="images/NFT_13_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 13</div><button class="mint-button" onclick="mintToken(13)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 13</button></div><div style="margin: 10px 0;"><img alt="NFT Preview Token 14" height="350" src="images/NFT_14_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 14</div><button class="mint-button" onclick="mintToken(14)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 14</button></div><div style="margin: 10px 0;"><img alt="NFT Preview Token 15" height="350" src="images/NFT_15_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 15</div><button class="mint-button" onclick="mintToken(15)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 15</button></div><div style="margin: 10px 0;"><img alt="NFT Preview Token 16" height="350" src="images/NFT_16_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 16</div><button class="mint-button" onclick="mintToken(16)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 16</button></div><div style="margin: 10px 0;"><img alt="NFT Preview Token 17" height="350" src="images/NFT_17_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 17</div><button class="mint-button" onclick="mintToken(17)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 17</button></div><div style="margin: 10px 0;"><img alt="NFT Preview Token 18" height="350" src="images/NFT_18_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 18</div><button class="mint-button" onclick="mintToken(18)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 18</button></div><div style="margin: 10px 0;"><img alt="NFT Preview Token 19" height="350" src="images/NFT_19_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 19</div><button class="mint-button" onclick="mintToken(19)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 19</button></div><div style="margin: 10px 0;"><img alt="NFT Preview Token 20" height="350" src="images/NFT_20_Stop_depression.png" style="display:block; object-fit: cover; border: 2px solid #aaa; margin-bottom: 5px;" width="350"/><div>Token ID 20</div><button class="mint-button" onclick="mintToken(20)" style="display: block; margin-top: 5px; padding: 8px 16px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Mint Token 20</button></div></div>
+<h3>Progetto NFT su edificio storico a Lecce</h3>
+<p>
+<a href="https://lhilecce.it" target="_blank">Visita lhilecce.it</a> |
+            <a href="https://www.booking.com" target="_blank">Prenota su Booking</a>
+</p>
+<img alt="Bandiera edificio storico" src="images/flag_building.jpg" style="max-width: 100%; height: auto;"/>
+<button id="connect-btn">🔐 Connetti Wallet MetaMask</button>
+</header>
+<section class="preview-grid">
+<!-- 20 immagini NFT + Mint -->
+<div class="nft-card">
+<img alt="NFT 5" src="images/NFT_5_Stop_depression.png"/>
+<p>Token ID: 5</p>
+<button onclick="mintToken(5)">Mint Token 5</button>
+</div>
+<div class="nft-card">
+<img alt="NFT 10" src="images/NFT_10_Stop_depression.png"/>
+<p>Token ID: 10</p>
+<button onclick="mintToken(10)">Mint Token 10</button>
+</div>
+<div class="nft-card">
+<img alt="NFT 15" src="images/NFT_15_Stop_depression.png"/>
+<p>Token ID: 15</p>
+<button onclick="mintToken(15)">Mint Token 15</button>
+</div>
+<div class="nft-card">
+<img alt="NFT 20" src="images/NFT_20_Stop_depression.png"/>
+<p>Token ID: 20</p>
+<button onclick="mintToken(20)">Mint Token 20</button>
+</div>
+<div class="nft-card">
+<img alt="NFT 25" src="images/NFT_25_Stop_depression.png"/>
+<p>Token ID: 25</p>
+<button onclick="mintToken(25)">Mint Token 25</button>
+</div>
+<div class="nft-card">
+<img alt="NFT 30" src="images/NFT_30_Stop_depression.png"/>
+<p>Token ID: 30</p>
+<button onclick="mintToken(30)">Mint Token 30</button>
+</div>
+<div class="nft-card">
+<img alt="NFT 35" src="images/NFT_35_Stop_depression.png"/>
+<p>Token ID: 35</p>
+<button onclick="mintToken(35)">Mint Token 35</button>
+</div>
+<div class="nft-card">
+<img alt="NFT 40" src="images/NFT_40_Stop_depression.png"/>
+<p>Token ID: 40</p>
+<button onclick="mintToken(40)">Mint Token 40</button>
+</div>
+<div class="nft-card">
+<img alt="NFT 45" src="images/NFT_45_Stop_depression.png"/>
+<p>Token ID: 45</p>
+<button onclick="mintToken(45)">Mint Token 45</button>
+</div>
+<div class="nft-card">
+<img alt="NFT 50" src="images/NFT_50_Stop_depression.png"/>
+<p>Token ID: 50</p>
+<button onclick="mintToken(50)">Mint Token 50</button>
+</div>
+<div class="nft-card">
+<img alt="NFT 55" src="images/NFT_55_Stop_depression.png"/>
+<p>Token ID: 55</p>
+<button onclick="mintToken(55)">Mint Token 55</button>
+</div>
+<div class="nft-card">
+<img alt="NFT 60" src="images/NFT_60_Stop_depression.png"/>
+<p>Token ID: 60</p>
+<button onclick="mintToken(60)">Mint Token 60</button>
+</div>
+<div class="nft-card">
+<img alt="NFT 65" src="images/NFT_65_Stop_depression.png"/>
+<p>Token ID: 65</p>
+<button onclick="mintToken(65)">Mint Token 65</button>
+</div>
+<div class="nft-card">
+<img alt="NFT 70" src="images/NFT_70_Stop_depression.png"/>
+<p>Token ID: 70</p>
+<button onclick="mintToken(70)">Mint Token 70</button>
+</div>
+<div class="nft-card">
+<img alt="NFT 75" src="images/NFT_75_Stop_depression.png"/>
+<p>Token ID: 75</p>
+<button onclick="mintToken(75)">Mint Token 75</button>
+</div>
+<div class="nft-card">
+<img alt="NFT 80" src="images/NFT_80_Stop_depression.png"/>
+<p>Token ID: 80</p>
+<button onclick="mintToken(80)">Mint Token 80</button>
+</div>
+<div class="nft-card">
+<img alt="NFT 85" src="images/NFT_85_Stop_depression.png"/>
+<p>Token ID: 85</p>
+<button onclick="mintToken(85)">Mint Token 85</button>
+</div>
+<div class="nft-card">
+<img alt="NFT 90" src="images/NFT_90_Stop_depression.png"/>
+<p>Token ID: 90</p>
+<button onclick="mintToken(90)">Mint Token 90</button>
+</div>
+<div class="nft-card">
+<img alt="NFT 95" src="images/NFT_95_Stop_depression.png"/>
+<p>Token ID: 95</p>
+<button onclick="mintToken(95)">Mint Token 95</button>
+</div>
+<div class="nft-card">
+<img alt="NFT 100" src="images/NFT_100_Stop_depression.png"/>
+<p>Token ID: 100</p>
+<button onclick="mintToken(100)">Mint Token 100</button>
+</div>
+</section>
 <div id="log">Log:</div>
-
 <script>
-    const clientID = "BPOZFh3Z8-D35OCK2tAPyeybjWmNA_GAlJ2pw-MSxZlDcMeit73G0PXEVE-EF9GWrX7DSpxktOulSTEuh4cR0fs";
-    const infuraUrl = "https://polygon-mainnet.infura.io/v3/c690c86b64b74bd5a69ad2d32cf2a0c6";
+        const clientID = "BPOZFh3Z8-D35OCK2tAPyeybjWmNA_GAlJ2pw-MSxZlDcMeit73G0PXEVE-EF9GWrX7DSpxktOulSTEuh4cR0fs";
+        const infuraUrl = "https://polygon-mainnet.infura.io/v3/c690c86b64b74bd5a69ad2d32cf2a0c6";
 
-    const MMSDK = new MetaMaskSDK.MetaMaskSDK({
-        dappMetadata: {
-            name: "LHISA NFT",
-            url: "https://lhilecce.it"
-        },
-        infura: {
-            projectId: "c690c86b64b74bd5a69ad2d32cf2a0c6"
-        },
-        embeddedWallet: {
-            enabled: true,
-            clientId: clientID
+        const MMSDK = new MetaMaskSDK.MetaMaskSDK({
+            dappMetadata: {
+                name: "LHISA NFT",
+                url: "https://lhilecce.it"
+            },
+            infura: {
+                projectId: "c690c86b64b74bd5a69ad2d32cf2a0c6"
+            },
+            embeddedWallet: {
+                enabled: true,
+                clientId: clientID
+            }
+        });
+
+        const ethereum = MMSDK.getProvider();
+        let signer, contractInstance;
+        const contractAddress = "0x2A4974aaDFFcFbe721A0B9f41059f6D62fdaface"; // già deployato
+        const abi = window.contractABI; // richiede abi.js già incluso nel progetto
+
+        async function connectEmbeddedWallet() {
+            try {
+                const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                const provider = new ethers.BrowserProvider(ethereum);
+                signer = await provider.getSigner();
+                contractInstance = new ethers.Contract(contractAddress, abi, signer);
+                log("✅ Wallet connesso: " + accounts[0]);
+            } catch (err) {
+                log("❌ Errore durante la connessione: " + err.message, true);
+            }
         }
-    });
 
-    const ethereum = MMSDK.getProvider();
-
-    function updateLog(message, isError = false) {
-        const log = document.getElementById('log');
-        const entry = document.createElement('div');
-        entry.textContent = message;
-        if (isError) entry.style.color = 'red';
-        log.appendChild(entry);
-    }
-
-    async function connectEmbeddedWallet() {
-        try {
-            updateLog("⏳ Connessione in corso al wallet embedded...");
-            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-            const provider = new ethers.BrowserProvider(ethereum);
-            const signer = await provider.getSigner();
-            const userAddress = await signer.getAddress();
-            updateLog("✅ Wallet connesso: " + userAddress);
-        } catch (err) {
-            console.error(err);
-            updateLog("❌ Errore durante la connessione: " + err.message, true);
+        async function mintToken(tokenId) {
+            try {
+                if (!contractInstance) {
+                    log("⚠️ Devi connettere prima il wallet!", true);
+                    return;
+                }
+                const tx = await contractInstance.mint(tokenId, 1);
+                log("📝 Mint in corso per token " + tokenId + "... TX: " + tx.hash);
+                await tx.wait();
+                log("✅ Mint completato per token " + tokenId + "!");
+            } catch (err) {
+                log("❌ Errore durante il mint: " + err.message, true);
+            }
         }
-    }
 
-    document.getElementById('connect-btn').addEventListener('click', connectEmbeddedWallet);
-</script>
+        function log(message, error = false) {
+            const logEl = document.getElementById("log");
+            const entry = document.createElement("div");
+            entry.textContent = message;
+            if (error) entry.style.color = "red";
+            logEl.appendChild(entry);
+        }
 
+        document.getElementById("connect-btn").addEventListener("click", connectEmbeddedWallet);
+    </script>
+<script src="abi.js"></script>
 </body>
 </html>
