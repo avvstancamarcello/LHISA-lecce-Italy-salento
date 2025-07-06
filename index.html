@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>LHISA NFT - Documentazione</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #fdfdfd; color: #333; line-height: 1.6; }
+        h1, h2, h3 { color: #2c3e50; }
+        a { color: #2980b9; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        code { background: #f4f4f4; padding: 2px 4px; border-radius: 3px; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; overflow: auto; }
+        .section { margin-bottom: 40px; }
+    </style>
+</head>
+<body>
+
+    <h1>🌐 LHISA Lecce NFT - Frontend</h1>
+    <p>Questo frontend supporta il progetto NFT <strong>LHISA Lecce</strong> con visualizzazione dinamica, mint diretto da browser e integrazione con <strong>MetaMask Embedded Wallet SDK</strong>.</p>
+
+    <div class="section">
+        <h2>🔐 Integrazione MetaMask SDK</h2>
+        <p>Il frontend integra il <strong>MetaMask SDK</strong> per abilitare la connessione wallet direttamente da browser, anche su mobile. Supporta fino a <strong>450 wallet compatibili</strong> tra cui:</p>
+        <ul>
+            <li>MetaMask (browser & mobile)</li>
+            <li>Coinbase Wallet</li>
+            <li>Binance Wallet</li>
+        </ul>
+        <p>RPC Provider: <code>Polygon Mainnet (via Infura)</code></p>
+    </div>
+
+    <div class="section">
+        <h2>🖼️ Mint NFT e Visualizzazione</h2>
+        <p>Ogni NFT (Token ID 5-100) è rappresentato graficamente con preview immagine 350x350px. Il bottone <code>Mint</code> è collegato direttamente allo smart contract verificato.</p>
+        <p>Solo wallet collegati potranno mintare i token ancora disponibili.</p>
+    </div>
+
+    <div class="section">
+        <h2>🏨 Informazioni sulla struttura</h2>
+        <p>Il progetto NFT rappresenta il <strong>LHI Medical Hotel</strong> di Lecce.</p>
+        <ul>
+            <li>Sito ufficiale: <a href="https://lhilecce.it" target="_blank">https://lhilecce.it</a></li>
+            <li>Google Maps: <a href="https://www.google.com/maps/place/LHI+HEALTHY+HUB/@40.3320047,18.1613206,3a,75y,90t/data=!3m8!1e2!3m6!1shttps:%2F%2Fimages.trvl-media.com%2Flodging%2F113000000%2F112930000%2F112928700%2F112928681%2Fee2855ab_z.jpg!2e7!3e27!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-proxy%2FALd4DhF-dXaxC9wKd6uJHPxdWL6vw_X3XmLpxRMoSbGJ5CXiAaPOiD1ec4Ny9QV3kNHK4ROP9b9-82bWdRnEqKvaEJZyntSHWbzuBQJRjXD218BY6r94S5iwa8M55cP6zVNvqhInjbGawKNeBGDaPCTOr_PozblIctnFUyJa186qtE-zgmmCw21K_TUn%3Dw203-h135-k-no!7i1000!8i667!4m10!3m9!1s0x13442fc918b6d029:0x8ec95204297a6e3!5m2!4m1!1i2!8m2!3d40.3318171!4d18.1616302!10e5!16s%2Fg%2F11px8gr_q0?entry=ttu" target="_blank">Esplora il Medical Hotel con Google Maps</a></li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>📁 Struttura dei file</h2>
+        <ul>
+            <li><code>index.html</code>: pagina principale con wallet SDK e galleria NFT</li>
+            <li><code>abi.js</code>: ABI del contratto per le funzioni di mint</li>
+            <li><code>images/</code>: preview NFT (20 immagini + viste edificio)</li>
+        </ul>
+    </div>
+
+    <p>✍️ A cura di Avv. Marcello Stanca – "Non chi comincia ma quel che persevera".</p>
+
+</body>
+</html>
