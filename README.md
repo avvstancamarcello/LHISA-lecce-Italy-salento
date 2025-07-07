@@ -2,7 +2,9 @@
 
 **LHISA NFT** è un progetto NFT culturale sviluppato per rappresentare, certificare e valorizzare l’identità storica e innovativa della città di **Lecce**, nel Salento, attraverso una collezione numerata di 100 NFT.
 
-Il contratto smart è stato deployato e verificato su **Polygon Mainnet**, integrando:
+Il contratto smart è stato deployato e verificato su **Polygon Mainnet**,
+🟢 0x2A4974aaDFFcFbe721A0B9f41059f6D62fdaface
+integrando:
 - 📦 [IPFS via Pinata](https://www.pinata.cloud/) per lo storage permanente dei metadati
 - 💰 Royalty sharing automatizzato tra **Owner** e **Creator**
 - 🔐 Autenticazione delle immagini via steganografia
