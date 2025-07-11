@@ -2,9 +2,9 @@
 
 # 🧬 LHISA NFT - Lecce Heritage Identity Smart Assets
 
-LHISA NFT è un progetto NFT culturale sviluppato per rappresentare, certificare e valorizzare l’identità storica e innovativa della città di **Lecce**, nel Salento, attraverso una collezione numerata di 100 NFT.
+*LHISA NFT* è un progetto NFT sviluppato per contribuire al progetto scientifico all'avanguardia per la corretta diagnosi, della Depressione, per l'applicazione di terapie farmacologiche personalizzate e risolutive, mirate alla cura definitiva della depressione.  **LHI SALento Lecce NFT**, nel Salento, attraverso una collezione di 20 NFT di valore compreso tra 5 e 100 NFT, in multipli di 5.
 
-Il contratto smart è stato deployato e verificato su **Polygon Mainnet**, 🟢 `0x2A4974aaDFFcFbe721A0B9f41059f6D62fdaface` integrando:
+Il contratto intelligente, smart contract, è stato deployato e verificato su **Polygon Mainnet**, 🟢 `0x2A4974aaDFFcFbe721A0B9f41059f6D62fdaface` integrando:
 * 📦 **IPFS via Pinata** per lo storage permanente dei metadati
 * 💰 **Royalty sharing** automatizzato tra **Owner** e **Creator**
 * 🔐 **Autenticazione delle immagini** via steganografia
@@ -24,7 +24,7 @@ L’interfaccia frontend include ora il nuovo SDK di **MetaMask Embedded Wallet*
 
 **Importante:** Le credenziali per l'SDK (come la chiave API Infura e il Client ID) **devono essere configurate in modo sicuro**, tramite variabili d'ambiente (`.env` per lo sviluppo locale) o **GitHub Secrets** per i deploy. Non devono mai essere pubblicate direttamente nel codice o nel `README.md`.
 * ✅ **Endpoint RPC (Infura Polygon):** Configurato per Polygon Mainnet.
-* ✅ **Client ID SDK:** Configurato nel tuo ambiente di sviluppo/deploy.
+* ✅ **Client ID SDK:** Configurato nell'ambiente di sviluppo/deploy, tipo Hardhat, inaccessibile a virus e malware .
 
 ---
 
