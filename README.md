@@ -1,6 +1,6 @@
 # 👋 Ciao! Hello! Hi! Benvenuto e grazie per questa tua visita!
 
-# 🧬 LHISA NFT - Lecce Depression Medical Research Smart Assets
+# 🧬 LHISA Lecce NFT - Lecce Depression Medical Research Smart Assets
 
 *LHISA NFT* è un progetto NFT sviluppato per contribuire al progetto scientifico all'avanguardia per la corretta diagnosi, della Depressione, per l'applicazione di terapie farmacologiche personalizzate e risolutive, mirate alla cura definitiva della depressione.  **LHI SALento Lecce NFT**, nel Salento, attraverso una collezione di 20 NFT di valore compreso tra 5 e 100 NFT, in multipli di 5.
 Responsabile scientifico:Prof. Riccardo Simoni
