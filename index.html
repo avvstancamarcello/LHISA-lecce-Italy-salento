@@ -365,11 +365,30 @@
 
         // Wait for ABI to be loaded from abi.js
         function waitForABI() {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 if (window.contractABI) {
                     resolve(window.contractABI);
                 } else {
-                    setTimeout(() => waitForABI().then(resolve), 100);
+                    // Try to find the ABI script tag by src (adjust if needed)
+                    const scripts = document.getElementsByTagName('script');
+                    let abiScript = null;
+                    for (let i = 0; i < scripts.length; i++) {
+                        if (scripts[i].src && scripts[i].src.includes('abi.js')) {
+                            abiScript = scripts[i];
+                            break;
+                        }
+                    }
+                    if (abiScript) {
+                        abiScript.addEventListener('load', () => {
+                            if (window.contractABI) {
+                                resolve(window.contractABI);
+                            } else {
+                                reject(new Error('ABI script loaded but contractABI not found'));
+                            }
+                        });
+                    } else {
+                        reject(new Error('ABI script tag not found'));
+                    }
                 }
             });
         }
