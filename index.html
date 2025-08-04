@@ -467,7 +467,16 @@
             const logContent = document.getElementById("log-content");
             const entry = document.createElement("div");
             entry.className = `log-entry log-${type}`;
-            entry.innerHTML = `[${new Date().toLocaleTimeString()}] ${message} <a href="${link}" target="_blank" class="btn btn-sm btn-outline-primary">${linkText}</a>`;
+            // Safely construct the log entry with a link
+            const time = `[${new Date().toLocaleTimeString()}] `;
+            const textNode = document.createTextNode(time + message + " ");
+            const a = document.createElement("a");
+            a.href = link;
+            a.target = "_blank";
+            a.className = "btn btn-sm btn-outline-primary";
+            a.textContent = linkText;
+            entry.appendChild(textNode);
+            entry.appendChild(a);
             logContent.appendChild(entry);
             logContent.scrollTop = logContent.scrollHeight;
         }
