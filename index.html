@@ -8,6 +8,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js"></script>
 <script src="https://unpkg.com/@metamask/sdk/dist/metamask-sdk.umd.js"></script>
+<script src="abi.js"></script>
 <style>
         body {
             font-family: Arial, sans-serif;
@@ -125,9 +126,9 @@
 </p>
 
 <div class="building-images">
-    <img alt="edificio3" src="images/edificio3.jpg"/>
-    <img alt="edificio2" src="images/edificio2.jpg"/>
-    <img alt="edificio1" src="images/edificio1.jpg"/>
+    <img alt="edificio3" src="images/edificio3.png"/>
+    <img alt="edificio2" src="images/edificio2.png"/>
+    <img alt="edificio1" src="images/edificio1.png"/>
     <img alt="collage" src="images/collage.jpg"/>
 </div>
 
@@ -135,7 +136,7 @@
     <h3 data-translate="project_title">Progetto NFT su edificio storico a Lecce</h3>
     <p>
         <a href="https://lhilecce.it" target="_blank">Visita lhilecce.it</a> |
-        <a href="https://www.booking.com" target="_blank" data-translate="booking_link">Prenota su Booking</a>
+        <a href="https://www.booking.com/hotel/it/lhi-healthy-hub.html" target="_blank" data-translate="booking_link">Prenota su Booking</a>
     </p>
     <img alt="Bandiera edificio storico" src="images/banner.png" class="img-fluid"/>
     <div class="mt-3">
@@ -398,6 +399,8 @@
                 updateWalletStatus(t('connecting'), 'info');
                 const connectBtn = document.getElementById("connect-btn");
                 connectBtn.classList.add('loading');
+                connectBtn.disabled = true;
+                connectBtn.textContent = '⏳ ' + t('connecting');
                 
                 const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
                 const provider = new ethers.BrowserProvider(ethereum);
@@ -412,12 +415,16 @@
                 
                 connectBtn.textContent = '✅ ' + t('wallet_connected').replace('✅ ', '');
                 connectBtn.classList.remove('loading');
-                connectBtn.disabled = true;
+                connectBtn.disabled = true; // Keep disabled when connected
             } catch (err) {
                 console.error(err);
                 updateWalletStatus(t('connection_error'), 'error');
                 log(`${t('connection_error')} ${err.message}`, 'error');
-                document.getElementById("connect-btn").classList.remove('loading');
+                
+                const connectBtn = document.getElementById("connect-btn");
+                connectBtn.classList.remove('loading');
+                connectBtn.disabled = false;
+                connectBtn.textContent = '🔐 ' + t('connect_wallet').replace('🔐 ', '');
             }
         }
 
@@ -434,10 +441,21 @@
                     return;
                 }
                 
+                // Disable all mint buttons during operation
+                const mintButtons = document.querySelectorAll('button[onclick*="mintToken"]');
+                mintButtons.forEach(btn => {
+                    btn.disabled = true;
+                    btn.classList.add('loading');
+                });
+                
                 log(`${t('mint_starting')} ${tokenId}...`, 'info');
                 
-                // Use mintNFT function instead of mint
-                const tx = await contractInstance.mintNFT(tokenId, 1, { value: ethers.parseEther("0") });
+                // Get the price from the contract
+                const priceInWei = await contractInstance.pricesInWei(tokenId);
+                log(`💰 Price for Token ${tokenId}: ${ethers.formatEther(priceInWei)} MATIC`, 'info');
+                
+                // Use mintNFT function with correct price from contract
+                const tx = await contractInstance.mintNFT(tokenId, 1, { value: priceInWei });
                 log(`${t('mint_in_progress')} ${tokenId}... TX: ${tx.hash}`, 'info');
                 
                 // Add clickable Polygonscan link
@@ -451,6 +469,13 @@
             } catch (err) {
                 console.error(err);
                 log(`${t('mint_error')} ${err.message}`, 'error');
+            } finally {
+                // Re-enable all mint buttons
+                const mintButtons = document.querySelectorAll('button[onclick*="mintToken"]');
+                mintButtons.forEach(btn => {
+                    btn.disabled = false;
+                    btn.classList.remove('loading');
+                });
             }
         }
 
