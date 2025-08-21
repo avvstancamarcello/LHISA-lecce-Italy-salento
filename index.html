@@ -108,12 +108,11 @@
             font-size: 3.2em;
             display: block;
         }
-        .section-content p, .section-content a {
+        .section-content p, .section-content a, .section-content li {
             font-size: 3.2em !important;
         }
-        /* Uniforma la dimensione del font per tutti i blocchi di testo */
-        p, div, span, li {
-            font-size: 1.1em !important;
+        /* Dimensioni specifiche per le didascalie delle immagini */
+        .nft-card p, .building-card p {
             font-size: 0.8em !important;
         }
         .footer {
@@ -553,11 +552,6 @@
             <li>✅ Infura (Polygon): Endpoint configurato per Polygon Mainnet.</li>
             <li>✅ Client ID SDK: Configurato nel tuo ambiente di sviluppo/deploy.</li>
         </ul>
-        <p><strong>Importante:</strong> Le credenziali per l'SDK (come la chiave API Infura
-        e il Client ID) **devono essere configurate in modo sicuro ed inviolabile**, tramite
-        variabili d'ambiente (<code>.env</code> per lo sviluppo locale) o **GitHub Secrets**
-        per i deploy. Non vengono mai pubblicate direttamente nel codice o nel
-        <code>README.md</code>.</p>
     </div>
 
     <div class="section-title">🌍 Collegamenti e Risorse</div>
