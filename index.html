@@ -100,14 +100,19 @@
             text-align: center;
         }
         .section-content {
-            margin: 15px auto;
-            max-width: 800px;
+            margin: 15px 0;
+            width: 100%;
+            max-width: none;
             text-align: justify;
             line-height: 1.6;
-            font-size: 1.1em;
+            font-size: 1.2em;
+            display: block;
+        }
+        .section-content p, .section-content a {
+            font-size: 1.2em !important;
         }
         /* Uniforma la dimensione del font per tutti i blocchi di testo */
-        p, div, span, li, .section-content {
+        p, div, span, li {
             font-size: 1.1em !important;
         }
         .footer {
@@ -223,9 +228,12 @@
             <img alt="edificio3" src="images/edificio3.png" width="350" height="350">
         <p>Architettura e comfort al servizio della salute.</p>
         </div>
-        <div class="building-card">
-            <img alt="NFT marketplace" src="images/LHI_NFT_LECCE_logo.svg" width="350" height="350">
-            <p>Logo Icona LHI Lecce NFT per Polygon ed Opensea Market Place.</p>
+        <!-- Logo NFT LHI 480x480 -->
+        <div style="display: flex; flex-direction: column; align-items: center; margin: 20px 0;">
+            <a href="images/LHI_NFT_LECCE_logo.svg" target="_blank">
+                <img src="images/LHI_NFT_LECCE_logo.svg" alt="NFT marketplace" width="480" height="480" style="object-fit:cover; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+            </a>
+            <p style="margin-top: 10px;">Logo Icona LHI Lecce NFT per Polygon ed Opensea Market Place.</p>
         </div>
         <div class="building-card">
             <img alt="moneta-scientifica-iconica" src="images/STOP_DEPRESSION_LHI.jpg" width="480" height="480">
