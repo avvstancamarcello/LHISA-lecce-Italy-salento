@@ -1,0 +1,37 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main   # trigger solo sui push a main
+  workflow_dispatch: # permette di avviarlo manualmente da Actions tab
+
+permissions:
+  contents: write   # necessario per scrivere sul branch gh-pages
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20   # o la versione che usi nel progetto
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        run: npm run build
+
+      # Deploy della cartella buildata su gh-pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist   # cambia in ./build se usi React CRA
+          publish_branch: gh-pages
