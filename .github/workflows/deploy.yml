@@ -17,21 +17,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20   # o la versione che usi nel progetto
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build project
-        run: npm run build
-
-      # Deploy della cartella buildata su gh-pages
+      # Deploy diretto dei file statici su gh-pages
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+        uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist   # cambia in ./build se usi React CRA
+          publish_dir: ./   # usa la directory radice del repository
           publish_branch: gh-pages
