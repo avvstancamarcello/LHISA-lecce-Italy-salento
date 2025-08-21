@@ -106,6 +106,10 @@
             line-height: 1.6;
             font-size: 1.1em;
         }
+        /* Uniforma la dimensione del font per tutti i blocchi di testo */
+        p, div, span, li, .section-content {
+            font-size: 1.1em !important;
+        }
         .footer {
             margin-top: 50px;
             padding-top: 20px;
@@ -603,9 +607,10 @@
     <div  class="section-content" style="text-align: center;">
          <p>Copyright Avv. Marcello Stanca - Firenze</p>
     <div class="mint-box">
-        <h3 class="section-title">Mint il Tuo NFT Scientifico!</h3>
-        <img src="images/STOP_DEPRESSION_LHI.jpg" alt="NFT Scientifico" width="180" height="180"> <p>Sostieni la ricerca medica acquistando un NFT unico.</p>
-        <button id="interactive-mint-btn">Mint un NFT!</button>
+    <h3 class="section-title">Mint il Tuo NFT Scientifico!</h3>
+    <img src="images/STOP_DEPRESSION_LHI.jpg" alt="NFT Scientifico" width="180" height="180"> <p>Sostieni la ricerca medica acquistando un NFT unico.</p>
+    <button id="connect-btn" onclick="connectWallet()" style="margin-bottom: 16px; padding: 10px 24px; background-color: #ff9800; color: white; border: none; border-radius: 6px; font-size: 1.1em; cursor: pointer;">Connetti Wallet</button>
+    <button id="interactive-mint-btn" disabled>Mint un NFT!</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js" defer></script>
@@ -625,7 +630,18 @@
 
         // Funzione per il LOG nella pagina
         function log(message, isError = false) {
-            const logEl = document.getElementById("log");
+            let logEl = document.getElementById("log");
+            if (!logEl) {
+                logEl = document.createElement("div");
+                logEl.id = "log";
+                logEl.style.maxHeight = "120px";
+                logEl.style.overflowY = "auto";
+                logEl.style.background = "#f9f9f9";
+                logEl.style.border = "1px solid #eee";
+                logEl.style.margin = "10px 0";
+                logEl.style.padding = "8px";
+                document.querySelector('.mint-box').appendChild(logEl);
+            }
             const entry = document.createElement("div");
             entry.textContent = message;
             if (isError) entry.style.color = "red";
@@ -650,6 +666,9 @@
                 provider = MMSDK.getProvider();
 
                 const accounts = await provider.request({ method: 'eth_requestAccounts' });
+                if (!accounts || !accounts[0]) {
+                    throw new Error("Nessun account MetaMask trovato. Assicurati che MetaMask sia installato e sbloccato.");
+                }
                 signer = await new ethers.BrowserProvider(provider).getSigner();
 
                 const contractABI = window.CONTRACT_ABI; // Carica l'ABI da abi.js
@@ -662,8 +681,10 @@
                 contractInstance = new ethers.Contract(CONTRACT_ADDRESS, contractABI, signer);
                 walletConnected = true;
                 log(`✅ Wallet connesso: ${accounts[0].substring(0, 6)}...`);
-                document.getElementById('connect-btn').textContent = `Connesso: ${accounts[0].substring(0, 6)}...`;
-                document.getElementById('connect-btn').disabled = true;
+                const connectBtn = document.getElementById('connect-btn');
+                connectBtn.textContent = `Connesso: ${accounts[0].substring(0, 6)}...`;
+                connectBtn.disabled = true;
+                connectBtn.style.backgroundColor = '#4CAF50';
 
                 // Abilita il pulsante Mint Interattivo
                 document.getElementById('interactive-mint-btn').disabled = false;
@@ -672,8 +693,13 @@
             } catch (err) {
                 log(`❌ Errore durante la connessione: ${err.message}`, true);
                 console.error("Errore di connessione MetaMask Embedded:", err);
-                alert("Connessione fallita. Controlla la console per i dettagli.");
-                document.getElementById('connect-btn').disabled = false;
+                alert("Connessione fallita: " + err.message);
+                const connectBtn = document.getElementById('connect-btn');
+                if (connectBtn) {
+                  connectBtn.disabled = false;
+                  connectBtn.textContent = 'Connetti Wallet';
+                  connectBtn.style.backgroundColor = '#ff9800';
+                }
             }
         }
 
