@@ -361,7 +361,7 @@
 
         const ethereum = MMSDK.getProvider();
         let signer, contractInstance;
-        const contractAddress = "0x2A4974aaDFFcFbe721A0B9f41059f6D62fdaface";
+        const contractAddress = "0xF96ab75dEf75945e3E4a62E918468d49DaC97598";
         let abi;
 
         // Wait for ABI to be loaded from abi.js
