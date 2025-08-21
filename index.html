@@ -15,6 +15,13 @@
         header {
             text-align: center;
         }
+        .language-selector button:hover {
+            background-color: #0056b3;
+        }
+
+        .language-selector {
+            z-index: 1000;
+        }
         .banner-container {
             width: 100%;
             text-align: center;
@@ -177,10 +184,13 @@
 </head>
 <body>
     <div class="banner-container">
-        <img src="images/banner.jpg" alt="Banner del Progetto LHISA NFT">
+        <img src="images/banner.png" alt="Banner del Progetto LHISA NFT">
     </div>
 
     <header>
+        <div class="language-selector" style="position: absolute; top: 20px; right: 20px;">
+          <button id="translateBtn" onclick="toggleLanguage()" style="padding: 8px 16px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">English</button>
+        </div>     
         <h1 class="header-main">LHISA NFT – Ricerca Scientifica e Salute</h1> <p class="header-links">
             🔗 <a href="https://lhilecce.it" target="_blank">Visita lhilecce.it SITO UFFICIALE</a> |
             🗺️ <a href="https://www.google.com/maps/place/LHI+HEALTHY+HUB/@40.3320047,18.1613206,3a,75y,90t/data=!3m8!1e2!3m6!1shttps:%2F%2Fimages.trvl-media.com%2Flodging%2F113000000%2F112930000%2F112928700%2F112928681%2Fee2855ab_z.jpg!2e7!3e27!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-proxy%2FALd4DhF-dXaxC9wKd6uJHPxdWL6vw_X3XmLpxRMoSbGJ5CXiAaPOiD1ec4Ny9QV3kNHK4ROP9b9-82bWdRnEqKvaEJZyntSHWbzuBQJRjXD218BY6r94S5iwa8M55cP6zVNvqhInjbGawKNeBGDaPCTOr_PozblIctnFUyJa186qtE-zgmmCw21K_TUn%3Dw203-h135-k-no!7i1000!8i667!4m10!3m9!1s0x13442fc918b6d029:0x8ec95204297a6e3!5m2!4m1!1i2!8m2!3d40.3318171!4d18.1616302!10e5!16s%2Fg%2F11px8gr_q0?entry=ttu"
@@ -192,33 +202,25 @@
 
     <div class="grid-row">
         <div class="building-card">
-            <img alt="edificio1" src="images/edificio1.jpg" width="350" height="350">
+            <img alt="edificio1" src="images/edificio1.png" width="350" height="350">
             <p>La nostra struttura medica all'avanguardia.</p>
         </div>
         <div class="building-card">
-            <img alt="edificio2" src="images/edificio2.jpg" width="350" height="350">
+            <img alt="edificio2" src="images/edificio2.png" width="350" height="350">
             <p>Spazi dedicati al benessere e alla riabilitazione.</p>
         </div>
         <div class="building-card">
-            <img alt="edificio3" src="images/edificio3.jpg" width="350" height="350">
-            <p>Architettura e comfort al servizio della salute.</p>
+            <img alt="edificio3" src="images/edificio3.png" width="350" height="350">
+        <p>Architettura e comfort al servizio della salute.</p>
         </div>
         <div class="building-card">
-            <img alt="NFT marketplace" src="images/https://github.com/avvstancamarcello/LHISA-lecce-Italy-salento/blob/main/images/LHI_NFT_LECCE_logo.svg" width="350" height="350">
+            <img alt="NFT marketplace" src="images/LHI_NFT_LECCE_logo.svg" width="350" height="350">
             <p>Logo Icona LHI Lecce NFT per Polygon ed Opensea Market Place.</p>
         </div>
         <div class="building-card">
-            <img alt="moneta-scientifica-iconica" src="images/NFT_3277_Stop_depression.jpg" width="350" height="350"> </div>
-            <p> <a href="https://polygonscan.com/address/0xF96ab75dEf75945e3E4a62E918468d49DaC97598"
-                 target="_blank">Smart Contract Verificato - Leggilo aprendo questo link.</a>
-    </div>
-
-    <p class="ipfs-collection-link">
-        Visualizza la collezione completa su IPFS: 
-        <a href="https://ipfs.io/ipfs/bafybeia25bydviudkbbiqaj5ea3kisfb3tepzmobtkuq4bw5qjv52cmaxu/" target="_blank">
-            Esplora i Metadati su Pinata IPFS
-        </a>
-    </p>
+            <img alt="moneta-scientifica-iconica" src="images/STOP_DEPRESSION_LHI.jpg" width="480" height="480">
+            <p><a href="https://polygonscan.com/address/0xcAD9C4EfBa776f9F55A71d442EC024BBB5DD2b1c" target="_blank">Smart Contract Verificato - Leggilo aprendo questo link.</a></p>
+        </div> 
 
     <div class="section-title">1. Un Progetto Immobiliare Reale, un Valore Tangibile</div>
     <div class="section-content">
@@ -230,6 +232,9 @@
         nell'ospitalità sanitaria. Il capitale sociale è interamente versato. 
     </div>
 
+    <div class="building-card">
+        <img alt="NFT marketplace" src="images/STOP_DEPRESSION_LHI.jpg" width="350" height="350">
+    </div>
 
     <div class="section-content">la MONETA DIGITALE da 50 cent a 2 euro equivale al comune SMS 
                                telefonico usato per le donazioni eseguite per sostenere 
@@ -464,10 +469,11 @@
 
     <div class="section-title">6. Affidabilità e Trasparenza dei codici informatici che hanno costruito il tuo NFT tramite lo Smart Contract</div>
     <div class="section-content">
-        Controlla tu stesso il codice Solidity dello smart contract che è stato
-        verificato sulla piattaforma blockchain Polygonscan, ma anche su GitHub,
+        CONTROLLA tu stesso il codice Solidity dello smart contract che è stato
+        verificato, con segno di spunta Verde, sulla piattaforma blockchain Polygonscan, 
+        (protetto da Copyright) ma è  anche  presente su GitHub,
         piattaforma mondiale ed affidabile degli sviluppatori informatici.
-        <a href="href="https://polygonscan.com/address/0xEC023A57E96E0a94E30EB9892F05fC002A545aA5"
+        <a href="https://polygonscan.com/address/0xcAD9C4EfBa776f9F55A71d442EC024BBB5DD2b1c"
            target="_blank">🔍 Codice Trasparente del Contratto intelligente</a>
     </div>
 
@@ -557,7 +563,7 @@
          <p>Copyright Avv. Marcello Stanca - Firenze</p>
     <div class="mint-box">
         <h3 class="section-title">Mint il Tuo NFT Scientifico!</h3>
-        <img src="images/NFT_100_Stop_depression.jpg" alt="NFT Scientifico" width="180" height="180"> <p>Sostieni la ricerca medica acquistando un NFT unico.</p>
+        <img src="images/STOP_DEPRESSION_LHI.jpg" alt="NFT Scientifico" width="180" height="180"> <p>Sostieni la ricerca medica acquistando un NFT unico.</p>
         <button id="interactive-mint-btn">Mint un NFT!</button>
     </div>
 
@@ -738,5 +744,83 @@
     <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js" defer></script>
     <script src="https://unpkg.com/@metamask/sdk/dist/metamask-sdk.umd.js"></script>
     <script src="abi.js"></script>
-</body>
+<script>
+// Imposta la lingua predefinita come italiano
+let currentLanguage = 'it';
 
+// Oggetto contenente le traduzioni
+const translations = {
+  'it': {
+    'LHISA NFT – Ricerca Scientifica e Salute': 'LHISA NFT – Scientific Research and Health',
+    'Visita lhilecce.it SITO UFFICIALE': 'Visit lhilecce.it OFFICIAL WEBSITE',
+    'Esplora il Medical Hotel LHI con Google Maps': 'Explore the LHI Medical Hotel with Google Maps',
+    'Booking prenota la tua camera a Lecce in LHI': 'Booking reserve your room in Lecce at LHI',
+    'La nostra struttura medica all\'avanguardia.': 'Our cutting-edge medical facility.',
+    'Spazi dedicati al benessere e alla riabilitazione.': 'Spaces dedicated to wellness and rehabilitation.',
+    'Architettura e comfort al servizio della salute.': 'Architecture and comfort at the service of health.',
+    'Logo Icona LHI Lecce NFT per Polygon ed Opensea Market Place.': 'Logo Icon LHI Lecce NFT for Polygon and Opensea Market Place.',
+    'Un Progetto Immobiliare Reale, un Valore Tangibile': 'A Real Estate Project, a Tangible Value',
+    'La Depressione. Un Progetto per la ricerca scientifica': 'Depression. A Project for scientific research',
+    'A differenza di molti progetti digitali, il valore di un NFT LHI non è astratto. È direttamente collegato a un bene immobile e reale del valore di 10 milioni di euro: la struttura del Medical Hotel a Lecce. Questa imponente struttura di 7 piani (4.000 mq) è il risultato di 20 anni di lavoro e dell\'investimento di decine di famiglie. La sua posizione strategica, di fronte ai poli ospedalieri di Lecce, le conferisce un ruolo centrale nell\'ospitalità sanitaria. Il capitale sociale è interamente versato.': 'Unlike many digital projects, the value of an LHI NFT isn\'t abstract. It\'s directly linked to a real estate asset worth €10 million: the Medical Hotel in Lecce. This impressive seven-story structure (4,000 square meters) is the result of 20 years of work and the investment of dozens of families. Its strategic location, across from Lecce\'s hospitals, gives it a central role in healthcare hospitality. The share capital is fully paid up.',
+    'La MONETA DIGITALE da 50 cent a 2 euro equivale al comune SMS telefonico usato per le donazioni eseguite per sostenere progetti di solidarietà. L\'acquisto della Moneta LHI è destinato a sostenere la ricerca scientifica, ma (nota bene!) a differenza dell\'SMS che trasferisce 2 euro ad un altro soggetto (fondazione ONLUS, o Banche) resta di tua proprietà! La moneta che nasce, può essere paragonata ad un neonato al quale viene messo al polso un bracciale con incisioni precise che indicano: nome-valore-data-ora-minuto-secondo della nascita, nasce timbrata con un codice univoco trasparente, verificabile consultabile su Blockchain Polygon nella sezione Transazioni. Consulta il registro internazionale che notifica pubblico l\'avvenuto conio (certificato di nascita ed esistenza in vita della moneta che hai scelto di creare-acquistare) ed evidenzia il nr seriale immutabile attribuito ad ogni nuovo nato; registra ogni trasferimento di proprietà aggiungendo al codice di nascita il codice del tuo wallet (portafoglio elettronico) e, nel futuro, il codice del wallet del nuovo acquirente. Questa sequenza automatica delle operazioni di registrazione è governata dal contratto intelligente (lo smart contract) che espone pubblicamente tutti i movimenti di ogni moneta creata da quel contratto. Ciò significa che: 1. l\'esistenza reale e pubblica, 2. il codice univoco del wallet del proprietario della moneta, 3. l\'autenticità della creazione della tua goccia di valore (che tu conservi nel tuo wallet) sono confrontabili e verificabili in ogni momento dal tuo smartphone o PC, senza dover contattare un operatore di call center bancario o di servizi finanziari, perché tu hai sempre accesso diretto dal tuo smartphone al registro blockchain, che è direttamente accessibile in tutto il mondo. Quali sono gli altri vantaggi della moneta elettronica? Ne evidenzio due molto importanti. Un NFT (Not Fungible Token) è un bene digitale incorruttibile, come un quadro o una scultura. Un NFT è un bene scambiabile sulla blockchain tramite App universalmente disponibili scaricabili da Google Play o Apple Store. Grazie alla blockchain puoi anche verificare che il venditore di una moneta elettronica generata dallo smart contract di LHI sia effettivamente chi dice di essere, cioè proprietario del valore digitale. Ti chiederai come riconoscere il proprietario. Ecco questo è passibile grazie al "braccialetto identificativo" attribuito alla nascita che non potrà mai più essere rimosso dal polso dell\'NFT. Quel braccialetto viene aggiornata continuamente e per sempre. Quindi è logico che anche alla data del vendita il braccialetto recherà inciso il nome elettronico del wallet del suo proprietario, accanto al suo numero di serie. Quindi è ovvio che la persona che si dichiara proprietaria di un bene NFT deve essere in grado di inviarvi un (sms) una qualsiasi moneta digitale (tra igliaia esistenti) che tuttavia deve contenere lo stesso codice proprietario che, nella rete, risulta essere l\'ultimo proprietario registrato dalla blockchain. Se il wallet mittente della moneta digitale esemplificativa, che ha inviato al vostro wallet, reca lo stesso codice del wallet che la rete blockchain ha registrato come proprietario del bene digitale NFT posto in vendita potrete essere certi che il vostro interlocutore è proprietario del bene che offre in vendita. Questo procedimento è automatizzato in tutte le applicazioni disponibili per i cellulari. Aggiungo l\'ultimo elemento di certezza ad un domanda comune. Quindi chiunque conosce il codice del wallet e ed il codice alfanumerico pubblico dell\'NFT potrebbe rivenderlo o trasferirlo sul proprio wallet?? La risposta è no! Il trasferimento può avvenire soltanto se siete in possesso della chiave privata del proprietario che consiste in un codice segreto composto da dodici parole casuali in ordine sparso con sequenza vincolato dalla nascita, o da una cosiddetta chiave privata composta da 64 caratteri alfanumerici. Non è possibile trasferire un valore digitale NFT se il propruietario del wallet non "firma" la transazzione con quel codice. ed assegnata a chi si dichiara proprietario. Se qualcuno si dichiara proprietario di una moneta generata dal contratto intelligente LHISA Lecce dovrà inviarvi anche un solo centesimo dallo stesso wallet che la rete dichiara proprietario di quella moneta!': 'The 50 cent to 2 euro DIGITAL COIN is equivalent to the common SMS used for donations to support solidarity projects. The purchase of the LHI Coin is intended to support scientific research, but (please note!) unlike the SMS that transfers 2 euros to another entity (non-profit foundation or bank), it remains your property! The coin that is born can be compared to a newborn baby with a bracelet placed on its wrist with precise engravings indicating: name-value-date-hour-minute-second of birth. It is born stamped with a transparent, verifiable unique code that can be consulted on Blockchain Polygon in the Transactions section. Consult the international registry that notifies the public of the minting (birth certificate and existence of the coin you have chosen to create-purchase) and highlight the immutable serial number assigned to each newborn; record each transfer of ownership by adding the code of your wallet (electronic wallet) to the birth code and, in the future, the code of the new buyer\'s wallet. This automatic sequence of registration operations is governed by the smart contract, which publicly displays all the movements of every coin created by that contract. This means that: 1. the real and public existence, 2. the unique code of the coin\'s owner wallet, 3. the authenticity of the creation of your drop of value (which you store in your wallet) can be compared and verified at any time from your smartphone or PC, without having to contact a banking or financial service call center operator, because you always have direct access from your smartphone to the blockchain registry, which is directly accessible worldwide. What are the other advantages of electronic money? I\'ll outline two very important ones. An NFT (Not Fungible Token) is an incorruptible digital asset, like a painting or a sculpture. An NFT is a tradable asset on the blockchain via universally available apps downloadable from Google Play or the Apple Store. Thanks to the blockchain, you can also verify that the seller of an electronic currency generated by the LHI smart contract is actually who they claim to be—that is, the owner of the digital asset. You might be wondering how to identify the owner. This is possible thanks to the "identification bracelet" assigned at birth that can never be removed from the NFT\'s wrist. That bracelet is continuously updated forever. Therefore, it is logical that even on the date of sale, the bracelet will bear the electronic name of its owner\'s wallet, alongside its serial number. It is therefore obvious that the person claiming to own an NFT must be able to send you a text message (SMS) of any digital currency (among thousands of existing ones), which must, however, contain the same owner code that, on the network, is the last owner recorded by the blockchain. If the wallet sending the digital currency, for example, sent to your wallet, contains the same code as the wallet that the blockchain network recorded as the owner of the NFT digital asset being sold, you can be sure that the person you are dealing with actually owns the asset they are offering for sale. This process is automated in all mobile apps. I\'ll add one last piece of certainty to a common question. So, could anyone who knows the wallet code and the NFT\'s public alphanumeric code resell it or transfer it to their own wallet? The answer is no! The transfer can only occur if you have the owner\'s private key, which consists of a secret code composed of twelve random words in random order with a sequence constrained by birth, or a so-called private key composed of 64 alphanumeric characters. It\'s not possible to transfer an NFT digital value if the wallet owner doesn\'t "sign" the transaction with that code. The NFT is assigned to whoever claims ownership. If someone claims ownership of a coin generated by the LHISA Lecce smart contract, they will have to send you even a single cent from the same wallet the network claims is the owner of that coin!',
+    'Acquistando un NFT, non solo entri in possesso di un asset digitale di valore, ma finanzi direttamente la ricerca scientifica per la guarigione dalla "DEPRESSIONE", contribuendo a un obiettivo di immenso valore sociale. Il referente scientifico, Responsabile del progetto di ricerca e cura è il Prof. Riccardo SIMONI, iscritto all\'Ordine dei Medici di Firenze. Consulta curriculum Il Responsabile scientifico del progetto, è medico specialista in Psichiatria, che vanta 30 anni di grande esperienza clinica ospedaliera, docenza in corsi di specializzazione e master di formazione per la ricerca scientifica e farmacologica, e può documentare numerosi casi di guarigione grazie all\'uso di una terapia personalizzata, monitorata in tempo reale con flusso di feedback individuali sulle terapie personalizzate. dalla Depressione, anche di personaggi dello spettacolo. La Depressione è ormai annoverata come una malattia sociale, molto insidiosa e non facilmente riconoscibile nelle famiglie, che oggi può colpire chiunque, senza distinzione di età, di livello d\'istruzione o di attività di lavoro. iL Prof. Riccardo SIMONI ha dedicato 35 anni di studi clinici alla patologia depressiva, individuando i farmaci più efficaci e meno aggressivi per l\'organismo, e riportando il paziente al pieno equilibrio psicofisico nella gestione delle proprie capacità.': 'By purchasing an NFT, you not only own a valuable digital asset, but you directly fund scientific research into the treatment of DEPRESSION, contributing to a goal of immense social value. The scientific director and head of the research and treatment project is Professor Riccardo Simoni, a member of the Florence Medical Association. View CV. The project\'s scientific director is a specialist in psychiatry with 30 years of extensive clinical experience in hospitals, teaching specialization courses and master\'s degrees in scientific and pharmacological research. He has documented numerous cases of recovery through the use of personalized therapy, monitored in real time with individual feedback on personalized therapies. Depression, including celebrities, is now considered a social illness, highly insidious and not easily recognized within families. Today, it can affect anyone, regardless of age, education level, or occupation. Prof. Riccardo SIMONI has dedicated 35 years of clinical studies to the pathology of depression, identifying the most effective and least aggressive drugs for the body, and restoring the patient to full psychophysical balance in the management of their own abilities.',
+    'Il nostro SMART CONTRACT agisce come una Zecca Digitale. È costruito sulla blockchain Polygon usando gli strumenti più robusti e moderni, garantendo che ogni NFT sia irripetibile, non falsificabile e immutabile. Monitorato h24 per essere inattaccabile da virus e malware.': 'Our SMART CONTRACT acts as a Digital Mint. It\'s built on the Polygon blockchain using the most robust and modern tools, ensuring that each NFT is unique, unforgeable, and immutable. It\'s monitored 24/7 to ensure it\'s immune to viruses and malware.',
+    'Quando clicchi "Mint", la Zecca Digitale di LHI, crea un bene virtuale immutabile che è soltanto per te. Ogni "Mint" genera un "Certificato di Nascita" (la transazione sulla blockchain) e un "Certificato di Residenza" cioè la sua presenza nel tuo wallet), garantendoti il pieno e verificabile possesso del tuo asset digitale. Nessuno potrà mai appropriarsi del tuo NFT che può essere venduto soltanto da te in rete tramite la tua firma digitale convalidata dal tuo wallet elettronico protetto da password, impronta digitale fisica e chiave privata elettronica di 64 caratteri': 'When you click "Mint," LHI\'s Digital Mint creates an immutable virtual asset that\'s unique to you. Each "Mint" generates a "Birth Certificate" (the transaction on the blockchain) and a "Certificate of Residency" (i.e., its presence in your wallet), guaranteeing you full and verifiable ownership of your digital asset. No one will ever be able to steal your NFT, which can only be sold online by you using your digital signature validated by your password-protected electronic wallet, physical fingerprint, and 64-character electronic private key.',
+    'Il valore del tuo NFT è destinato a crescere con l\'eccellenza dei servizi offerti. LHI è presente da tempo nell\'elenco degli Hotel a 4 stelle offerto su Booking ed Espedia. LHI vuole essere anche un centro di sollievo dalla sofferenza, offrendo una piscina con acqua di mare purissima estratta a 350 metri di profondità per talassoterapia, sauna e servizi di riabilitazione. Sostenere questo progetto significa investire in un ecosistema di benessere reale.': 'The value of your NFT is destined to grow with the excellence of the services offered. LHI has long been listed among the 4-star hotels offered on Booking.com and Espedia. LHI also aims to be a center for pain relief, offering a pool with pure seawater extracted from a depth of 350 meters for thalassotherapy, a sauna, and rehabilitation services. Supporting this project means investing in a real wellness ecosystem.',
+    'CONTROLLA tu stesso il codice Solidity dello smart contract che è stato verificato, con segno di spunta Verde, sulla piattaforma blockchain Polygonscan, (protetto da Copyright) ma è anche presente su GitHub, piattaforma mondiale ed affidabile degli sviluppatori informatici. 🔍 Codice Trasparente del Contratto intelligente': 'CHECK for yourself the Solidity smart contract code, which has been verified with a green checkmark on the Polygonscan blockchain platform (protected by copyright), but is also available on GitHub, a global and trusted platform for IT developers. 🔍 Transparent Smart Contract Code',
+    'L\'interfaccia frontend include ora il nuovo SDK di MetaMask Embedded Wallet, che permette:Connessione diretta con MetaMask (senza estensione browser)Onboarding semplificato con login via email/social Compatibilità con oltre 450 wallet, inclusi:🔗 Coinbase Wallet 🦊 MetaMask Mobile 🐝 Binance Smart Chain (BNB Wallet)': 'The frontend interface now includes the new MetaMask Embedded Wallet SDK, which allows: Direct connection with MetaMask (without browser extension) Simplified onboarding with email/social login Compatibility with over 450 wallets, including 🔗 Coinbase Wallet 🦊 MetaMask Mobile 🐝 Binance Smart Chain (BNB Wallet)',
+    'Team e Collaboratori Presidente del CdA: Dott.ssa Cinzia Colizzi (Dottore Commercialista)Responsabile dei lavori: dott. Antonio Primiceri Direttore dei Lavori: ing. Donato Nocco, ing. Pietro Licignano, ing. Roberto Paladini Coordinatore Sicurezza Esecuzione: ing. Roberto Paladini Progettisti Architettonici: arch. Angelo Ingrosso ing. Pietro Licignano Progettisti Strutture: ing. Donato Nocco e ing. Livio Calo\' Progettisti Impianti: p.ti ind.li Antonio Laurenti, Piero Romano, Giuseppe Serafino, Sandro Ciurlia, Giuseppe Martella Collaudatori: ing. Vito Morciano, ing. Giuseppe Bruno Partner Finanziari e Contributi Contributo Regione Puglia programma Operativo Puglia FESR 2014-2020, Monte dei Paschi Siena, Capital Service di FirenzeBanca Popolare Pugliese, Banca di Credito Cooperativo di Terra d\'Otranto. Supporto tecnico Protocollo Itaca Puglia 2011-2017 🙏 Grazie ancora per la tua visita! Lascia un feedback!': 'Team and Collaborators: Chairman of the Board of Directors: Dr. Cinzia Colizzi (Chartered Accountant) Project Manager: Dr. Antonio Primiceri Construction Manager: Eng. Donato Nocco, Eng. Pietro Licignano, Eng. Roberto Paladini Execution Safety Coordinator: Eng. Roberto Paladini Architectural Designers: Architect Angelo Ingrosso, Eng. Pietro Licignano Structural Designers: Eng. Donato Nocco and Eng. Livio Calo\' Systems Designers: Industrial Engineers Antonio Laurenti, Piero Romano, Giuseppe Serafino, Sandro Ciurlia, Giuseppe Martella Test Engineers: Eng. Vito Morciano, Eng. Giuseppe Bruno Financial Partners and Contributions: Contribution from the Puglia Region, Puglia ERDF Operational Program 2014-2020, Monte dei Paschi Siena, Capital Service of Florence, Banca Popolare Pugliese, Banca di Credito Cooperativo di Terra d\'Otranto. Technical Support for the Itaca Puglia Protocol 2011-2017 🙏 Thanks again for visiting! Leave your feedback!',
+    // Aggiungi qui altre traduzioni
+    'Moneta 25 LHI.': 'Coin 25 LHI.',
+    'Moneta 50 LHI.': 'Coin 50 LHI.',
+    'Moneta 75 LHI.': 'Coin 75 LHI.',
+    'Moneta 100 LHI.': 'Coin 100 LHI.',
+    'Smart Contract Verificato - Leggilo aprendo questo link.': 'Verified Smart Contract - Read it by opening this link.',
+    'Codice Trasparente del Contratto intelligente': 'Transparent Code of the Smart Contract'
+    // Continua ad aggiungere tutte le stringhe che vuoi tradurre
+  }
+};
+
+// Funzione per cambiare la lingua
+function toggleLanguage() {
+  const translateBtn = document.getElementById('translateBtn');
+  
+  // Cambia la lingua corrente
+  if (currentLanguage === 'it') {
+    currentLanguage = 'en';
+    translateBtn.textContent = 'Italiano';
+    translateElements();
+  } else {
+    currentLanguage = 'it';
+    translateBtn.textContent = 'English';
+    restoreOriginal();
+  }
+}
+
+// Funzione per tradurre gli elementi
+function translateElements() {
+  // Salva il testo originale e traduci
+  document.querySelectorAll('h1, h2, h3, h4, p, a, div:not(.language-selector), span, button:not(#translateBtn)').forEach(element => {
+    const text = element.textContent.trim();
+    if (text && !element.hasAttribute('data-original')) {
+      element.setAttribute('data-original', text);
+      
+      // Cerca la traduzione esatta
+      for (const [original, translated] of Object.entries(translations.it)) {
+        if (text === original) {
+          element.textContent = translated;
+          break;
+        }
+      }
+    }
+  });
+}
+
+// Funzione per ripristinare il testo originale
+function restoreOriginal() {
+  document.querySelectorAll('[data-original]').forEach(element => {
+    element.textContent = element.getAttribute('data-original');
+  });
+}
+</script>
+</body>
