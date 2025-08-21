@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>LHISA Lecce NFT – Ricerca Scientifica STOP DEPRESSION - Cura e GUARIGIONE</title> <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0 auto;
+            max-width: 1000px;
+            background: #f7f7f7;
+            padding: 20px;
+            text-align: center;
+        }
+        header {
+            text-align: center;
+        }
+        .banner-container {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .banner-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .grid-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px; /* Spazio tra le card */
+            margin-bottom: 30px; /* Spazio sotto ogni riga di immagini */
+        }
+        .nft-card, .building-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            width: 200px; /* Larghezza fissa per 4 card affiancate */
+            padding: 10px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nft-card img, .building-card img {
+            max-width: 100%;
+            height: 200px; /* Altezza fissa per coerenza visuale */
+            object-fit: cover; /* Assicura che l'immagine copra l'area */
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        button {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #0077cc;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+        #log {
+            background: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 20px;
+            white-space: pre-wrap;
+            text-align: left;
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #eee;
+        }
+        /* Stili per le sezioni di testo */
+        .section-title {
+            font-size: 1.3em;
+            color: #b22222;
+            margin-top: 40px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .section-content {
+            margin: 15px auto;
+            max-width: 800px;
+            text-align: justify;
+            line-height: 1.6;
+            font-size: 1.1em;
+        }
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+        }
+        /* Nuovo stile per la casella Mint */
+        .mint-box {
+            background: #e8f5e9; /* Sfondo verde chiaro */
+            border-radius: 10px;
+            padding: 25px;
+            margin: 40px auto;
+            max-width: 500px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        .mint-box img {
+            max-width: 180px;
+            border-radius: 8px;
+            border: 3px solid #4caf50;
+        }
+        .mint-box button {
+            padding: 12px 25px;
+            font-size: 1.1em;
+            background-color: #4CAF50; /* Verde */
+        }
+        /* Stile per il link IPFS della collezione */
+        .ipfs-collection-link {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        /* Stili per le stelle del feedback */
+        .star-rating {
+            display: inline-block;
+            unicode-bidi: bidi-override;
+            direction: rtl;
+            font-size: 2em;
+        }
+        .star-rating > input {
+            display: none;
+        }
+        .star-rating > label {
+            padding: 5px;
+            cursor: pointer;
+            color: #ccc; /* Colore stelle non selezionate */
+        }
+        .star-rating > label:before {
+            content: '★';
+        }
+        .star-rating > input:checked ~ label {
+            color: #ffc107; /* Colore stelle selezionate (oro) */
+        }
+        .star-rating > label:hover,
+        .star-rating > label:hover ~ label {
+            color: #ffc107;
+        }
+        .feedback-form textarea {
+            width: 80%;
+            height: 80px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            resize: vertical;
+        }
+        .feedback-message {
+            margin-top: 15px;
+            font-weight: bold;
+            color: green;
+        }
+    </style>
+    <meta name="clientID"
+          content="BPOZFh3Z8-D35OCK2tAPyeybjWmNA_GAlJ2pw-MSxZlDcMeit73G0PXUVE-EF9GWrX7DSpxktOulSTEuh4cR0fs">
+    <meta name="infuraURL"
+          content="https://polygon-mainnet.infura.io/v3/c690c86b64b74bd5a69ad2d32cf2a0c6">
+</head>
+<body>
+    <div class="banner-container">
+        <img src="images/banner.jpg" alt="Banner del Progetto LHISA NFT">
+    </div>
+
+    <header>
+        <h1 class="header-main">LHISA NFT – Ricerca Scientifica e Salute</h1> <p class="header-links">
+            🔗 <a href="https://lhilecce.it" target="_blank">Visita lhilecce.it SITO UFFICIALE</a> |
+            🗺️ <a href="https://www.google.com/maps/place/LHI+HEALTHY+HUB/@40.3320047,18.1613206,3a,75y,90t/data=!3m8!1e2!3m6!1shttps:%2F%2Fimages.trvl-media.com%2Flodging%2F113000000%2F112930000%2F112928700%2F112928681%2Fee2855ab_z.jpg!2e7!3e27!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-proxy%2FALd4DhF-dXaxC9wKd6uJHPxdWL6vw_X3XmLpxRMoSbGJ5CXiAaPOiD1ec4Ny9QV3kNHK4ROP9b9-82bWdRnEqKvaEJZyntSHWbzuBQJRjXD218BY6r94S5iwa8M55cP6zVNvqhInjbGawKNeBGDaPCTOr_PozblIctnFUyJa186qtE-zgmmCw21K_TUn%3Dw203-h135-k-no!7i1000!8i667!4m10!3m9!1s0x13442fc918b6d029:0x8ec95204297a6e3!5m2!4m1!1i2!8m2!3d40.3318171!4d18.1616302!10e5!16s%2Fg%2F11px8gr_q0?entry=ttu"
+                 target="_blank">Esplora il Medical Hotel LHI con Google Maps</a> |
+               <a href="https://www.booking.com/hotel/it/lhi-healthy-lecce.it.html?aid=2311236&label=it-it-booking-desktop-new&sid=ca1c307f5122bd9e7cdf248bded89147&dest_id=13580677&dest_type=hotel&dist=0&group_adults=2&group_children=0&hapos=1&hpos=1&no_rooms=1&req_adults=2&req_children=0&room1=A%2CA&sb_price_type=total&sr_order=popularity&srepoch=1753169606&srpvid=a2590655f19e4745a66d61eb256466e5&type=total&ucfs=1&"
+                 target="_blank">Booking prenota la tua camera a Lecce in LHI</a>
+        </p>
+    </header>
+
+    <div class="grid-row">
+        <div class="building-card">
+            <img alt="edificio1" src="images/edificio1.jpg" width="350" height="350">
+            <p>La nostra struttura medica all'avanguardia.</p>
+        </div>
+        <div class="building-card">
+            <img alt="edificio2" src="images/edificio2.jpg" width="350" height="350">
+            <p>Spazi dedicati al benessere e alla riabilitazione.</p>
+        </div>
+        <div class="building-card">
+            <img alt="edificio3" src="images/edificio3.jpg" width="350" height="350">
+        <p>Architettura e comfort al servizio della salute.</p>
+        </div>
+        <div class="building-card">
+            <img alt="NFT marketplace" src="images/LHI_NFT_LECCE_logo.svg" width="350" height="350">
+            <p>Logo Icona LHI Lecce NFT per Polygon ed Opensea Market Place.</p>
+        </div>
+        <div class="building-card">
+            <img alt="moneta-scientifica-iconica" src="images/NFT_3277_Stop_depression.jpg" width="350" height="350">
+            <p><a href="https://polygonscan.com/address/0xF96ab75dEf75945e3E4a62E918468d49DaC97598" target="_blank">Smart Contract Verificato - Leggilo aprendo questo link.</a></p>
+        </div> 
+
+    <div class="section-title">1. Un Progetto Immobiliare Reale, un Valore Tangibile</div>
+    <div class="section-content">
+        A differenza di molti progetti digitali, il valore di un NFT LHI non è astratto.
+        È direttamente collegato a un <strong>bene immobile e reale del valore di 10 milioni di euro</strong>:
+        la struttura del Medical Hotel a Lecce. Questa imponente struttura di 7 piani (4.000 mq) è
+        il risultato di 20 anni di lavoro e dell'investimento di decine di famiglie. La sua posizione
+        strategica, di fronte ai poli ospedalieri di Lecce, le conferisce un ruolo centrale
+        nell'ospitalità sanitaria. Il capitale sociale è interamente versato. 
+    </div>
+
+    <div class="building-card">
+        <img alt="NFT marketplace" src="images/STOP_DEPRESSION_LHI.jpg" width="350" height="350">
+    </div>
+
+    <div class="section-content">la MONETA DIGITALE da 50 cent a 2 euro equivale al comune SMS 
+                               telefonico usato per le donazioni eseguite per sostenere 
+                               progetti di solidarietà. L'acquisto della Moneta LHI è
+                               destinato a sostenere la ricerca scientifica, ma (nota bene!) 
+                               a differenza dell'SMS che trasferisce 2 euro ad un altro 
+                               soggetto (fondazione OnLUS, o Banche) resta di tua proprietà!
+                               La moneta che nasce, può essere paragonata ad un neonato al 
+                               quale viene messo al polso un bracciale con incisioni precise 
+                               che indicano: nome-valore-data-ora-minuto-secondo della nascita. 
+                               nasce timbrata con un codice univoco trasparente, verificabile 
+                               consultabile su Blocchain Polygon nella sezione Transazioni.
+                               Consulta il registro internazionale che notificaal pubblico
+                               l'avvenuto conio (certificato di nascita ed esistenza in vita 
+                               della moneta che tu hai scelto di creare-acquistare)
+                               evidenzia il nr seriale immutabile attribuito ad ogni nuovo nato;
+                               registra ogni trasferimento di proprietà aggiungendo al codice
+                               di nascita, il codice del tuo wallet (portafoglio elettronico)
+                               e, nel futuro il codice del portafoglio del nuovo acquirente.
+                               Questa sequenza automatica delle operazioni di registrazione
+                               è governata dal contratto intelligente (lo smart contract)
+                               che espone pubblicamente tutti i movimenti di ogni moneta
+                               creata da quel contratto.
+                               Ciò significa che: 1. l'esistenza reale e pubblica, 
+                               2. il codice univoco del wallet proprietario della moneta,
+                               3. l'autenticità della creazione della tua goccia di  valore, 
+                               (che tu conservi nel tuo wallet) 
+                               è confrontabile e verificabile in qualsiasi momento dal tuo
+                               smartphone o dal tuo PC, senza rivolgerti ad operatori di
+                               un call center bancario, o finanziario, perchè hai sempre
+                               accesso diretto dal tuo smartphone sul registro blockchain 
+                               con accessibilità mondiale diretta.
+                               Quali sono gli altri vantaggi della moneta elettronica?
+                               Ve ne espongo 2, molto importanti.
+                               L'NFT (Not Fungible Token) è un valore digitale infrazionabile.
+                               Come lo sono un dipinto su tela, o una scultura.
+                               L'NFT è un bene negoziabile sulla blockchain tramite applicazioni
+                               di uso universale scaricabili da Google Play o Apple Store.
+                               Grazie alla blockchain puoi anche verificare che il venditore
+                               di una moneta elettronica generata dallo smart contract di LHI
+                               sia effettivamente chi dice di essere, cioè proprietario
+                               del valore digitale. Ti chiederai come riconoscere il proprietario.
+                               Ecco questo è passibile grazie al "braccialetto identificativo"
+                               attribuito alla nascita che non potrà mai più essere rimosso
+                               dal polso dell'NFT. Quel braccialetto viene aggiornata 
+                               continuamente e per sempre. Quindi è logico che anche alla 
+                               data del vendita il braccialetto recherà inciso il nome 
+                               elettronico del wallet del suo proprietario, 
+                               accanto al suo numero di serie. Quindi è ovvio che la persona
+                               che si dichiara proprietaria di un bene NFT deve essere in grado
+                               di inviarvi un (sms) una qualsiasi moneta digitale
+                               (tra igliaia esistenti) che tuttavia deve contenere lo stesso
+                               codice proprietario che, nella rete, risulta essere l'ultimo
+                               proprietario registrato dalla blockchain.
+                               Se il wallet mittente della moneta digitale esemplificativa,
+                               che ha inviato al vostro wallet, 
+                               reca lo stesso codice del wallet che la rete blockchain ha 
+                               registrato come proprietario del bene digitale NFT posto in
+                               vendita potrete essere certi che il vostro interlocutore
+                               è proprietario del bene che offre in vendita.
+                               Questo procedimento è automatizzato in tutte le applicazioni
+                               disponibili per i cellulari.
+                               Aggiungo l'ultimo elemento di certezza ad un domanda comune.
+                               Quindi chiunque conosce il codice del wallet e ed il codice
+                               alfanumerico pubblico dell'NFT potrebbe rivenderlo o 
+                               trasferirlo sul proprio wallet?? La risposta è no!
+                               Il trasferimento può avvenire soltanto se siete in possesso
+                               della chiave privata del proprietario che consiste in un
+                               codice segreto composto da dodici parole casuali in ordine
+                               sparso con sequenza vincolato dalla nascita, o da una
+                               cosiddetta chiave privata composta da 64 caratteri 
+                               alfanumerici. Non è possibile trasferire un valore digitale
+                               NFT se il propruietario del wallet non "firma" 
+                               la transazzione con quel codice. 
+ 
+                               ed assegnata a chi si dichiara
+                               proprietario. Se qualcuno si dichiara proprietario di una
+                               moneta generata dal contratto intelligente LHISA Lecce dovrà inviarvi
+                               anche un solo centesimo dallo stesso wallet che la rete dichiara
+                               proprietario di quella moneta!
+                                                              
+    </div>
+    <div class="grid-row" id="nft-grid-row-1"></div>
+    <div class="grid-row">
+        <div class="building-card">
+            <img alt="Moneta stop depression 25#" src="images/25.jpg" width="350" height="350">
+            <p>Moneta 25 LHI.</p>
+        </div>
+        <div class="building-card">
+            <img alt="Moneta stop depression 50#" src="images/50.jpg" width="350" height="350">
+            <p>Moneta 50 LHI.</p>
+        </div>
+        <div class="building-card">
+            <img alt="Moneta stop depression 75" src="images/75.jpg" width="350" height="350">
+            <p>Moneta 75 LHI.</p>
+        </div>
+        <div class="building-card">
+            <img alt="Moneta stop depression 100#" src="images/100.jpg" width="350" height="350">   
+   </div>   <p>Moneta 100 LHI.</p>
+
+    <div class="section-title">2. La Depressione. Un Progetto per la ricerca scientifica</div>
+    <div class="section-content">
+        Acquistando un NFT, non solo entri in possesso di un asset digitale di valore,
+        ma finanzi direttamente la ricerca scientifica per la guarigione dalla
+        "DEPRESSIONE", contribuendo a un obiettivo di immenso valore sociale.
+        Il referente scientifico, Responsabile del progetto di ricerca e cura
+        è il Prof. Riccardo SIMONI, iscritto all'Ordine dei Medici di Firenze.
+        <a href="images/Simoni2.jpg" target="_blank">Consulta curriculum</a>
+        Il Responsabile scientifico del progetto, è medico specialista in
+        Psichiatria, che vanta 30 anni di grande esperienza clinica ospedaliera,
+        docenza in corsi di specializzazione e master di formazione per la ricerca
+        scientifica e farmacologica, e può documentare numerosi casi di guarigione
+        grazie all'uso di una terapia personalizzata, monitorata in tempo reale
+        con flusso di feedback individuali sulle terapie personalizzate.
+        dalla Depressione, anche di personaggi dello spettacolo.
+        La Depressione è ormai annoverata come una malattia sociale,
+        molto insidiosa e non facilmente riconoscibile nelle famiglie, che oggi
+        può colpire chiunque, senza distinzione di età, di livello d'istruzione
+        o di attività di lavoro. iL Prof. Riccardo SIMONI ha dedicato 35 anni
+        di studi clinici alla patologia depressiva, individuando i farmaci
+        più efficaci e meno aggressivi per l'organismo, e riportando il paziente
+        al pieno equilibrio psicofisico nella gestione delle proprie capacità.                        
+    </div>
+
+    <div class="grid-row" id="nft-grid-row-2">
+            <div class="nft-card">
+                <img src="images/25.jpg" alt="NFT 25">
+                <p>Token ID: #25</p>
+            </div>
+            <div class="nft-card">
+                <img src="images/30.jpg" alt="NFT 30">
+                <p>Token ID: #30</p>
+            </div>
+            <div class="nft-card">
+                <img src="images/35.jpg" alt="NFT 35">
+                <p>Token ID: #35</p>
+            </div>
+            <div class="nft-card">
+                <img src="images/40.jpg" alt="NFT 40">
+                <p>Token ID: #40</p>
+            </div>
+        </div>
+
+    <div class="grid-row" id="nft-grid-row-2"></div>
+
+    <div class="section-title">3. La Nostra Zecca Digitale: Sicurezza e Affidabilità</div>
+    <div class="section-content">
+        Il nostro SMART CONTRACT agisce come una <strong>Zecca Digitale</strong>. È costruito sulla
+        blockchain Polygon usando gli strumenti più robusti e moderni, garantendo che ogni NFT
+        sia irripetibile, non falsificabile e immutabile. Monitorato h24 per essere inattaccabile
+        da virus e malware.
+    </div>
+
+    <div class="grid-row" id="nft-grid-row-3"></div>
+        <div class="nft-card">
+            <img src="images/45.jpg" alt="NFT 45">
+            <p>Token ID: #45</p>
+        </div>
+        <div class="nft-card">
+            <img src="images/50.jpg" alt="NFT 50">
+            <p>Token ID: #50</p>
+        </div>
+        <div class="nft-card">
+            <img src="images/55.jpg" alt="NFT 55">
+            <p>Token ID: #55</p>
+        </div>
+        <div class="nft-card">
+            <img src="images/60.jpg" alt="NFT 60">
+            <p>Token ID: #60</p>
+        </div>
+    </div>
+    
+    <div class="section-title">4. Il Tuo NFT: Bene Unico con Certificato di Proprietà</div>
+    <div class="section-content">
+        Quando clicchi "Mint", la Zecca Digitale di LHI, crea un bene virtuale immutabile
+        che è soltanto per te. Ogni "Mint" genera un "Certificato di Nascita"
+        (la transazione sulla blockchain) e un "Certificato di Residenza" cioè la
+        sua presenza nel tuo wallet), garantendoti il pieno e verificabile possesso
+        del tuo asset digitale. Nessuno potrà mai appropriarsi del tuo NFT che può
+        essere venduto soltanto da te in rete tramite la tua firma digitale convalidata
+        dal tuo wallet elettronico protetto da password, impronta digitale fisica e
+        chiave privata elettronica di 64 caratteri
+    </div>
+
+    <div class="grid-row" id="nft-grid-row-4"></div>
+        <div class="nft-card">
+            <img src="images/65.jpg" alt="NFT 65">
+            <p>Token ID: #65</p>
+        </div>
+        <div class="nft-card">
+            <img src="images/70.jpg" alt="NFT 70">
+            <p>Token ID: #70</p>
+        </div>
+        <div class="nft-card">
+            <img src="images/75.jpg" alt="NFT 75">
+            <p>Token ID: #75</p>
+        </div>
+        <div class="nft-card">
+            <img src="images/80.jpg" alt="NFT 80">
+            <p>Token ID: #80</p>
+        </div>
+    </div>
+
+    <div class="section-title">5.Un Valore di Partecipazione Destinato a Crescere nel tempo</div>
+    <div class="section-content">
+        Il valore del tuo NFT è destinato a crescere con l'eccellenza dei servizi offerti.
+        LHI è presente da tempo nell'elenco degli Hotel a 4 stelle offerto su Booking ed Espedia.
+        LHI vuole essere anche un <strong>centro di sollievo dalla sofferenza</strong>, offrendo una piscina
+        con acqua di mare purissima estratta a 350 metri di profondità per talassoterapia, sauna
+        e servizi di riabilitazione. Sostenere questo progetto significa investire in un ecosistema
+        di benessere reale.
+    </div>
+
+    <div class="grid-row" id="nft-grid-row-6">
+        <div class="nft-card">
+            <img src="images/85.jpg" alt="NFT 85">
+            <p>Token ID: #85</p>
+        </div>
+        <div class="nft-card">
+            <img src="images/90.jpg" alt="NFT 90">
+            <p>Token ID: #90</p>
+        </div>
+        <div class="nft-card">
+            <img src="images/95.jpg" alt="NFT 95">
+            <p>Token ID: #95</p>
+        </div>
+        <div class="nft-card">
+            <img src="images/100.jpg" alt="NFT 100">
+            <p>Token ID: #100</p>
+        </div>
+    </div>    
+
+    <div class="section-title">6. Affidabilità e Trasparenza dei codici informatici che hanno costruito il tuo NFT tramite lo Smart Contract</div>
+    <div class="section-content">
+        Controlla tu stesso il codice Solidity dello smart contract che è stato
+        verificato sulla piattaforma blockchain Polygonscan, ma anche su GitHub,
+        piattaforma mondiale ed affidabile degli sviluppatori informatici.
+        <a href="href="https://polygonscan.com/address/0xEC023A57E96E0a94E30EB9892F05fC002A545aA5"
+           target="_blank">🔍 Codice Trasparente del Contratto intelligente</a>
+    </div>
+
+    <div class="section-title">✨ NOVITÀ: Integrazione con MetaMask Embedded Wallet SDK</div>
+    <div class="section-content">
+        <p>L’interfaccia frontend include ora il nuovo SDK di <strong>MetaMask Embedded
+        Wallet</strong>, che permette:</p>
+        <ul>
+            <li>Connessione diretta con MetaMask (senza estensione browser)</li>
+            <li>Onboarding semplificato con login via email/social</li>
+            <li>Compatibilità con oltre <strong>450 wallet</strong>, inclusi:</li>
+            <li>🔗 Coinbase Wallet</li>
+            <li>🦊 MetaMask Mobile</li>
+            <li>🐝 Binance Smart Chain (BNB Wallet)</li>
+        </ul>
+        <p>L'SDK utilizza:</p>
+        <ul>
+            <li>✅ Infura (Polygon): Endpoint configurato per Polygon Mainnet.</li>
+            <li>✅ Client ID SDK: Configurato nel tuo ambiente di sviluppo/deploy.</li>
+        </ul>
+        <p><strong>Importante:</strong> Le credenziali per l'SDK (come la chiave API Infura
+        e il Client ID) **devono essere configurate in modo sicuro ed inviolabile**, tramite
+        variabili d'ambiente (<code>.env</code> per lo sviluppo locale) o **GitHub Secrets**
+        per i deploy. Non vengono mai pubblicate direttamente nel codice o nel
+        <code>README.md</code>.</p>
+    </div>
+
+    <div class="section-title">🌍 Collegamenti e Risorse</div>
+    <div class="section-content">
+        <ul>
+            <li>🔗 Sito Web ufficiale: <a href="https://lhilecce.it" target="_blank">
+                https://lhilecce.it</a></li>
+            <li>🗺️ Esplora il Medical Hotel su Google Maps: <a
+                href="https://www.google.com/maps/place/LHI+HEALTHY+HUB/@40.3320047,18.1613206,3a,75y,90t/data=!3m8!1e2!3m6!1shttps:%2F%2Fimages.trvl-media.com%2Flodging%2F113000000%2F112930000%2F112928700%2F112928681%2Fee2855ab_z.jpg!2e7!3e27!6shttps:%2F%2Flh3.googleusercontent.com%2Fgps-proxy%2FALd4DhF-dXaxC9wKd6uJHPxdWL6vw_X3XmLpxRMoSbGJ5CXiAaPOiD1ec4Ny9QV3kNHK4ROP9b9-82bWdRnEqKvaEJZyntSHWbzuBQJRjXD218BY6r94S5iwa8M55cP6zVNvqhInjbGawKNeBGDaPCTOr_PozblIctnFUyJa186qtE-zgmmCw21K_TUn%3Dw203-h135-k-no!7i1000!8i667!4m10!3m9!1s0x13442fc918b6d029:0x8ec95204297a6e3!5m2!4m1!1i2!8m2!3d40.3318171!4d18.1616302!10e5!16s%2Fg%2F11px8gr_q0?entry=ttu" target="_blank">
+                Esplora il Medical Hotel con Google Maps</a></li>
+        </ul>
+    </div>
+
+    <div class="section-title">🧪 Funzionalità disponibili nel frontend</div>
+    <div class="section-content">
+        <ul>
+            <li>✅ Connessione con Embedded Wallet</li>
+            <li>✅ Preview 20 NFT numerati (Token IDs da 1 a 20)</li>
+            <li>✅ Pulsante di mint per ogni NFT</li>
+            <li>🖼️ Visualizzazione immagini 350x350 pixel</li>
+            <li>🛠️ Sistema log eventi: feedback interattivo all’utente</li>
+        </ul>
+    </div>
+
+    <div class="section-title">📁 Struttura cartelle</div>
+    <div class="section-content">
+        <ul>
+            <li><code>index.html</code>: Frontend principale integrato con SDK MetaMask</li>
+            <li><code>abi.js</code>: ABI del contratto LHISA_LecceNFT</li>
+            <li><code>images/</code>: Immagini watermark NFT</li>
+            <li><code>LINK_LOCATION_hotel/</code>: Informazioni sulla struttura fisica</li>
+            <li><code>TUTORIALS/</code>: Istruzioni tecniche e documentazione</li>
+        </ul>
+    </div>
+
+    <div class="section-title">🧠 Autore</div>
+    <div class="section-content">
+        <p>Avv. Marcello Stanca – <a href="https://github.com/avvstancamarcello" target="_blank">GitHub</a></p>
+        <p>“Non chi comincia, ma quel che persevera.” 🇮🇹</p>
+        <p><strong>Copyright © Giugno 2025 Avv. Marcello Stanca - Firenze.</strong></p>
+
+        <strong>Team e Collaboratori</strong><br>
+        Presidente del CdA: Dott.ssa Cinzia Colizzi (Dottore Commercialista)<br>
+        Responsabile dei lavori: dott. Antonio Primiceri<br>
+        Direttore dei Lavori: ing. Donato Nocco, ing. Pietro Licignano, ing. Roberto Paladini<br>
+        Coordinatore Sicurezza Esecuzione: ing. Roberto Paladini<br>
+        Progettisti Architettonici: arch. Angelo Ingrosso, ing. Pietro Licignano<br>
+        Progettisti Strutture: ing. Donato Nocco e ing. Livio Calo'<br>
+        Progettisti Impianti: p.ti ind.li Antonio Laurenti, Piero Romano, Giuseppe Serafino, Sandro Ciurlia, Giuseppe Martella<br>
+        Collaudatori: ing. Vito Morciano, ing. Giuseppe Bruno<br><br>
+
+        <strong>Partner Finanziari e Contributi</strong><br>
+        Contributo Regione Puglia programma Operativo Puglia FESR 2014-2020, Monte dei Paschi Siena, Capital Service di Firenze<br> 
+        Banca Popolare Pugliese, Banca di Credito Cooperativo di Terra d'Otranto. Supporto tecnico Protocollo Itaca Puglia 2011-2017<br>
+    </div>
+
+    <div class="section-content" style="text-align: center;">
+        <p>🙏 Grazie ancora per la tua visita! Lascia un feedback!</p>
+    </div> 
+
+    <div  class="section-content" style="text-align: center;">
+         <p>Copyright Avv. Marcello Stanca - Firenze</p>
+    <div class="mint-box">
+        <h3 class="section-title">Mint il Tuo NFT Scientifico!</h3>
+        <img src="images/NFT_100_Stop_depression.jpg" alt="NFT Scientifico" width="180" height="180"> <p>Sostieni la ricerca medica acquistando un NFT unico.</p>
+        <button id="interactive-mint-btn">Mint un NFT!</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js" defer></script>
+    <script src="https://unpkg.com/@metamask/sdk/dist/metamask-sdk.umd.js"></script>
+    <script src="abi.js"></script>
+
+    <script>
+        // CONFIGURAZIONE GLOBALE (NON INCLUDERE CHIAVI PRIVATE QUI!)
+        const CLIENT_ID = document.querySelector('meta[name="clientID"]').content;
+        const INFURA_URL = document.querySelector('meta[name="infuraURL"]').content;
+        const CONTRACT_ADDRESS = "0xEC023A57E96E0a94E30EB9892F05fC002A545aA5"; // NUOVO INDIRIZZO DEL CONTRATTO DEPLOYATO!
+
+        let provider;
+        let signer;
+        let contractInstance;
+        let walletConnected = false;
+
+        // Funzione per il LOG nella pagina
+        function log(message, isError = false) {
+            const logEl = document.getElementById("log");
+            const entry = document.createElement("div");
+            entry.textContent = message;
+            if (isError) entry.style.color = "red";
+            logEl.appendChild(entry);
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        // Inizializzazione MetaMask SDK e Connessione Wallet
+        async function connectWallet() {
+            try {
+                log("⏳ Tentativo di connessione a MetaMask Embedded Wallet...");
+
+                const MMSDK = new MetaMaskSDK.MetaMaskSDK({
+                    dappMetadata: {
+                        name: "LHISA NFT",
+                        url: "https://avvstancamarcello.github.io/LHISA-lecce-Italy-salento/"
+                    },
+                    infura: { projectId: INFURA_URL.split('/').pop() },
+                    embeddedWallet: { enabled: true, clientId: CLIENT_ID }
+                });
+
+                provider = MMSDK.getProvider();
+
+                const accounts = await provider.request({ method: 'eth_requestAccounts' });
+                signer = await new ethers.BrowserProvider(provider).getSigner();
+
+                const contractABI = window.CONTRACT_ABI; // Carica l'ABI da abi.js
+                if (!contractABI) {
+                    log("❌ Errore ABI: ABI non caricata! Assicurati che abi.js sia corretto.", true);
+                    alert("Errore ABI: Controlla la console per i dettagli.");
+                    return;
+                }
+
+                contractInstance = new ethers.Contract(CONTRACT_ADDRESS, contractABI, signer);
+                walletConnected = true;
+                log(`✅ Wallet connesso: ${accounts[0].substring(0, 6)}...`);
+                document.getElementById('connect-btn').textContent = `Connesso: ${accounts[0].substring(0, 6)}...`;
+                document.getElementById('connect-btn').disabled = true;
+
+                // Abilita il pulsante Mint Interattivo
+                document.getElementById('interactive-mint-btn').disabled = false;
+                document.getElementById('interactive-mint-btn').style.backgroundColor = '#4CAF50'; 
+
+            } catch (err) {
+                log(`❌ Errore durante la connessione: ${err.message}`, true);
+                console.error("Errore di connessione MetaMask Embedded:", err);
+                alert("Connessione fallita. Controlla la console per i dettagli.");
+                document.getElementById('connect-btn').disabled = false;
+            }
+        }
+
+        // Funzione per avviare il processo di Mint Interattivo (pop-up)
+        async function startInteractiveMint() {
+            if (!walletConnected || !contractInstance) {
+                log("⚠️ Devi connettere prima il wallet!", true);
+                return;
+            }
+
+            const mintButton = document.getElementById('interactive-mint-btn');
+            mintButton.disabled = true;
+            mintButton.textContent = "Minting...";
+            mintButton.style.backgroundColor = '#ffc107';
+
+            try {
+                const tokenIdInput = prompt("Inserisci il Token ID da mintare (es. 5, 10, ... 100):");
+                const tokenId = parseInt(tokenIdInput);
+
+                if (isNaN(tokenId) || tokenId < 5 || tokenId > 100 || tokenId % 5 !== 0) {
+                    alert("Token ID non valido. Il Mint è stato annullato. Scegli tra 5, 10, ..., 100.");
+                    // Reabilita il bottone solo se la quantità non era valida
+                    mintButton.disabled = false;
+                    mintButton.textContent = "Mint un NFT!";
+                    mintButton.style.backgroundColor = '#4CAF50';
+                    return;
+                }
+
+                const quantityInput = prompt(`Quanti NFT con Token ID ${tokenId} vuoi mintare? (Es: 1)`);
+                const quantity = parseInt(quantityInput);
+
+                if (isNaN(quantity) || quantity <= 0) {
+                    alert("Quantità non valida. Il Mint è stato annullato.");
+                    mintButton.disabled = false;
+                    mintButton.textContent = "Mint un NFT!";
+                    mintButton.style.backgroundColor = '#4CAF50';
+                    return;
+                }
+
+                log(`⏳ Avvio Mint per Token ID ${tokenId}, Quantità: ${quantity}...`);
+
+                const pricePerUnitWei = BigInt(tokenId) * BigInt(4) * BigInt(10)**BigInt(16); // 0.04 MATIC per TokenID
+                const totalPriceWei = pricePerUnitWei * BigInt(quantity);
+
+                log(`   Prezzo totale: ${ethers.formatEther(totalPriceWei)} MATIC`);
+
+                const tx = await contractInstance.mintNFT(tokenId, quantity, {
+                    value: totalPriceWei
+                });
+
+                log(`📝 Transazione inviata. Hash: ${tx.hash.substring(0, 10)}...`);
+                log("   Attendere conferma sulla blockchain...");
+
+                const receipt = await tx.wait();
+                log(`✅ Mint completato per Token ID ${tokenId}, Quantità ${quantity}!`);
+                log(`   Gas utilizzato: ${receipt.gasUsed.toString()}`);
+
+                mintButton.textContent = "Mintato!";
+                mintButton.style.backgroundColor = '#6c757d';
+
+            } catch (err) {
+                log(`❌ Errore durante il Mint interattivo per Token ID ${tokenId}: ${err.message}`, true);
+                console.error("Errore Mint NFT:", err);
+                alert(`Mint fallito per Token ID ${tokenId}. Controlla la console per dettagli.`);
+                mintButton.disabled = false;
+                mintButton.textContent = "Mint Fallito";
+                mintButton.style.backgroundColor = '#dc3545';
+            }
+        }
+
+
+        // Generazione dinamica della galleria NFT all'avvio della pagina
+            window.onload = function() {
+                const previewGrid = document.querySelector('.preview-grid');
+                // Definiamo i Token ID in base all'ordine specifico desiderato per le 5 righe
+                const tokenIdsToShow = [
+                    [5, 10, 15, 20],   // Fila 1
+                    [25, 30, 35, 40],  // Fila 2
+                    [45, 50, 55, 60],  // Fila 3
+                    [65, 70, 75, 80],  // Fila 4
+                    [85, 90, 95, 100]  // Fila 5
+                ];
+
+                tokenIdsToShow.forEach(row => {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = 'grid-row'; // Ogni riga della griglia avrà la sua classe
+
+                    row.forEach(id => {
+                        const paddedId = id.toString().padStart(2, '0'); // Formatta per immagini (es. 05)
+                        const card = document.createElement('div');
+                        card.className = 'nft-card';
+                        card.innerHTML = `
+                            <img src="images/${paddedId}.jpg" alt="NFT ${id}"> <p>Token ID: #${id}</p> `;
+                        rowDiv.appendChild(card);
+                    });
+                    previewGrid.appendChild(rowDiv);
+                });
+
+
+                document.getElementById('connect-btn').addEventListener('click', connectWallet);
+                document.getElementById('interactive-mint-btn').addEventListener('click', startInteractiveMint);
+                
+                // Disabilita il pulsante Mint interattivo inizialmente
+                document.getElementById('interactive-mint-btn').disabled = true;
+                document.getElementById('interactive-mint-btn').style.backgroundColor = '#aaa';
+            };        
+
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js" defer></script>
+    <script src="https://unpkg.com/@metamask/sdk/dist/metamask-sdk.umd.js"></script>
+    <script src="abi.js"></script>
+</body>
+
