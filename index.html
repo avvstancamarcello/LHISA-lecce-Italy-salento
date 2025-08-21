@@ -107,9 +107,11 @@
             line-height: 1.7;
             font-size: 3.2em;
             display: block;
+            color: #000000;
         }
         .section-content p, .section-content a, .section-content li {
             font-size: 3.2em !important;
+            color: #000000;
         }
         /* Link di dimensione normale */
         .section-content a.normal-link {
@@ -117,9 +119,27 @@
             text-decoration: underline;
             color: #0077cc;
         }
+        /* Link con stile titolo */
+        .section-content a.title-link {
+            font-size: 1.3em !important;
+            color: #b22222;
+            text-decoration: underline;
+            font-weight: normal;
+        }
         /* Dimensioni specifiche per le didascalie delle immagini */
         .nft-card p, .building-card p {
             font-size: 0.8em !important;
+        }
+        /* Testo normale (non enorme) */
+        .normal-text {
+            font-size: 1.1em !important;
+            color: #000000;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .normal-text p {
+            font-size: 1.1em !important;
+            color: #000000;
         }
         .footer {
             margin-top: 50px;
@@ -538,7 +558,7 @@
         (protetto da Copyright) ma è  anche  presente su GitHub,
         piattaforma mondiale ed affidabile degli sviluppatori informatici.
         <a href="https://polygonscan.com/address/0xcAD9C4EfBa776f9F55A71d442EC024BBB5DD2b1c"
-           target="_blank" class="normal-link">🔍 Codice Trasparente del Contratto intelligente</a>
+           target="_blank" class="title-link">🔍 Codice Trasparente del Contratto intelligente</a>
     </div>
 
     <div class="section-title">✨ NOVITÀ: Integrazione con MetaMask Embedded Wallet SDK</div>
@@ -614,12 +634,14 @@
         Banca Popolare Pugliese, Banca di Credito Cooperativo di Terra d'Otranto. Supporto tecnico Protocollo Itaca Puglia 2011-2017<br>
     </div>
 
-    <div class="section-content" style="text-align: center;">
+    <div class="normal-text">
         <p>🙏 Grazie ancora per la tua visita! Lascia un feedback!</p>
     </div> 
 
-    <div  class="section-content" style="text-align: center;">
+    <div class="normal-text">
          <p>Copyright Avv. Marcello Stanca - Firenze</p>
+    </div>
+    
     <div class="mint-box">
     <h3 class="section-title">Mint il Tuo NFT Scientifico!</h3>
     <img src="images/STOP_DEPRESSION_LHI.jpg" alt="NFT Scientifico" width="180" height="180"> <p>Sostieni la ricerca medica acquistando un NFT unico.</p>
