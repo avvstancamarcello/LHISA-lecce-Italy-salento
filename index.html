@@ -12,7 +12,6 @@
             padding: 20px;
             text-align: center;
         }
-        /* Forza l'andata a capo automatica per i contenitori di testo */
         p, .seection-title, h1, h2, h3, h4, span, div {
             word-break: break-word;
             overflow-wrap: break-word;
@@ -99,11 +98,30 @@
             margin-bottom: 10px;
             text-align: center;
         }
+        /* TESTO GIUSTIFICATO PER TUTTE LE SEZIONI */
+        .section-content,
+        .section-content p,
+        .section-content ul,
+        .section-content li,
+        .section-content span,
+        .section-content div {
+            text-align: justify !important;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+        /* GIUSTIFICA ANCHE NORMAL-TEXT */
+        .normal-text,
+        .normal-text p,
+        .normal-text ul,
+        .normal-text li {
+            text-align: justify !important;
+            word-break: break-word;
+        }
         .section-content {
             margin: 30px auto;
             width: 100%;
             max-width: 1000px;
-            text-align: justify;
             line-height: 1.7;
             font-size: 1.1em !important;
             display: block;
@@ -112,31 +130,25 @@
         .section-content p, .section-content a, .section-content li {
             font-size: 1.1em !important;
             color: #000000;
-            text-align: justify;
         }
-        /* Link di dimensione normale */
         .section-content a.normal-link {
             font-size: 1em !important;
             text-decoration: underline;
             color: #0077cc;
         }
-        /* Link con stile titolo */
         .section-content a.title-link {
             font-size: 1.3em !important;
             color: #b22222;
             text-decoration: underline;
             font-weight: normal;
         }
-        /* Dimensioni specifiche per le didascalie delle immagini */
         .nft-card p, .building-card p {
             font-size: 0.8em !important;
         }
-        /* Testo normale (non enorme) */
         .normal-text {
             font-size: 1.1em !important;
             color: #000000;
             margin: 20px auto;
-            text-align: center;
         }
         .normal-text p {
             font-size: 1.1em !important;
@@ -258,18 +270,18 @@
         </div>
     </div>
 
+    <!-- Smart Contract Verificato centrato -->
+    <div style="display: flex; flex-direction: column; align-items: center; margin: 20px 0;">
+        <img alt="moneta-scientifica-iconica" src="images/STOP_DEPRESSION_LHI.jpg" width="480" height="480">
+        <p style="margin-top: 10px;"><a href="https://polygonscan.com/address/0xcAD9C4EfBa776f9F55A71d442EC024BBB5DD2b1c" target="_blank">Smart Contract Verificato - Leggilo aprendo questo link.</a></p>
+    </div>
+
     <!-- Logo NFT LHI 350x350 centrato -->
     <div style="display: flex; flex-direction: column; align-items: center; margin: 20px 0;">
         <a href="images/LHI_NFT_LECCE_logo.svg" target="_blank">
             <img src="images/LHI_NFT_LECCE_logo.svg" alt="NFT marketplace" width="350" height="350" style="object-fit:cover; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
         </a>
         <p style="margin-top: 10px;">Logo Icona LHI Lecce NFT per Polygon ed Opensea Market Place.</p>
-    </div>
-
-    <!-- Smart Contract Verificato centrato -->
-    <div style="display: flex; flex-direction: column; align-items: center; margin: 20px 0;">
-        <img alt="moneta-scientifica-iconica" src="images/STOP_DEPRESSION_LHI.jpg" width="480" height="480">
-        <p style="margin-top: 10px;"><a href="https://polygonscan.com/address/0xcAD9C4EfBa776f9F55A71d442EC024BBB5DD2b1c" target="_blank">Smart Contract Verificato - Leggilo aprendo questo link.</a></p>
     </div>
 
     <div class="section-title">1. Un Progetto Immobiliare Reale, un Valore Tangibile</div>
