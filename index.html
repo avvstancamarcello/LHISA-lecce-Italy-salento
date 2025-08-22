@@ -127,7 +127,7 @@
             display: block;
             color: #000000;
         }
-        .section-content p, .section-content a, .section-content li {
+        .section-content p, .section-content a, .section-content li, .section-content span, .section-content strong {
             font-size: 1.1em !important;
             color: #000000;
         }
@@ -141,6 +141,17 @@
             color: #b22222;
             text-decoration: underline;
             font-weight: normal;
+        }
+        /* Forza dimensioni uniformi per TUTTI gli elementi di testo nelle sezioni */
+        .section-content * {
+            font-size: 1.1em !important;
+        }
+        /* Eccezioni per link specifici */
+        .section-content a.normal-link {
+            font-size: 1em !important;
+        }
+        .section-content a.title-link {
+            font-size: 1.3em !important;
         }
         .nft-card p, .building-card p {
             font-size: 0.8em !important;
