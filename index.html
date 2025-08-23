@@ -770,7 +770,7 @@
         Prezzo Totale: 0.20 POL
     </div>
     
-    <button id="connect-btn" onclick="connectWallet()" style="margin-bottom: 16px; padding: 10px 24px; background-color: #ff9800; color: white; border: none; border-radius: 6px; font-size: 1.1em; cursor: pointer;">Connetti Wallet</button>
+    <button id="connect-btn" style="margin-bottom: 16px; padding: 10px 24px; background-color: #ff9800; color: white; border: none; border-radius: 6px; font-size: 1.1em; cursor: pointer;">Connetti Wallet</button>
     <button id="interactive-mint-btn" disabled>Mint NFT Selezionato!</button>
     </div>
 
@@ -885,7 +885,6 @@
                     console.log('Sistema dual-contract attivo: NFT + FT con pagamenti POL');
                 } else {
                     console.log('Contratto FT non configurato. Configurare FT_CONTRACT_ADDRESS per abilitare acquisti FT.');
-                } else {
                     document.getElementById('ft-status').innerHTML = "⚠️ Contratto FT non ancora configurato";
                 } 
 
@@ -975,7 +974,7 @@
         // ===== FUNZIONI PER MINT NFT CON MENU A TENDINA =====
         
         // Funzione per scorrere alla sezione mint e preselezionare il token ID
-        function scrollToMintSection(tokenId) {
+        window.scrollToMintSection = function(tokenId) {
             // Scorri alla sezione mint
             document.querySelector('.mint-box.nft-box').scrollIntoView({ 
                 behavior: 'smooth', 
