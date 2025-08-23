@@ -770,6 +770,22 @@
         Prezzo Totale: 0.20 POL
     </div>
     
+    <!-- Spie di stato visive -->
+    <div id="status-indicators" style="margin-bottom: 20px; padding: 15px; background-color: #f5f5f5; border-radius: 8px; border-left: 4px solid #ccc;">
+        <h4 style="margin: 0 0 10px 0; color: #333;">🔍 Stato Connessione</h4>
+        <div id="connection-status" style="display: flex; align-items: center; margin-bottom: 10px;">
+            <div id="connection-light" style="width: 12px; height: 12px; border-radius: 50%; background-color: #ff4444; margin-right: 10px; box-shadow: 0 0 10px rgba(255,68,68,0.5);"></div>
+            <span id="connection-text">❌ Wallet non connesso</span>
+        </div>
+        <div id="mint-status" style="display: flex; align-items: center; margin-bottom: 10px;">
+            <div id="mint-light" style="width: 12px; height: 12px; border-radius: 50%; background-color: #ffaa00; margin-right: 10px; box-shadow: 0 0 10px rgba(255,170,0,0.5);"></div>
+            <span id="mint-text">⏳ Pronto per mint</span>
+        </div>
+        <div id="debug-log" style="background-color: #000; color: #00ff00; padding: 10px; border-radius: 4px; font-family: monospace; font-size: 12px; max-height: 120px; overflow-y: auto;">
+            <div>💻 Sistema di debug attivo...</div>
+        </div>
+    </div>
+
     <button id="connect-btn" style="margin-bottom: 16px; padding: 10px 24px; background-color: #ff9800; color: white; border: none; border-radius: 6px; font-size: 1.1em; cursor: pointer;">Connetti Wallet</button>
     <button id="interactive-mint-btn" disabled>Mint NFT Selezionato!</button>
     </div>
@@ -779,6 +795,70 @@
     <script src="abi.js"></script>
 
     <script>
+        // ===== SISTEMA DI DEBUG E SPIE COLORATE =====
+        
+        // Funzione per aggiornare le spie di stato
+        function updateConnectionStatus(connected, message) {
+            const light = document.getElementById('connection-light');
+            const text = document.getElementById('connection-text');
+            
+            if (connected) {
+                light.style.backgroundColor = '#44ff44';
+                light.style.boxShadow = '0 0 15px rgba(68,255,68,0.8)';
+                text.innerHTML = '✅ ' + message;
+                text.style.color = '#2E7D32';
+            } else {
+                light.style.backgroundColor = '#ff4444';
+                light.style.boxShadow = '0 0 10px rgba(255,68,68,0.5)';
+                text.innerHTML = '❌ ' + message;
+                text.style.color = '#D32F2F';
+            }
+        }
+        
+        function updateMintStatus(status, message) {
+            const light = document.getElementById('mint-light');
+            const text = document.getElementById('mint-text');
+            
+            switch(status) {
+                case 'ready':
+                    light.style.backgroundColor = '#44ff44';
+                    light.style.boxShadow = '0 0 15px rgba(68,255,68,0.8)';
+                    text.innerHTML = '✅ ' + message;
+                    text.style.color = '#2E7D32';
+                    break;
+                case 'working':
+                    light.style.backgroundColor = '#ffaa00';
+                    light.style.boxShadow = '0 0 15px rgba(255,170,0,0.8)';
+                    text.innerHTML = '⏳ ' + message;
+                    text.style.color = '#F57C00';
+                    break;
+                case 'error':
+                    light.style.backgroundColor = '#ff4444';
+                    light.style.boxShadow = '0 0 10px rgba(255,68,68,0.5)';
+                    text.innerHTML = '❌ ' + message;
+                    text.style.color = '#D32F2F';
+                    break;
+            }
+        }
+        
+        // Funzione di log migliorata con debug visivo
+        function log(message) {
+            console.log(message);
+            const debugLog = document.getElementById('debug-log');
+            if (debugLog) {
+                const timestamp = new Date().toLocaleTimeString();
+                const logEntry = document.createElement('div');
+                logEntry.innerHTML = `[${timestamp}] ${message}`;
+                debugLog.appendChild(logEntry);
+                debugLog.scrollTop = debugLog.scrollHeight;
+                
+                // Mantieni solo gli ultimi 10 messaggi
+                while (debugLog.children.length > 10) {
+                    debugLog.removeChild(debugLog.firstChild);
+                }
+            }
+        }
+        
         // CONFIGURAZIONE GLOBALE (NON INCLUDERE CHIAVI PRIVATE QUI!)
         const CLIENT_ID = document.querySelector('meta[name="clientID"]').content;
         const INFURA_URL = document.querySelector('meta[name="infuraURL"]').content;
@@ -1086,16 +1166,67 @@
                 });
 
 
-                document.getElementById('connect-btn').addEventListener('click', connectWallet);
-                document.getElementById('interactive-mint-btn').addEventListener('click', startInteractiveMintWithSelections);
-                document.getElementById('buy-ft-btn').addEventListener('click', buyFungibleTokens);
+                // Aggiungi event listeners con debug
+                document.getElementById('connect-btn').addEventListener('click', function() {
+                    log('🔘 Click su Connect Button rilevato');
+                    updateConnectionStatus(false, 'Tentativo di connessione...');
+                    connectWallet();
+                });
+                
+                document.getElementById('interactive-mint-btn').addEventListener('click', function() {
+                    log('🔘 Click su Mint Button rilevato');
+                    updateMintStatus('working', 'Avvio processo mint...');
+                    startInteractiveMintWithSelections();
+                });
+                
+                document.getElementById('buy-ft-btn').addEventListener('click', function() {
+                    log('🔘 Click su FT Buy Button rilevato');
+                    updateMintStatus('working', 'Avvio acquisto FT...');
+                    buyFungibleTokens();
+                });
                 
                 // Event listeners per aggiornare il prezzo in tempo reale
-                document.getElementById('token-id-select').addEventListener('change', updateTotalPrice);
-                document.getElementById('quantity-select').addEventListener('change', updateTotalPrice);
+                document.getElementById('token-id-select').addEventListener('change', function() {
+                    log('📝 Token ID cambiato');
+                    updateTotalPrice();
+                });
+                document.getElementById('quantity-select').addEventListener('change', function() {
+                    log('📝 Quantità cambiata');
+                    updateTotalPrice();
+                });
                 
                 // Calcola prezzo iniziale
                 updateTotalPrice();
+                
+                // Test iniziale e debug
+                setTimeout(function() {
+                    log('🔍 Test iniziale completato');
+                    updateMintStatus('ready', 'Sistema pronto');
+                    
+                    // Test che gli elementi critici esistano
+                    const testElements = {
+                        'connect-btn': document.getElementById('connect-btn'),
+                        'interactive-mint-btn': document.getElementById('interactive-mint-btn'),
+                        'buy-ft-btn': document.getElementById('buy-ft-btn'),
+                        'token-id-select': document.getElementById('token-id-select'),
+                        'quantity-select': document.getElementById('quantity-select')
+                    };
+                    
+                    Object.keys(testElements).forEach(id => {
+                        const element = testElements[id];
+                        if (element) {
+                            log(`✅ ${id}: TROVATO`);
+                        } else {
+                            log(`❌ ${id}: NON TROVATO!`);
+                        }
+                    });
+                    
+                    // Test click simulato per debug
+                    const connectBtn = document.getElementById('connect-btn');
+                    if (connectBtn) {
+                        log('🎯 Pulsante Connect pronto per il click');
+                    }
+                }, 1000);
                 
                 // Disabilita i pulsanti inizialmente
                 document.getElementById('interactive-mint-btn').disabled = true;
