@@ -1089,51 +1089,40 @@
                 `Prezzo Totale: ${totalPrice} POL (${quantity}x NFT ${tokenId})`;
         }
 
-        // Funzione per avviare il processo di Mint con menu a tendina
-        async function startInteractiveMintWithSelections() {
-            if (!walletConnected || !contractInstance) {
-                log("⚠️ Devi connettere prima il wallet!", true);
-                return;
-            }
-
-            const mintButton = document.getElementById('interactive-mint-btn');
-            mintButton.disabled = true;
-            mintButton.textContent = "Minting...";
-            mintButton.style.backgroundColor = '#ffc107';
-
+        // Funzione per effettuare il mint NFT (patch robusta)
+        async function mintNFT() {
             try {
-                // Leggi valori dai menu a tendina
+                if (!walletConnected || !contractInstance) {
+                    log("⚠️ Devi prima connettere il wallet!", true);
+                    return;
+                }
+                updateMintStatus('working', 'Mint in corso...');
+                // Prendi il tokenId e la quantità selezionati
                 const tokenId = parseInt(document.getElementById('token-id-select').value);
                 const quantity = parseInt(document.getElementById('quantity-select').value);
 
-                log(`⏳ Avvio Mint per Token ID ${tokenId}, Quantità: ${quantity}...`);
+                // Calcolo prezzo in base al tokenId (leggi il prezzo esatto dal menu)
+                // Esempio: estrai il prezzo dal testo della option selezionata
+                const select = document.getElementById('token-id-select');
+                const priceInfo = select.options[select.selectedIndex].text.match(/\(([ -9.]+) POL\)/);
+                const pricePerNFT = priceInfo ? parseFloat(priceInfo[1]) : 0.2; // Default 0.2 se non trovato
 
-                const pricePerUnitWei = BigInt(tokenId) * BigInt(4) * BigInt(10)**BigInt(16); // 0.04 POL per TokenID
-                const totalPriceWei = pricePerUnitWei * BigInt(quantity);
+                // Prezzo totale in POL
+                const totalPricePOL = pricePerNFT * quantity;
+                // Conversione in wei/ether
+                const totalPrice = ethers.parseEther(totalPricePOL.toString());
 
-                log(`   Prezzo totale: ${ethers.formatEther(totalPriceWei)} POL`);
-
-                const tx = await contractInstance.mintNFT(tokenId, quantity, {
-                    value: totalPriceWei
-                });
-
-                log(`📝 Transazione inviata. Hash: ${tx.hash.substring(0, 10)}...`);
-                log("   Attendere conferma sulla blockchain...");
-
-                const receipt = await tx.wait();
-                log(`✅ Mint completato per Token ID ${tokenId}, Quantità ${quantity}!`);
-                log(`   Gas utilizzato: ${receipt.gasUsed.toString()}`);
-
-                mintButton.textContent = "Mintato!";
-                mintButton.style.backgroundColor = '#4CAF50';
-
+                // Chiamata funzione mint (adatta questa chiamata al tuo smart contract!)
+                // Esempio comune: mint(tokenId, quantity) oppure mint(tokenId) (se senza quantity)
+                // Qui supponiamo che la funzione sia: mint(uint256 tokenId, uint256 quantity) payable
+                const tx = await contractInstance.mint(tokenId, quantity, { value: totalPrice });
+                log("⏳ Transazione inviata: " + tx.hash);
+                await tx.wait();
+                log("✅ Mint avvenuto con successo! TokenId: " + tokenId + " Quantità: " + quantity);
+                updateMintStatus('ready', 'Mint completato!');
             } catch (err) {
-                log(`❌ Errore durante il Mint: ${err.message}`, true);
-                console.error("Errore Mint NFT:", err);
-                alert(`Mint fallito. Controlla la console per dettagli.`);
-                mintButton.disabled = false;
-                mintButton.textContent = "Mint Fallito";
-                mintButton.style.backgroundColor = '#dc3545';
+                log(`❌ Errore mint: ${err.message}", true);
+                updateMintStatus('error', 'Errore durante il mint');
             }
         }
 
@@ -1173,11 +1162,20 @@
                     connectWallet();
                 });
                 
-                document.getElementById('interactive-mint-btn').addEventListener('click', function() {
-                    log('🔘 Click su Mint Button rilevato');
-                    updateMintStatus('working', 'Avvio processo mint...');
-                    startInteractiveMintWithSelections();
-                });
+                // Aggancia l'evento click in modo robusto (evita doppioni)
+                const mintBtn = document.getElementById('interactive-mint-btn');
+                if (mintBtn) {
+                    mintBtn.removeEventListener('click', mintNFT);
+                    mintBtn.addEventListener('click', mintNFT);
+                }
+        // Aggancia SEMPRE l'evento anche su DOMContentLoaded (fallback)
+        document.addEventListener('DOMContentLoaded', function() {
+            const btn = document.getElementById('interactive-mint-btn');
+            if (btn) {
+                btn.removeEventListener('click', mintNFT);
+                btn.addEventListener('click', mintNFT);
+            }
+        });
                 
                 document.getElementById('buy-ft-btn').addEventListener('click', function() {
                     log('🔘 Click su FT Buy Button rilevato');
