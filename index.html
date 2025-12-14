@@ -405,6 +405,23 @@
             color: green;
         }
         
+        /* Barra di progresso */
+        #progressContainer {
+            width: 80%;
+            background: #ddd;
+            border-radius: 10px;
+            margin: 20px auto;
+            height: 20px;
+            display: none; /* nascosta finché non serve */
+        }
+        #progressBar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #ff7f50, #ff5722);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        
         /* Fix overflow testo fuori schermo */
         .normal-text,
         .section-content,
@@ -1192,6 +1209,11 @@
         </div>
     </div>
 
+    <!-- Barra di progresso -->
+    <div id="progressContainer">
+        <div id="progressBar"></div>
+    </div>
+
     <button 
         id="connect-btn" 
         type="button"
@@ -1331,6 +1353,52 @@
         } finally {
             sdkInitializing = false;
         }
+    }
+
+    // ===== PROGRESS BAR HELPERS =====
+    /**
+     * Shows and animates the progress bar
+     */
+    function startProgress() {
+        const container = document.getElementById("progressContainer");
+        const bar = document.getElementById("progressBar");
+        if (!container || !bar) return;
+        
+        // Clear any existing interval first
+        if (container._progressInterval) {
+            clearInterval(container._progressInterval);
+        }
+        
+        container.style.display = "block";
+        bar.style.width = "0%";
+
+        let progress = 0;
+        container._progressInterval = setInterval(() => {
+            progress += 10;
+            bar.style.width = progress + "%";
+            if (progress >= 100) {
+                clearInterval(container._progressInterval);
+                delete container._progressInterval;
+            }
+        }, 300);
+    }
+
+    /**
+     * Resets and hides the progress bar
+     */
+    function resetProgress() {
+        const container = document.getElementById("progressContainer");
+        const bar = document.getElementById("progressBar");
+        if (!container || !bar) return;
+        
+        // Clear any running interval
+        if (container._progressInterval) {
+            clearInterval(container._progressInterval);
+            delete container._progressInterval;
+        }
+        
+        bar.style.width = "0%";
+        container.style.display = "none";
     }
 
     // ===== ANALYTICS =====
@@ -1702,15 +1770,21 @@
         const connectBtn = document.getElementById('connect-btn');
         const originalText = connectBtn.textContent;
         
+        if (walletConnected) {
+            alert("✅ Wallet già connesso!");
+            return;
+        }
+        
+        updateConnectionStatus(false, "Connessione in corso...");
+        updateMintStatus('working', 'In attesa di connessione...');
+        startProgress(); // Show progress bar
+        
         try {
             log("🚀 Avvio connessione wallet...");
             
             // Update button to connecting state
             connectBtn.textContent = '⏳ Connessione...';
             connectBtn.disabled = true;
-            
-            updateConnectionStatus(false, "Connessione in corso...");
-            updateMintStatus('working', 'In attesa di connessione...');
 
             // ✅ PRIORITÀ 1: Usa estensione browser MetaMask o altri wallet
             if (typeof window.ethereum !== 'undefined') {
@@ -1736,12 +1810,15 @@
             else {
                 log('⏳ Nessuna estensione rilevata, carico MetaMask SDK...');
                 
+                // Ensure SDK is initialized before attempting connection
+                if (!sdkInstance) {
+                    log('🦊 Inizializzazione MetaMask SDK prima della connessione...');
+                    await initializeMetaMaskSDK();
+                }
+                
                 if (typeof MetaMaskSDK === 'undefined' || !MetaMaskSDK.MetaMaskSDK) {
                     throw new Error('❌ MetaMask SDK non caricato. Installa MetaMask o ricarica la pagina.');
                 }
-                
-                // Initialize SDK using the dedicated function
-                sdkInstance = await initializeMetaMaskSDK();
                 
                 if (!sdkInstance) {
                     throw new Error('❌ Impossibile inizializzare MetaMask SDK.');
@@ -1808,6 +1885,7 @@
             trackEvent('wallet_connect');
             
             // Aggiorna UI
+            resetProgress(); // Hide progress bar on success
             updateConnectionStatus(true, `Connesso: ${currentAccount.slice(0,6)}...${currentAccount.slice(-4)}`);
             updateMintStatus('ready', 'Pronto per mint!');
             
@@ -1829,6 +1907,7 @@
             provider.on('chainChanged', handleChainChanged);
 
         } catch (error) {
+            resetProgress(); // Hide progress bar on error
             log('❌ ERRORE: ' + error.message, true);
             updateConnectionStatus(false, 'Errore di connessione');
             updateMintStatus('error', 'Impossibile connettersi');
@@ -1998,6 +2077,8 @@
             const originalText = mintBtn.textContent;
             mintBtn.disabled = true;
             mintBtn.textContent = '⏳ Transazione in corso...';
+            
+            startProgress(); // Show progress bar
 
             const valueInWei = ethers.parseEther(totalPrice.toString());
             log(`📊 Valore in Wei: ${valueInWei.toString()}`);
@@ -2026,6 +2107,7 @@
             // Track successful mint after confirmation
             analytics.mints++;
             
+            resetProgress(); // Hide progress bar on success
             log(`✅ MINT COMPLETATO!`);
             log(`📦 Blocco: ${receipt.blockNumber}`);
             log(`⛽ Gas usato: ${receipt.gasUsed.toString()}`);
@@ -2051,6 +2133,7 @@
             }, 3000);
             
         } catch (error) {
+            resetProgress(); // Hide progress bar on error
             log(`❌ ERRORE DURANTE IL MINT: ${error.message}`, true);
             updateMintStatus('error', 'Mint fallito');
             
@@ -2102,6 +2185,8 @@
             const originalText = buyBtn.textContent;
             buyBtn.disabled = true;
             buyBtn.textContent = '⏳ Elaborazione...';
+            
+            startProgress(); // Show progress bar
 
             const valueInWei = ethers.parseEther(totalPricePOL);
             
@@ -2115,6 +2200,7 @@
             
             const receipt = await tx.wait();
             
+            resetProgress(); // Hide progress bar on success
             log(`✅ Token FT acquistati! Blocco: ${receipt.blockNumber}`);
             statusEl.textContent = `✅ ${amount} Token FT ricevuti con successo!`;
             
@@ -2132,6 +2218,7 @@
             }, 3000);
             
         } catch (error) {
+            resetProgress(); // Hide progress bar on error
             log(`❌ ERRORE ACQUISTO FT: ${error.message}`, true);
             
             const statusEl = document.getElementById('ft-status');
@@ -2236,7 +2323,18 @@
 
     // ===== INIZIALIZZAZIONE =====
     // Attendi che librerie siano pronte
-    document.addEventListener('librariesReady', () => {
+    document.addEventListener('librariesReady', async () => {
+        log('🚀 Librerie caricate, inizializzo applicazione...');
+        
+        // PRE-INITIALIZE MetaMask SDK immediately
+        try {
+            log('🦊 Pre-inizializzazione MetaMask SDK...');
+            await initializeMetaMaskSDK();
+            log('✅ MetaMask SDK pronto per la connessione');
+        } catch (error) {
+            log('⚠️ Pre-inizializzazione SDK fallita (normale se MetaMask non installato): ' + error.message);
+        }
+        
         // Initialize analytics
         initAnalytics();
         log('💡 Ctrl+Shift+A per dashboard admin');
