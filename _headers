@@ -1,0 +1,14 @@
+/images/*
+  Cache-Control: public, max-age=31536000
+
+/*.jpg
+  Cache-Control: public, max-age=31536000
+
+/*.png
+  Cache-Control: public, max-age=31536000
+
+/abi.js
+  Cache-Control: public, max-age=86400
+
+/index.html
+  Cache-Control: public, max-age=600
