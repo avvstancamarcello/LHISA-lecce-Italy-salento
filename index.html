@@ -1048,7 +1048,7 @@
             contractInstance = new ethers.Contract(CONTRACT_ADDRESS, contractABI, signer);
             log(`✅ Contratto NFT inizializzato`);
             
-            if (window.FT_CONTRACT_ABI) {
+            if (window.FT_CONTRACT_ABI && FT_CONTRACT_ADDRESS && FT_CONTRACT_ADDRESS !== "0x...") {
                 ftContractInstance = new ethers.Contract(FT_CONTRACT_ADDRESS, window.FT_CONTRACT_ABI, signer);
                 log(`✅ Contratto FT inizializzato`);
             }
@@ -1062,7 +1062,11 @@
             document.getElementById('connect-btn').textContent = '✅ Wallet Connesso';
             document.getElementById('connect-btn').disabled = true;
             document.getElementById('interactive-mint-btn').disabled = false;
-            document.getElementById('buy-ft-btn').disabled = false;
+            
+            // Abilita bottone FT solo se contratto inizializzato
+            if (ftContractInstance) {
+                document.getElementById('buy-ft-btn').disabled = false;
+            }
 
             log('🎉 Connessione completata con successo!');
 
@@ -1088,7 +1092,7 @@
             alert('Wallet disconnesso. Ricarica la pagina per riconnetterti.');
             setTimeout(() => location.reload(), 2000);
         } else if (accounts[0] !== currentAccount) {
-            log(`🔄 Account cambiato: ${accounts[0].substring(0, 10)}...`);
+            log(`🔄 Account cambiato: ${accounts[0].slice(0, 10)}...${accounts[0].slice(-4)}`);
             alert('Account cambiato. Ricarico la pagina...');
             setTimeout(() => location.reload(), 1500);
         }
