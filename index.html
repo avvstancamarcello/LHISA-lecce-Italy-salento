@@ -1964,13 +1964,34 @@
 
     // ===== CALCOLO PREZZO =====
     function calculateTotalPrice() {
-        const tokenId = parseInt(document.getElementById('token-id-select').value);
-        const quantity = parseInt(document.getElementById('quantity-select').value);
+        const tokenSelect = document.getElementById('token-id-select');
+        const quantitySelect = document.getElementById('quantity-select');
+        
+        if (!tokenSelect || !quantitySelect) {
+            if (!IS_PRODUCTION) {
+                console.warn('calculateTotalPrice: UI elements not found');
+            }
+            return;
+        }
+        
+        const tokenId = parseInt(tokenSelect.value);
+        const quantity = parseInt(quantitySelect.value);
+        
+        if (isNaN(tokenId) || isNaN(quantity)) {
+            document.getElementById('total-price-display').textContent = '-- POL';
+            return;
+        }
+        
         const pricePerNFT = tokenId * NFT_PRICE_PER_TOKEN_ID;
         const totalPrice = pricePerNFT * quantity;
         
+        if (isNaN(totalPrice)) {
+            document.getElementById('total-price-display').textContent = 'Errore calcolo';
+            return;
+        }
+        
         document.getElementById('total-price-display').textContent = 
-            `Prezzo Totale: ${totalPrice.toFixed(2)} POL`;
+            `${totalPrice.toFixed(4)} POL (${pricePerNFT.toFixed(4)} × ${quantity})`;
         
         return totalPrice;
     }
@@ -2055,15 +2076,55 @@
         }
 
         try {
-            // Se tokenId non è fornito, leggi da UI
-            const selectedTokenId = tokenId !== undefined 
-                ? parseInt(tokenId) 
-                : parseInt(document.getElementById('token-id-select').value);
-            const quantity = parseInt(document.getElementById('quantity-select').value);
+            // ROBUST tokenId extraction with validation
+            let selectedTokenId;
+            if (tokenId !== undefined && tokenId !== null) {
+                selectedTokenId = parseInt(tokenId);
+            } else {
+                const tokenSelect = document.getElementById('token-id-select');
+                if (!tokenSelect || !tokenSelect.value) {
+                    alert("⚠️ Seleziona un Token ID valido!");
+                    return;
+                }
+                selectedTokenId = parseInt(tokenSelect.value);
+            }
             
-            // Calcola prezzo basato su tokenId e quantità
+            // Validate tokenId is a number
+            if (isNaN(selectedTokenId) || selectedTokenId < 1 || selectedTokenId > 100) {
+                alert("⚠️ Token ID non valido! Deve essere un numero tra 1 e 100.");
+                return;
+            }
+            
+            // ROBUST quantity extraction with validation
+            let quantity = 1; // Default quantity
+            const quantitySelect = document.getElementById('quantity-select');
+            if (quantitySelect && quantitySelect.value) {
+                quantity = parseInt(quantitySelect.value);
+            }
+            
+            // Validate quantity
+            if (isNaN(quantity) || quantity < 1 || quantity > 10) {
+                alert("⚠️ Quantità non valida! Deve essere un numero tra 1 e 10.");
+                return;
+            }
+            
+            // Calculate price with validation
             const pricePerNFT = selectedTokenId * NFT_PRICE_PER_TOKEN_ID;
             const totalPrice = pricePerNFT * quantity;
+            
+            // ✅ CRITICAL: Validate totalPrice before using it
+            if (isNaN(totalPrice) || totalPrice <= 0) {
+                log(`❌ Errore calcolo prezzo: tokenId=${selectedTokenId}, quantity=${quantity}, pricePerNFT=${pricePerNFT}, totalPrice=${totalPrice}`, true);
+                alert(`⚠️ Errore nel calcolo del prezzo!\n\nToken ID: ${selectedTokenId}\nQuantità: ${quantity}\nPrezzo calcolato: ${totalPrice}\n\nRicarica la pagina e riprova.`);
+                return;
+            }
+            
+            // Log price calculation for debugging (only in dev)
+            if (!IS_PRODUCTION) {
+                log(`💰 Calcolo prezzo: Token ID ${selectedTokenId} × ${quantity} = ${totalPrice.toFixed(4)} POL`);
+                log(`   - Prezzo per NFT: ${pricePerNFT.toFixed(4)} POL`);
+                log(`   - Quantità: ${quantity}`);
+            }
             
             // Track mint attempt
             analytics.mintAttempts++;
@@ -2074,13 +2135,16 @@
             updateMintStatus('working', `Mintando ${quantity}x NFT ${selectedTokenId}...`);
             
             const mintBtn = document.getElementById('interactive-mint-btn');
-            const originalText = mintBtn.textContent;
-            mintBtn.disabled = true;
-            mintBtn.textContent = '⏳ Transazione in corso...';
+            const originalText = mintBtn ? mintBtn.textContent : '';
+            if (mintBtn) {
+                mintBtn.disabled = true;
+                mintBtn.textContent = '⏳ Transazione in corso...';
+            }
             
             startProgress(); // Show progress bar
 
-            const valueInWei = ethers.parseEther(totalPrice.toString());
+            // ✅ Use validated totalPrice
+            const valueInWei = ethers.parseEther(totalPrice.toFixed(18));
             log(`📊 Valore in Wei: ${valueInWei.toString()}`);
             
             const tx = await contractInstance.mint(
@@ -2090,7 +2154,7 @@
                 "0x",
                 {
                     value: valueInWei,
-                    gasLimit: 350000
+                    gasLimit: 300000
                 }
             );
             
@@ -2100,7 +2164,9 @@
             log(`📝 Transazione inviata: ${tx.hash}`);
             log(`🔗 Visualizza su: https://polygonscan.com/tx/${tx.hash}`);
             updateMintStatus('working', 'In attesa di conferma dalla blockchain...');
-            mintBtn.textContent = '⏳ In attesa conferma blockchain...';
+            if (mintBtn) {
+                mintBtn.textContent = '⏳ In attesa conferma blockchain...';
+            }
             
             const receipt = await tx.wait();
             
@@ -2113,8 +2179,10 @@
             log(`⛽ Gas usato: ${receipt.gasUsed.toString()}`);
             updateMintStatus('ready', `✅ ${quantity}x NFT ${selectedTokenId} mintati con successo!`);
             
-            mintBtn.textContent = '✅ Mint Completato!';
-            mintBtn.style.backgroundColor = '#2E7D32';
+            if (mintBtn) {
+                mintBtn.textContent = '✅ Mint Completato!';
+                mintBtn.style.backgroundColor = '#2E7D32';
+            }
             
             alert(
                 `🎉 NFT MINTATO CON SUCCESSO!\n\n` +
@@ -2127,24 +2195,39 @@
             );
             
             setTimeout(() => {
-                mintBtn.disabled = false;
-                mintBtn.textContent = originalText;
-                mintBtn.style.backgroundColor = '#4CAF50';
+                if (mintBtn) {
+                    mintBtn.disabled = false;
+                    mintBtn.textContent = originalText;
+                    mintBtn.style.backgroundColor = '#4CAF50';
+                }
             }, 3000);
+            
+            // Refresh balance after successful mint
+            if (typeof displayNFTBalance === 'function') {
+                await displayNFTBalance();
+            }
             
         } catch (error) {
             resetProgress(); // Hide progress bar on error
             log(`❌ ERRORE DURANTE IL MINT: ${error.message}`, true);
             updateMintStatus('error', 'Mint fallito');
             
-            let errorMsg = "❌ Errore durante il mint:\n\n";
+            const mintBtn = document.getElementById('interactive-mint-btn');
+            if (mintBtn) {
+                mintBtn.disabled = false;
+                mintBtn.textContent = '🎨 Mint NFT';
+            }
+            
+            let errorMsg = "❌ Errore durante il MINT:\n\n";
             
             if (error.code === 4001 || error.code === 'ACTION_REJECTED') {
                 errorMsg += "Transazione rifiutata dall'utente.";
+            } else if (error.message.includes('insufficient funds')) {
+                errorMsg += "Fondi POL insufficienti nel wallet!";
+            } else if (error.message.includes('NaN') || error.message.includes('invalid FixedNumber')) {
+                errorMsg += "Errore nel calcolo del prezzo.\nRicarica la pagina e riprova.";
             } else if (error.code === -32603) {
                 errorMsg += "Errore interno del contratto.\nPossibili cause:\n- Fondi POL insufficienti\n- NFT già mintato\n- Limite superato";
-            } else if (error.message.includes('insufficient funds')) {
-                errorMsg += "Fondi insufficienti!\nHai abbastanza POL per il mint + gas?";
             } else if (error.message.includes('gas')) {
                 errorMsg += "Errore di gas.\nProva ad aumentare il gas limit in MetaMask.";
             } else {
@@ -2153,11 +2236,47 @@
             
             alert(errorMsg);
             
-            const mintBtn = document.getElementById('interactive-mint-btn');
-            mintBtn.disabled = false;
-            mintBtn.textContent = 'Mint NFT Selezionato!';
-            mintBtn.style.backgroundColor = '#4CAF50';
+            analytics.errors.push({
+                msg: error.message,
+                time: new Date().toISOString(),
+                context: 'mintNFT'
+            });
+            saveAnalytics();
         }
+    }
+
+    /**
+     * Calculate total price for NFT mint with validation
+     * @param {number} tokenId - Token ID (1-100)
+     * @param {number} quantity - Quantity to mint (1-10)
+     * @returns {number|null} Total price in POL or null if invalid
+     */
+    function calculateMintPrice(tokenId, quantity) {
+        if (isNaN(tokenId) || isNaN(quantity)) {
+            if (!IS_PRODUCTION) {
+                console.error('calculateMintPrice: Invalid inputs', {tokenId, quantity});
+            }
+            return null;
+        }
+        
+        if (tokenId < 1 || tokenId > 100 || quantity < 1 || quantity > 10) {
+            if (!IS_PRODUCTION) {
+                console.error('calculateMintPrice: Out of range', {tokenId, quantity});
+            }
+            return null;
+        }
+        
+        const pricePerNFT = tokenId * NFT_PRICE_PER_TOKEN_ID;
+        const totalPrice = pricePerNFT * quantity;
+        
+        if (isNaN(totalPrice) || totalPrice <= 0) {
+            if (!IS_PRODUCTION) {
+                console.error('calculateMintPrice: Invalid result', {pricePerNFT, totalPrice});
+            }
+            return null;
+        }
+        
+        return totalPrice;
     }
 
     // ===== FUNZIONE ACQUISTO FT =====
