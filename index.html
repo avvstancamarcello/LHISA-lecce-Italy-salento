@@ -1268,6 +1268,7 @@
     // ===== CONFIGURAZIONE GLOBALE =====
     const CLIENT_ID = document.querySelector('meta[name="clientID"]')?.content || '';
     const INFURA_URL = document.querySelector('meta[name="infuraURL"]')?.content || '';
+    // Infura API Key estratto dal meta tag (non usato nell'SDK, solo per riferimento)
     const INFURA_API_KEY = INFURA_URL.split('/').pop() || '';
     const CONTRACT_ADDRESS = "0xEC023A57E96E0a94E30EB9892F05fC002A545aA5";
     const FT_CONTRACT_ADDRESS = "0xF96ab75dEf75945e3E4a62E918468d49DaC97598";
@@ -1307,7 +1308,7 @@
             
             const options = {
                 dappMetadata: {
-                    name: 'LHISA NFT Lecce',
+                    name: 'LHISA NFT - Medical Research',
                     url: window.location.href
                 },
                 checkInstallationImmediately: false,
