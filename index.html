@@ -835,6 +835,10 @@
     <script src="https://unpkg.com/@metamask/sdk/dist/metamask-sdk.umd.js"></script>
     <script src="abi.js"></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers. umd.min.js" defer></script>
+    <script src="https://unpkg.com/@metamask/sdk/dist/metamask-sdk.umd.js"></script>
+    <script src="abi.js"></script>
+
     <script>
     // ===== CONFIGURAZIONE GLOBALE =====
     const CLIENT_ID = document.querySelector('meta[name="clientID"]').content;
@@ -862,9 +866,8 @@
             logEntry.innerHTML = `[${timestamp}] ${message}`;
             if (isError) logEntry.style.color = '#ff4444';
             debugLog.appendChild(logEntry);
-            debugLog.scrollTop = debugLog. scrollHeight;
+            debugLog.scrollTop = debugLog.scrollHeight;
             
-            // Mantieni solo gli ultimi 10 messaggi
             while (debugLog.children.length > 10) {
                 debugLog.removeChild(debugLog.firstChild);
             }
@@ -876,15 +879,15 @@
         const text = document.getElementById('connection-text');
         
         if (connected) {
-            light.style.backgroundColor = '#44ff44';
+            light.style. backgroundColor = '#44ff44';
             light.style.boxShadow = '0 0 15px rgba(68,255,68,0.8)';
             text.innerHTML = '✅ ' + message;
             text.style.color = '#2E7D32';
         } else {
-            light.style. backgroundColor = '#ff4444';
+            light.style.backgroundColor = '#ff4444';
             light.style.boxShadow = '0 0 10px rgba(255,68,68,0.5)';
             text.innerHTML = '❌ ' + message;
-            text. style.color = '#D32F2F';
+            text.style.color = '#D32F2F';
         }
     }
     
@@ -901,13 +904,13 @@
                 break;
             case 'working':
                 light.style.backgroundColor = '#ffaa00';
-                light.style. boxShadow = '0 0 15px rgba(255,170,0,0.8)';
+                light.style.boxShadow = '0 0 15px rgba(255,170,0,0.8)';
                 text.innerHTML = '⏳ ' + message;
                 text.style.color = '#F57C00';
                 break;
-            case 'error': 
+            case 'error':
                 light.style.backgroundColor = '#ff4444';
-                light. style.boxShadow = '0 0 10px rgba(255,68,68,0.5)';
+                light.style.boxShadow = '0 0 10px rgba(255,68,68,0.5)';
                 text.innerHTML = '❌ ' + message;
                 text. style.color = '#D32F2F';
                 break;
@@ -921,29 +924,27 @@
             log(`🌐 Rete corrente: ${currentChainId} (${parseInt(currentChainId, 16)})`);
             
             if (currentChainId !== POLYGON_CHAIN_ID) {
-                log('⚠️ Sei su una rete sbagliata. Cambio a Polygon...', true);
+                log('⚠️ Sei su una rete sbagliata.  Cambio a Polygon... ', true);
                 
                 try {
-                    // Tenta di cambiare alla rete Polygon
                     await provider.request({
                         method: 'wallet_switchEthereumChain',
-                        params: [{ chainId: POLYGON_CHAIN_ID }],
+                        params: [{ chainId:  POLYGON_CHAIN_ID }],
                     });
                     log('✅ Passato a Polygon Mainnet con successo');
                     return true;
                 } catch (switchError) {
-                    // Codice errore 4902:  la chain non è stata aggiunta a MetaMask
-                    if (switchError. code === 4902) {
-                        log('📝 Polygon non trovata, la aggiungo...');
+                    if (switchError.code === 4902) {
+                        log('📝 Polygon non trovata, la aggiungo.. .');
                         try {
                             await provider.request({
                                 method: 'wallet_addEthereumChain',
                                 params: [{
-                                    chainId:  POLYGON_CHAIN_ID,
-                                    chainName: 'Polygon Mainnet',
+                                    chainId: POLYGON_CHAIN_ID,
+                                    chainName:  'Polygon Mainnet',
                                     nativeCurrency: {
                                         name: 'POL',
-                                        symbol: 'POL',
+                                        symbol:  'POL',
                                         decimals: 18
                                     },
                                     rpcUrls: [INFURA_URL],
@@ -953,11 +954,11 @@
                             log('✅ Polygon Mainnet aggiunta con successo');
                             return true;
                         } catch (addError) {
-                            log('❌ Errore aggiunta Polygon: ' + addError.message, true);
+                            log('❌ Errore aggiunta Polygon: ' + addError. message, true);
                             throw new Error('Impossibile aggiungere Polygon a MetaMask');
                         }
                     }
-                    throw new Error('Cambio rete rifiutato: ' + switchError.message);
+                    throw new Error('Cambio rete rifiutato:  ' + switchError.message);
                 }
             }
             
@@ -975,8 +976,7 @@
             log("🚀 Avvio connessione MetaMask SDK...");
             updateConnectionStatus(false, "Connessione in corso...");
 
-            // Inizializza MetaMask SDK
-            const MMSDK = new MetaMaskSDK.MetaMaskSDK({
+            const MMSDK = new MetaMaskSDK. MetaMaskSDK({
                 dappMetadata: {
                     name: "LHISA NFT - Medical Research",
                     url: window.location.href
@@ -995,38 +995,32 @@
 
             log("✅ Provider MetaMask rilevato");
 
-            // Richiedi accesso agli account
             const accounts = await provider.request({ method: 'eth_requestAccounts' });
-            if (!accounts || accounts.length === 0) {
+            if (! accounts || accounts.length === 0) {
                 throw new Error("Nessun account trovato. Sblocca MetaMask e riprova.");
             }
             
             currentAccount = accounts[0];
-            log(`👤 Account rilevato: ${currentAccount.substring(0, 10)}...${currentAccount.substring(38)}`);
+            log(`👤 Account rilevato: ${currentAccount. substring(0, 10)}...${currentAccount.substring(38)}`);
 
-            // Verifica e cambia a Polygon se necessario
             const networkOk = await checkAndSwitchToPolygon();
             if (!networkOk) {
                 throw new Error("Devi connetterti a Polygon Mainnet per usare questa dApp!");
             }
 
-            // Inizializza provider ethers. js
             const ethersProvider = new ethers.BrowserProvider(provider);
             signer = await ethersProvider.getSigner();
-            log(`✅ Signer ethers.js inizializzato`);
+            log(`✅ Signer ethers. js inizializzato`);
 
-            // Verifica che l'ABI sia caricata
-            const contractABI = window. CONTRACT_ABI;
-            if (!contractABI || !Array.isArray(contractABI)) {
+            const contractABI = window.CONTRACT_ABI;
+            if (!contractABI || ! Array.isArray(contractABI)) {
                 throw new Error("ABI del contratto non caricata!  Verifica che abi.js sia incluso correttamente.");
             }
             log(`✅ ABI caricata (${contractABI.length} metodi)`);
 
-            // Inizializza il contratto NFT principale
             contractInstance = new ethers.Contract(CONTRACT_ADDRESS, contractABI, signer);
             log(`✅ Contratto NFT inizializzato:  ${CONTRACT_ADDRESS. substring(0, 10)}...`);
             
-            // Inizializza contratto FT (se disponibile)
             if (window.FT_CONTRACT_ABI && FT_CONTRACT_ADDRESS !== "0x... ") {
                 ftContractInstance = new ethers.Contract(
                     FT_CONTRACT_ADDRESS, 
@@ -1035,7 +1029,6 @@
                 );
                 log(`✅ Contratto FT ERC-20 inizializzato: ${FT_CONTRACT_ADDRESS.substring(0, 10)}...`);
                 
-                // Abilita pulsante acquisto FT
                 const ftBtn = document.getElementById('buy-ft-btn');
                 if (ftBtn) {
                     ftBtn.disabled = false;
@@ -1043,7 +1036,6 @@
                 }
             }
             
-            // Aggiorna UI
             walletConnected = true;
             updateConnectionStatus(true, `Connesso:  ${currentAccount.substring(0, 8)}...`);
             updateMintStatus('ready', 'Pronto per mintare NFT');
@@ -1051,7 +1043,7 @@
             const connectBtn = document.getElementById('connect-btn');
             connectBtn.textContent = `✅ ${currentAccount.substring(0, 6)}...${currentAccount.substring(38)}`;
             connectBtn.disabled = true;
-            connectBtn.style.backgroundColor = '#4CAF50';
+            connectBtn. style.backgroundColor = '#4CAF50';
 
             const mintBtn = document.getElementById('interactive-mint-btn');
             if (mintBtn) {
@@ -1059,7 +1051,6 @@
                 mintBtn.style.backgroundColor = '#4CAF50';
             }
             
-            // Registra listener per eventi
             provider.on('accountsChanged', handleAccountsChanged);
             provider. on('chainChanged', handleChainChanged);
             
@@ -1080,7 +1071,7 @@
             alert('Wallet disconnesso. Ricarica la pagina per riconnetterti.');
             setTimeout(() => location.reload(), 2000);
         } else if (accounts[0] !== currentAccount) {
-            log(`🔄 Account cambiato: ${accounts[0].substring(0, 10)}...`);
+            log(`🔄 Account cambiato:  ${accounts[0].substring(0, 10)}...`);
             alert('Account cambiato. Ricarico la pagina.. .');
             setTimeout(() => location.reload(), 1500);
         }
@@ -1096,7 +1087,7 @@
     function calculateTotalPrice() {
         const tokenId = parseInt(document.getElementById('token-id-select').value);
         const quantity = parseInt(document.getElementById('quantity-select').value);
-        const pricePerNFT = tokenId * 0.04; // 0.04 POL per unità di token ID
+        const pricePerNFT = tokenId * 0.04;
         const totalPrice = pricePerNFT * quantity;
         
         document.getElementById('total-price-display').textContent = 
@@ -1126,40 +1117,35 @@
             mintBtn.disabled = true;
             mintBtn. textContent = '⏳ Transazione in corso...';
 
-            // Converti il prezzo in Wei (unità base di Polygon)
             const valueInWei = ethers.parseEther(totalPrice.toString());
             log(`📊 Valore in Wei: ${valueInWei.toString()}`);
             
-            // Chiama la funzione mint del contratto
-            // Sintassi: mint(address to, uint256 id, uint256 amount, bytes data)
             const tx = await contractInstance.mint(
                 currentAccount, 
                 tokenId, 
                 quantity, 
-                "0x", // data vuota
+                "0x",
                 {
                     value: valueInWei,
-                    gasLimit: 350000 // Limite gas generoso per sicurezza
+                    gasLimit:  350000
                 }
             );
             
-            log(`📝 Transazione inviata: ${tx.hash}`);
+            log(`📝 Transazione inviata:  ${tx.hash}`);
             log(`🔗 Visualizza su: https://polygonscan.com/tx/${tx.hash}`);
             updateMintStatus('working', 'In attesa di conferma dalla blockchain...');
             mintBtn.textContent = '⏳ In attesa conferma blockchain...';
             
-            // Attendi la conferma on-chain
             const receipt = await tx.wait();
             
-            log(`✅ MINT COMPLETATO!`);
-            log(`📦 Blocco:  ${receipt.blockNumber}`);
+            log(`✅ MINT COMPLETATO! `);
+            log(`📦 Blocco: ${receipt.blockNumber}`);
             log(`⛽ Gas usato: ${receipt.gasUsed. toString()}`);
             updateMintStatus('ready', `✅ ${quantity}x NFT ${tokenId} mintati con successo!`);
             
             mintBtn.textContent = '✅ Mint Completato! ';
             mintBtn.style.backgroundColor = '#2E7D32';
             
-            // Mostra risultato all'utente
             alert(
                 `🎉 NFT MINTATO CON SUCCESSO!\n\n` +
                 `📦 Quantità: ${quantity}\n` +
@@ -1170,7 +1156,6 @@
                 `https://polygonscan.com/tx/${tx.hash}`
             );
             
-            // Ripristina pulsante dopo 3 secondi
             setTimeout(() => {
                 mintBtn.disabled = false;
                 mintBtn.textContent = originalText;
@@ -1183,7 +1168,6 @@
             
             let errorMsg = "❌ Errore durante il mint:\n\n";
             
-            // Gestione errori specifici
             if (error.code === 4001 || error.code === 'ACTION_REJECTED') {
                 errorMsg += "Transazione rifiutata dall'utente. ";
             } else if (error.code === -32603) {
@@ -1191,18 +1175,17 @@
             } else if (error.message.includes('insufficient funds')) {
                 errorMsg += "Fondi insufficienti!\nHai abbastanza POL per il mint + gas? ";
             } else if (error.message.includes('gas')) {
-                errorMsg += "Errore di gas.\nProva ad aumentare il gas limit in MetaMask.";
+                errorMsg += "Errore di gas.\nProva ad aumentare il gas limit in MetaMask. ";
             } else {
                 errorMsg += error.message;
             }
             
             alert(errorMsg);
             
-            // Ripristina pulsante
             const mintBtn = document.getElementById('interactive-mint-btn');
             mintBtn.disabled = false;
-            mintBtn.textContent = 'Mint NFT Selezionato!';
-            mintBtn.style.backgroundColor = '#4CAF50';
+            mintBtn.textContent = 'Mint NFT Selezionato! ';
+            mintBtn.style. backgroundColor = '#4CAF50';
         }
     }
 
@@ -1224,20 +1207,19 @@
             log(`🪙 Acquisto di ${amount} Token FT per ${totalPricePOL} POL`);
             
             const statusEl = document.getElementById('ft-status');
-            statusEl.textContent = '⏳ Transazione in corso...';
+            statusEl. textContent = '⏳ Transazione in corso...';
             statusEl.style.color = 'white';
             
             const buyBtn = document.getElementById('buy-ft-btn');
             const originalText = buyBtn.textContent;
             buyBtn.disabled = true;
-            buyBtn.textContent = '⏳ Elaborazione...';
+            buyBtn.textContent = '⏳ Elaborazione... ';
 
             const valueInWei = ethers.parseEther(totalPricePOL);
             
-            // Chiama la funzione mintLHISA del contratto FT
             const tx = await ftContractInstance.mintLHISA(amount, {
                 value: valueInWei,
-                gasLimit:  200000
+                gasLimit: 200000
             });
             
             log(`📝 TX FT inviata: ${tx. hash}`);
@@ -1265,7 +1247,7 @@
             log(`❌ ERRORE ACQUISTO FT: ${error.message}`, true);
             
             const statusEl = document.getElementById('ft-status');
-            statusEl. textContent = '❌ Errore durante l\'acquisto';
+            statusEl.textContent = '❌ Errore durante l\'acquisto';
             statusEl.style.color = '#ff4444';
             
             let errorMsg = "❌ Errore acquisto Token FT:\n\n";
@@ -1301,7 +1283,6 @@
         log(`🔧 Contratto NFT: ${CONTRACT_ADDRESS}`);
         log(`🔧 Contratto FT: ${FT_CONTRACT_ADDRESS}`);
         
-        // Event Listeners
         document.getElementById('connect-btn').addEventListener('click', connectWallet);
         document.getElementById('interactive-mint-btn').addEventListener('click', mintNFT);
         
@@ -1310,11 +1291,9 @@
             ftBtn.addEventListener('click', buyFT);
         }
         
-        // Aggiorna prezzo quando cambiano i selettori NFT
         document.getElementById('token-id-select').addEventListener('change', calculateTotalPrice);
         document.getElementById('quantity-select').addEventListener('change', calculateTotalPrice);
         
-        // Aggiorna prezzo FT in tempo reale
         const ftAmountInput = document.getElementById('ft-amount');
         if (ftAmountInput) {
             ftAmountInput.addEventListener('input', (e) => {
@@ -1326,6 +1305,8 @@
             });
         }
         
+        calculateTotalPrice();
+        
         log("✅ Event listeners registrati");
         updateMintStatus('ready', 'In attesa di connessione wallet');
     });
@@ -1336,7 +1317,6 @@
 <script>
 // Imposta la lingua predefinita come italiano
 let currentLanguage = 'it';
-
 // Oggetto contenente le traduzioni
 const translations = {
   'it': {
@@ -1465,5 +1445,6 @@ function restoreOriginal() {
 }
 </script>
 </body>
+
 
 
