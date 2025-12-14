@@ -1027,7 +1027,7 @@
             }
             
             currentAccount = accounts[0];
-            log(`✅ Account connesso: ${currentAccount}`);
+            log(`✅ Account connesso: ${currentAccount.slice(0, 10)}...${currentAccount.slice(-4)}`);
 
             // Verifica e cambia rete se necessario
             const networkOk = await checkAndSwitchToPolygon();
@@ -1067,22 +1067,10 @@
             log('🎉 Connessione completata con successo!');
 
             // Ascolta cambio account
-            provider.on('accountsChanged', (accounts) => {
-                if (accounts.length === 0) {
-                    log('⚠️ Wallet disconnesso', true);
-                    location.reload();
-                } else {
-                    currentAccount = accounts[0];
-                    log(`🔄 Account cambiato: ${currentAccount}`);
-                    location.reload();
-                }
-            });
+            provider.on('accountsChanged', handleAccountsChanged);
 
             // Ascolta cambio rete
-            provider.on('chainChanged', () => {
-                log('🔄 Rete cambiata, ricarico pagina...');
-                location.reload();
-            });
+            provider.on('chainChanged', handleChainChanged);
 
         } catch (error) {
             log('❌ ERRORE: ' + error.message, true);
