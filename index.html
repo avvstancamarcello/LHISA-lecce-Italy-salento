@@ -1137,46 +1137,46 @@
     </div>
 
     <!-- Caricamento asincrono ottimizzato -->
-    <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js" async></script>
-    <script src="https://unpkg.com/@metamask/sdk/dist/metamask-sdk.umd.js" async></script>
-    <script src="abi.js" async></script>
-
-    <!-- Gestore caricamento librerie -->
     <script>
+    // ===== GESTORE CARICAMENTO LIBRERIE =====
     (function() {
-        // Attendi caricamento completo di tutte le librerie
-        window.addEventListener('load', function() {
-            checkLibrariesLoaded();
-        });
+        window.ethersLoaded = false;
+        window.metamaskLoaded = false;
+        window.abiLoaded = false;
         
-        function checkLibrariesLoaded() {
-            const maxAttempts = 50; // 5000ms / 100ms = 50 attempts (5 secondi max)
-            let attempts = 0;
-            
-            const interval = setInterval(function() {
-                attempts++;
-                
-                const ethersLoaded = typeof window.ethers !== 'undefined';
-                const metamaskLoaded = typeof window.MetaMaskSDK !== 'undefined';
-                const abiLoaded = typeof window.CONTRACT_ABI !== 'undefined';
-                
-                if (ethersLoaded && metamaskLoaded && abiLoaded) {
-                    clearInterval(interval);
-                    console.log('✅ Tutte le librerie caricate correttamente');
-                    document.dispatchEvent(new Event('librariesReady'));
-                } else if (attempts >= maxAttempts) {
-                    clearInterval(interval);
-                    console.error('❌ Timeout caricamento librerie');
-                    console.log('Status:', {
-                        ethers: ethersLoaded,
-                        metamask: metamaskLoaded,
-                        abi: abiLoaded
-                    });
-                }
-            }, 100);
-        }
+        // Timeout per rilevare librerie non caricate
+        const LOAD_TIMEOUT = 10000; // 10 secondi
+        let timeoutId = setTimeout(function() {
+            if (!window.ethersLoaded || !window.metamaskLoaded || !window.abiLoaded) {
+                console.error('❌ Timeout caricamento librerie');
+                console.log('Status:', {
+                    ethers: window.ethersLoaded,
+                    metamask: window.metamaskLoaded,
+                    abi: window.abiLoaded
+                });
+                alert('Errore di caricamento!\n\nAlcune librerie non sono state caricate.\nRicarica la pagina o verifica la connessione internet.');
+            }
+        }, LOAD_TIMEOUT);
+        
+        window.checkLibrariesLoaded = function() {
+            if (window.ethersLoaded && window.metamaskLoaded && window.abiLoaded) {
+                clearTimeout(timeoutId);
+                console.log('✅ Tutte le librerie caricate correttamente');
+                document.dispatchEvent(new Event('librariesReady'));
+            }
+        };
+        
+        window.handleScriptError = function(scriptName) {
+            clearTimeout(timeoutId);
+            console.error('❌ Errore caricamento:', scriptName);
+            alert('Errore critico!\n\nImpossibile caricare: ' + scriptName + '\n\nVerifica la connessione internet e ricarica la pagina.');
+        };
     })();
     </script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js" async onload="window.ethersLoaded = true; checkLibrariesLoaded();" onerror="handleScriptError('ethers.js')"></script>
+    <script src="https://unpkg.com/@metamask/sdk/dist/metamask-sdk.umd.js" async onload="window.metamaskLoaded = true; checkLibrariesLoaded();" onerror="handleScriptError('MetaMask SDK')"></script>
+    <script src="abi.js" async onload="window.abiLoaded = true; checkLibrariesLoaded();" onerror="handleScriptError('abi.js')"></script>
 
     <script>
     // ===== CONFIGURAZIONE GLOBALE =====
