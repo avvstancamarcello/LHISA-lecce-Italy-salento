@@ -1203,9 +1203,14 @@
     };
 
     function initAnalytics() {
-        const stored = localStorage.getItem('lhisa_analytics');
-        if (stored) {
-            analytics = JSON.parse(stored);
+        try {
+            const stored = localStorage.getItem('lhisa_analytics');
+            if (stored) {
+                analytics = JSON.parse(stored);
+            }
+        } catch (e) {
+            log('⚠️ Errore caricamento analytics, reset dati', true);
+            analytics = { visits: 0, walletConnects: 0, mints: 0, errors: [] };
         }
         analytics.visits++;
         saveAnalytics();
@@ -1298,7 +1303,11 @@
     const storage = {
         set(key, value) {
             try {
-                localStorage.setItem('lhisa_' + key, JSON.stringify(value));
+                const item = {
+                    data: value,
+                    timestamp: Date.now()
+                };
+                localStorage.setItem('lhisa_' + key, JSON.stringify(item));
                 return true;
             } catch (e) {
                 log('❌ Storage pieno', true);
@@ -1310,7 +1319,10 @@
         get(key) {
             try {
                 const item = localStorage.getItem('lhisa_' + key);
-                return item ? JSON.parse(item) : null;
+                if (!item) return null;
+                const parsed = JSON.parse(item);
+                // Support both old format (direct data) and new format (with timestamp)
+                return parsed.data !== undefined ? parsed.data : parsed;
             } catch (e) {
                 return null;
             }
@@ -1320,13 +1332,18 @@
             log('🧹 Pulizia storage...');
             for (let key in localStorage) {
                 if (key.startsWith('lhisa_')) {
-                    const item = this.get(key.replace('lhisa_', ''));
-                    // Rimuovi se più vecchio di 30 giorni
-                    if (item && item.timestamp) {
-                        const age = Date.now() - item.timestamp;
-                        if (age > 30 * 24 * 60 * 60 * 1000) {
-                            localStorage.removeItem(key);
+                    try {
+                        const item = JSON.parse(localStorage.getItem(key));
+                        // Rimuovi se più vecchio di 30 giorni
+                        if (item && item.timestamp) {
+                            const age = Date.now() - item.timestamp;
+                            if (age > 30 * 24 * 60 * 60 * 1000) {
+                                localStorage.removeItem(key);
+                                log(`🗑️ Rimosso: ${key}`);
+                            }
                         }
+                    } catch (e) {
+                        // Skip malformed items
                     }
                 }
             }
@@ -1382,25 +1399,6 @@
                     debugLog.removeChild(debugLog.firstChild);
                 }
             }
-        }
-    }
-    
-    // ===== THROTTLING SISTEMA =====
-    let logQueue = [];
-    let logTimer = null;
-
-    function logThrottled(message, isError = false) {
-        logQueue.push({ message, isError, time: Date.now() });
-        
-        if (!logTimer) {
-            logTimer = setTimeout(() => {
-                logQueue.forEach(item => log(item.message, item.isError));
-                if (logQueue.length > 5) {
-                    log(`📊 ${logQueue.length} eventi processati`);
-                }
-                logQueue = [];
-                logTimer = null;
-            }, 500);
         }
     }
     
@@ -1910,7 +1908,7 @@
     document.addEventListener('librariesReady', () => {
         // Initialize analytics
         initAnalytics();
-        log('💡 Ctrl+Shift+D per dashboard admin');
+        log('💡 Ctrl+Shift+A per dashboard admin');
         
         log('🌐 Pagina caricata - Sistema pronto');
         log(`✅ Ethers.js v${ethers.version} caricato`);
@@ -2094,10 +2092,21 @@ function restoreOriginal() {
 
 <script>
 document.addEventListener('keydown', (e) => {
-    if (e.ctrlKey && e.shiftKey && e.key === 'D') {
-        openDash();
+    // Use Ctrl+Shift+A (for "Analytics") to avoid conflicts with dev tools
+    if (e.ctrlKey && e.shiftKey && e.key === 'A') {
+        e.preventDefault();
+        toggleDash();
     }
 });
+
+function toggleDash() {
+    const dash = document.getElementById('admin-dash');
+    if (dash.style.display === 'block') {
+        closeDash();
+    } else {
+        openDash();
+    }
+}
 
 function openDash() {
     const dash = document.getElementById('admin-dash');
@@ -2111,7 +2120,7 @@ function openDash() {
             <li>🚨 Errori: <strong>${analytics.errors.length}</strong></li>
         </ul>
         <p style="font-size:0.9em; color:#666;">⚡ Caricamento: ${perfMonitor.metrics.pageLoad ? (perfMonitor.metrics.pageLoad/1000).toFixed(2) + 's' : 'N/A'}</p>
-        <p style="font-size:0.85em; color:#999;">Premi Ctrl+Shift+D per chiudere</p>
+        <p style="font-size:0.85em; color:#999;">Premi Ctrl+Shift+A per chiudere o usa il pulsante ✕</p>
     `;
     
     dash.style.display = 'block';
