@@ -1216,16 +1216,21 @@
         window.metamaskLoaded = false;
         window.abiLoaded = false;
         
+        // Determina ambiente per logging
+        const isProd = window.location.hostname === 'avvstancamarcello.github.io';
+        
         // Timeout per rilevare librerie non caricate
         const LOAD_TIMEOUT = 10000; // 10 secondi
         let timeoutId = setTimeout(function() {
             if (!window.ethersLoaded || !window.metamaskLoaded || !window.abiLoaded) {
-                console.error('❌ Timeout caricamento librerie');
-                console.log('Status:', {
-                    ethers: window.ethersLoaded,
-                    metamask: window.metamaskLoaded,
-                    abi: window.abiLoaded
-                });
+                if (!isProd) {
+                    console.error('❌ Timeout caricamento librerie');
+                    console.log('Status:', {
+                        ethers: window.ethersLoaded,
+                        metamask: window.metamaskLoaded,
+                        abi: window.abiLoaded
+                    });
+                }
                 alert('Errore di caricamento!\n\nAlcune librerie non sono state caricate.\nRicarica la pagina o verifica la connessione internet.');
             }
         }, LOAD_TIMEOUT);
@@ -1233,14 +1238,18 @@
         window.checkLibrariesLoaded = function() {
             if (window.ethersLoaded && window.metamaskLoaded && window.abiLoaded) {
                 clearTimeout(timeoutId);
-                console.log('✅ Tutte le librerie caricate correttamente');
+                if (!isProd) {
+                    console.log('✅ Tutte le librerie caricate correttamente');
+                }
                 document.dispatchEvent(new Event('librariesReady'));
             }
         };
         
         window.handleScriptError = function(scriptName) {
             clearTimeout(timeoutId);
-            console.error('❌ Errore caricamento:', scriptName);
+            if (!isProd) {
+                console.error('❌ Errore caricamento:', scriptName);
+            }
             alert('Errore critico!\n\nImpossibile caricare: ' + scriptName + '\n\nVerifica la connessione internet e ricarica la pagina.');
         };
     })();
@@ -1363,13 +1372,17 @@
         if (analytics.events.length > 50) {
             analytics.events.shift();
         }
-        console.log('📈 Event:', name, data);
+        if (!IS_PRODUCTION) {
+            console.log('📈 Event:', name, data);
+        }
         saveAnalytics();
     }
 
     // Export per admin (solo analytics aggregati, nessun dato sensibile)
     window.exportAnalytics = () => {
-        console.log('Analytics:', analytics);
+        if (!IS_PRODUCTION) {
+            console.log('Analytics:', analytics);
+        }
         const blob = new Blob([JSON.stringify(analytics, null, 2)], {type: 'application/json'});
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -1526,10 +1539,12 @@
     }
 
     // ===== TEST DI CARICAMENTO LIBRERIE =====
-    console.log('🔧 TEST CARICAMENTO LIBRERIE:');
-    console.log('✅ Ethers disponibile:', typeof ethers !== 'undefined');
-    console.log('✅ MetaMask SDK disponibile:', typeof MetaMaskSDK !== 'undefined');
-    console.log('✅ window.ethereum disponibile:', typeof window.ethereum !== 'undefined');
+    if (!IS_PRODUCTION) {
+        console.log('🔧 TEST CARICAMENTO LIBRERIE:');
+        console.log('✅ Ethers disponibile:', typeof ethers !== 'undefined');
+        console.log('✅ MetaMask SDK disponibile:', typeof MetaMaskSDK !== 'undefined');
+        console.log('✅ window.ethereum disponibile:', typeof window.ethereum !== 'undefined');
+    }
 
     // ===== HELPER FUNCTIONS FOR PROVIDER AND SIGNER =====
     /**
@@ -1558,15 +1573,15 @@
 
     // ===== FUNZIONI DI LOG E STATUS =====
     function log(message, isError = false) {
-        // Console log sempre disponibile per debug developer
-        if (isError) {
-            console.error(message);
-        } else {
-            console.log(message);
-        }
-        
-        // Debug visivo SOLO in ambiente di sviluppo
+        // Console log SOLO in sviluppo
         if (!IS_PRODUCTION) {
+            if (isError) {
+                console.error(message);
+            } else {
+                console.log(message);
+            }
+            
+            // Debug visivo in ambiente di sviluppo
             const debugLog = document.getElementById('debug-log');
             if (debugLog) {
                 const timestamp = new Date().toLocaleTimeString('it-IT');
