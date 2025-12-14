@@ -1139,16 +1139,33 @@
     <!-- Caricamento asincrono ottimizzato -->
     <script>
     // ===== GESTORE CARICAMENTO LIBRERIE =====
-    window.ethersLoaded = false;
-    window.metamaskLoaded = false;
-    window.abiLoaded = false;
-    
-    function checkLibrariesLoaded() {
-        if (window.ethersLoaded && window.metamaskLoaded && window.abiLoaded) {
-            console.log('✅ Tutte le librerie caricate correttamente');
-            document.dispatchEvent(new Event('librariesReady'));
-        }
-    }
+    (function() {
+        window.ethersLoaded = false;
+        window.metamaskLoaded = false;
+        window.abiLoaded = false;
+        
+        // Timeout per rilevare librerie non caricate
+        const LOAD_TIMEOUT = 10000; // 10 secondi
+        let timeoutId = setTimeout(function() {
+            if (!window.ethersLoaded || !window.metamaskLoaded || !window.abiLoaded) {
+                console.error('❌ Timeout caricamento librerie');
+                console.log('Status:', {
+                    ethers: window.ethersLoaded,
+                    metamask: window.metamaskLoaded,
+                    abi: window.abiLoaded
+                });
+                alert('Errore di caricamento!\n\nAlcune librerie non sono state caricate.\nRicarica la pagina o verifica la connessione internet.');
+            }
+        }, LOAD_TIMEOUT);
+        
+        window.checkLibrariesLoaded = function() {
+            if (window.ethersLoaded && window.metamaskLoaded && window.abiLoaded) {
+                clearTimeout(timeoutId);
+                console.log('✅ Tutte le librerie caricate correttamente');
+                document.dispatchEvent(new Event('librariesReady'));
+            }
+        };
+    })();
     </script>
     
     <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js" async onload="window.ethersLoaded = true; checkLibrariesLoaded();"></script>
