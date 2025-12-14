@@ -831,7 +831,7 @@
     <button id="interactive-mint-btn" disabled>Mint NFT Selezionato!</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js"></script>
     <script src="https://unpkg.com/@metamask/sdk/dist/metamask-sdk.umd.js"></script>
     <script src="abi.js"></script>
 
@@ -971,6 +971,18 @@
         try {
             log("🚀 Avvio connessione MetaMask SDK...");
             updateConnectionStatus(false, "Connessione in corso...");
+
+            // VERIFICA CARICAMENTO SDK
+            if (typeof MetaMaskSDK === 'undefined') {
+                log('⏳ MetaMask SDK in caricamento, attendo 2 secondi...');
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                if (typeof MetaMaskSDK === 'undefined') {
+                    throw new Error('MetaMask SDK non caricato. Ricarica la pagina (F5) e riprova.');
+                }
+            }
+            
+            log('✅ MetaMask SDK disponibile');
 
             const MMSDK = new MetaMaskSDK.MetaMaskSDK({
                 dappMetadata: {
@@ -1275,7 +1287,30 @@
 
     // ===== INIZIALIZZAZIONE =====
     window.addEventListener('DOMContentLoaded', () => {
-        log("💻 Pagina caricata - Sistema pronto");
+        log('🌐 Pagina caricata - Sistema pronto');
+        
+        // VERIFICA CARICAMENTO LIBRERIE
+        setTimeout(() => {
+            if (typeof ethers === 'undefined') {
+                log('❌ ERRORE: Ethers.js non caricato!', true);
+            } else {
+                log('✅ Ethers.js v' + ethers.version + ' caricato');
+            }
+            
+            if (typeof MetaMaskSDK === 'undefined') {
+                log('❌ WARNING: MetaMask SDK non ancora disponibile', true);
+                log('💡 Se i pulsanti non funzionano, ricarica la pagina (F5)');
+            } else {
+                log('✅ MetaMask SDK caricato correttamente');
+            }
+            
+            if (typeof window.CONTRACT_ABI === 'undefined') {
+                log('❌ WARNING: ABI non caricata da abi.js', true);
+            } else {
+                log('✅ ABI contratto caricata (' + window.CONTRACT_ABI.length + ' funzioni)');
+            }
+        }, 500); // Attendi 500ms per verificare
+        
         log(`🔧 Contratto NFT: ${CONTRACT_ADDRESS}`);
         log(`🔧 Contratto FT: ${FT_CONTRACT_ADDRESS}`);
         
