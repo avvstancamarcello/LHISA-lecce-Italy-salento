@@ -1265,6 +1265,7 @@
     let ftContractInstance;
     let walletConnected = false;
     let currentAccount = null;
+    let sdkInstance = null; // Store SDK instance for reuse
 
     // ===== ANALYTICS =====
     let analytics = {
@@ -1479,6 +1480,31 @@
     console.log('✅ MetaMask SDK disponibile:', typeof MetaMaskSDK !== 'undefined');
     console.log('✅ window.ethereum disponibile:', typeof window.ethereum !== 'undefined');
 
+    // ===== HELPER FUNCTIONS FOR PROVIDER AND SIGNER =====
+    /**
+     * Get the current provider instance
+     * @returns {Object} The provider object
+     * @throws {Error} If provider is not initialized
+     */
+    function getProvider() {
+        if (!provider) {
+            throw new Error('Provider non inizializzato. Connetti il wallet prima.');
+        }
+        return provider;
+    }
+
+    /**
+     * Get the current signer instance
+     * @returns {Object} The signer object
+     * @throws {Error} If signer is not initialized
+     */
+    function getSigner() {
+        if (!signer) {
+            throw new Error('Signer non inizializzato. Connetti il wallet prima.');
+        }
+        return signer;
+    }
+
     // ===== FUNZIONI DI LOG E STATUS =====
     function log(message, isError = false) {
         // Console log sempre disponibile per debug developer
@@ -1605,21 +1631,37 @@
 
     // ===== CONNESSIONE WALLET CON PRIORITÀ ESTENSIONE BROWSER =====
     async function connectWallet() {
+        const connectBtn = document.getElementById('connect-btn');
+        const originalText = connectBtn.textContent;
+        
         try {
             log("🚀 Avvio connessione wallet...");
+            
+            // Update button to connecting state
+            connectBtn.textContent = '⏳ Connessione...';
+            connectBtn.disabled = true;
+            
             updateConnectionStatus(false, "Connessione in corso...");
             updateMintStatus('working', 'In attesa di connessione...');
 
-            // ✅ PRIORITÀ 1: Usa estensione browser MetaMask
+            // ✅ PRIORITÀ 1: Usa estensione browser MetaMask o altri wallet
             if (typeof window.ethereum !== 'undefined') {
-                log('✅ MetaMask estensione browser rilevata');
+                log('✅ Provider iniettato rilevato nel browser');
                 
+                // Check if MetaMask is available
                 if (window.ethereum.isMetaMask) {
                     provider = window.ethereum;
                     log('✅ Confermata estensione MetaMask ufficiale');
-                } else {
-                    log('⚠️ Wallet rilevato ma non è MetaMask', true);
+                }
+                // Check if Coinbase Wallet is available
+                else if (window.ethereum.isCoinbaseWallet) {
                     provider = window.ethereum;
+                    log('✅ Coinbase Wallet rilevato');
+                }
+                // Use generic injected provider
+                else {
+                    provider = window.ethereum;
+                    log('✅ Wallet generico rilevato (supportato)');
                 }
             }
             // ✅ PRIORITÀ 2: Carica MetaMask SDK come fallback
@@ -1630,16 +1672,25 @@
                     throw new Error('❌ MetaMask SDK non caricato. Installa MetaMask o ricarica la pagina.');
                 }
                 
-                const MMSDK = new MetaMaskSDK.MetaMaskSDK({
-                    dappMetadata: {
-                        name: "LHISA NFT - Medical Research",
-                        url: window.location.href
-                    },
-                    infuraAPIKey: INFURA_URL.split('/').pop(),
-                    logging: { developerMode: true }
-                });
+                // Initialize SDK only once
+                if (!sdkInstance) {
+                    sdkInstance = new MetaMaskSDK.MetaMaskSDK({
+                        dappMetadata: {
+                            name: "LHISA NFT - Medical Research",
+                            url: window.location.href
+                        },
+                        logging: {
+                            developerMode: !IS_PRODUCTION
+                        }
+                    });
+                }
 
-                provider = MMSDK.getProvider();
+                provider = sdkInstance.getProvider();
+                
+                if (!provider) {
+                    throw new Error('❌ MetaMask SDK non ha restituito un provider valido.');
+                }
+                
                 log('✅ MetaMask SDK caricato con successo');
             }
 
@@ -1666,7 +1717,11 @@
                 throw new Error('Impossibile connettersi a Polygon');
             }
 
-            // Inizializza ethers.js
+            // Inizializza ethers.js con check di disponibilità
+            if (typeof ethers === 'undefined' || !ethers.BrowserProvider) {
+                throw new Error('❌ Ethers.js non caricato correttamente. Ricarica la pagina.');
+            }
+            
             const ethersProvider = new ethers.BrowserProvider(provider);
             signer = await ethersProvider.getSigner();
             
@@ -1716,7 +1771,34 @@
             updateConnectionStatus(false, 'Errore di connessione');
             updateMintStatus('error', 'Impossibile connettersi');
             
-            alert('Errore di connessione:\n\n' + error.message + '\n\nAssicurati di:\n- Avere MetaMask installato\n- Essere connesso a Polygon Mainnet\n- Avere sbloccato il wallet');
+            // Restore button state
+            connectBtn.textContent = originalText;
+            connectBtn.disabled = false;
+            
+            // Track error
+            analytics.errors.push({
+                type: 'wallet_connection',
+                message: error.message,
+                timestamp: new Date().toISOString()
+            });
+            saveAnalytics();
+            
+            // Provide actionable error message
+            let errorMsg = 'Errore di connessione:\n\n' + error.message + '\n\n';
+            
+            if (error.message.includes('MetaMask SDK non caricato') || error.message.includes('Nessun provider disponibile')) {
+                errorMsg += '📱 Per connetterti:\n';
+                errorMsg += '1. Installa MetaMask dal tuo app store\n';
+                errorMsg += '2. Oppure usa il browser con estensione MetaMask\n';
+                errorMsg += '3. Link: https://metamask.io/download/';
+            } else {
+                errorMsg += 'Assicurati di:\n';
+                errorMsg += '- Avere MetaMask installato\n';
+                errorMsg += '- Essere connesso a Polygon Mainnet\n';
+                errorMsg += '- Avere sbloccato il wallet';
+            }
+            
+            alert(errorMsg);
         }
     }
 
