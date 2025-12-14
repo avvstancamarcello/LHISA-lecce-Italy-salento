@@ -1246,8 +1246,13 @@
     })();
     </script>
     
-    <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js" async onload="window.ethersLoaded = true; checkLibrariesLoaded();" onerror="handleScriptError('ethers.js')"></script>
-    <script src="https://unpkg.com/@metamask/sdk/dist/metamask-sdk.umd.js" async onload="window.metamaskLoaded = true; checkLibrariesLoaded();" onerror="handleScriptError('MetaMask SDK')"></script>
+    <!-- NO defer su MetaMask SDK per garantire disponibilità immediata -->
+    <script src="https://cdn.jsdelivr.net/npm/@metamask/sdk/dist/browser/umd/metamask-sdk.js" onload="window.metamaskLoaded = true; checkLibrariesLoaded();" onerror="handleScriptError('MetaMask SDK')"></script>
+    
+    <!-- Ethers.js v6 -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.0/dist/ethers.umd.min.js" async onload="window.ethersLoaded = true; checkLibrariesLoaded();" onerror="handleScriptError('ethers.js')"></script>
+    
+    <!-- ABI contratti -->
     <script src="abi.js" async onload="window.abiLoaded = true; checkLibrariesLoaded();" onerror="handleScriptError('abi.js')"></script>
 
     <script>
@@ -1259,6 +1264,14 @@
     const FT_PRICE_POL = "0.02";
     const POLYGON_CHAIN_ID = '0x89'; // 137 in decimale
 
+    // Estrai configurazione dai meta tag
+    const clientID = document.querySelector('meta[name="clientID"]')?.content || '';
+    const infuraURL = document.querySelector('meta[name="infuraURL"]')?.content || '';
+    const infuraAPIKey = infuraURL.split('/').pop() || '';
+
+    // Determina ambiente (DEVE essere definito PRIMA di initializeMetaMaskSDK)
+    const IS_PRODUCTION = window.location.hostname === 'avvstancamarcello.github.io';
+
     let provider;
     let signer;
     let contractInstance;
@@ -1267,6 +1280,47 @@
     let currentAccount = null;
     let sdkInstance = null; // Store SDK instance for reuse
     let sdkInitializing = false; // Prevent concurrent SDK initialization
+
+    // ===== INIZIALIZZAZIONE METAMASK SDK =====
+    /**
+     * Inizializza MetaMask SDK con gestione corretta degli errori
+     * @returns {Promise<Object|null>} L'istanza SDK o null in caso di errore
+     */
+    async function initializeMetaMaskSDK() {
+        if (sdkInstance || sdkInitializing) return sdkInstance;
+        
+        sdkInitializing = true;
+        
+        try {
+            if (typeof MetaMaskSDK === 'undefined' || !MetaMaskSDK.MetaMaskSDK) {
+                console.warn('⚠️ MetaMaskSDK non disponibile');
+                return null;
+            }
+            
+            const options = {
+                dappMetadata: {
+                    name: 'LHISA NFT Lecce',
+                    url: window.location.href
+                },
+                checkInstallationImmediately: false,
+                developerMode: !IS_PRODUCTION
+            };
+            
+            sdkInstance = new MetaMaskSDK.MetaMaskSDK(options);
+            await sdkInstance.init();
+            
+            if (!IS_PRODUCTION) {
+                console.log('✅ MetaMask SDK inizializzato:', sdkInstance);
+            }
+            
+            return sdkInstance;
+        } catch (error) {
+            console.error('❌ Errore inizializzazione SDK:', error);
+            return null;
+        } finally {
+            sdkInitializing = false;
+        }
+    }
 
     // ===== ANALYTICS =====
     let analytics = {
@@ -1457,11 +1511,7 @@
         }
     };
 
-    // ===== CONFIGURAZIONE AMBIENTE =====
-    const IS_PRODUCTION = !['localhost', '127.0.0.1', '0.0.0.0'].includes(window.location.hostname) && 
-                          !window.location.hostname.startsWith('192.168.') &&
-                          window.location.protocol !== 'file:';
-
+    // ===== CONFIGURAZIONE AMBIENTE (già definito sopra, ma applica le regole qui) =====
     // Nascondi debug log in produzione
     if (IS_PRODUCTION) {
         const debugLogContainer = document.getElementById('debug-log');
@@ -1669,29 +1719,15 @@
             else {
                 log('⏳ Nessuna estensione rilevata, carico MetaMask SDK...');
                 
-                if (typeof MetaMaskSDK === 'undefined') {
+                if (typeof MetaMaskSDK === 'undefined' || !MetaMaskSDK.MetaMaskSDK) {
                     throw new Error('❌ MetaMask SDK non caricato. Installa MetaMask o ricarica la pagina.');
                 }
                 
-                // Initialize SDK only once (with concurrency protection)
-                if (!sdkInstance && !sdkInitializing) {
-                    sdkInitializing = true;
-                    try {
-                        sdkInstance = new MetaMaskSDK.MetaMaskSDK({
-                            dappMetadata: {
-                                name: "LHISA NFT - Medical Research",
-                                url: window.location.href
-                            },
-                            logging: {
-                                developerMode: !IS_PRODUCTION
-                            }
-                        });
-                    } finally {
-                        sdkInitializing = false;
-                    }
-                } else if (sdkInitializing) {
-                    // Wait for ongoing initialization
-                    throw new Error('⏳ SDK inizializzazione in corso. Riprova tra un momento.');
+                // Initialize SDK using the dedicated function
+                sdkInstance = await initializeMetaMaskSDK();
+                
+                if (!sdkInstance) {
+                    throw new Error('❌ Impossibile inizializzare MetaMask SDK.');
                 }
 
                 provider = sdkInstance.getProvider();
@@ -2100,6 +2136,75 @@
             block: 'center' 
         });
         log(`📍 Scroll a sezione mint - Token ID ${tokenId} preselezionato`);
+    }
+
+    // ===== ALIAS PER COMPATIBILITÀ =====
+    /**
+     * Switch to Polygon network (alias for checkAndSwitchToPolygon)
+     * @returns {Promise<boolean>} True if successful
+     */
+    async function switchToPolygon() {
+        return await checkAndSwitchToPolygon();
+    }
+
+    /**
+     * Mint Fungible Token with specified amount
+     * @param {number} amount - Amount of FT to mint
+     */
+    async function mintFT(amount) {
+        if (!walletConnected || !ftContractInstance) {
+            alert("⚠️ Devi prima connettere il wallet!");
+            return;
+        }
+
+        try {
+            if (isNaN(amount) || amount < 1 || amount > 1000) {
+                alert("⚠️ Quantità non valida!\nInserisci un valore tra 1 e 1000.");
+                return;
+            }
+
+            const totalPricePOL = (amount * parseFloat(FT_PRICE_POL)).toFixed(4);
+            log(`🪙 Acquisto di ${amount} Token FT per ${totalPricePOL} POL`);
+            
+            updateMintStatus('working', `Mintando ${amount} Token FT...`);
+
+            const valueInWei = ethers.parseEther(totalPricePOL);
+            
+            const tx = await ftContractInstance.mintLHISA(amount, {
+                value: valueInWei,
+                gasLimit: 200000
+            });
+            
+            log(`📝 TX FT inviata: ${tx.hash}`);
+            updateMintStatus('working', 'In attesa conferma blockchain...');
+            
+            const receipt = await tx.wait();
+            
+            log(`✅ Token FT acquistati! Blocco: ${receipt.blockNumber}`);
+            updateMintStatus('ready', `✅ ${amount} Token FT mintati con successo!`);
+            
+            alert(
+                `🎉 TOKEN FT MINTATI!\n\n` +
+                `🪙 Quantità: ${amount}\n` +
+                `💰 Pagato: ${totalPricePOL} POL\n` +
+                `🔗 TX: ${tx.hash.substring(0, 20)}...`
+            );
+            
+        } catch (error) {
+            log(`❌ ERRORE MINT FT: ${error.message}`, true);
+            updateMintStatus('error', 'Mint FT fallito');
+            
+            let errorMsg = "❌ Errore mint Token FT:\n\n";
+            if (error.code === 4001 || error.code === 'ACTION_REJECTED') {
+                errorMsg += "Transazione rifiutata dall'utente.";
+            } else if (error.message.includes('insufficient funds')) {
+                errorMsg += "Fondi POL insufficienti!";
+            } else {
+                errorMsg += error.message;
+            }
+            
+            alert(errorMsg);
+        }
     }
 
     // ===== INIZIALIZZAZIONE =====
