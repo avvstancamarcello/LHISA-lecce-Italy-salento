@@ -1266,17 +1266,14 @@
 
     <script>
     // ===== CONFIGURAZIONE GLOBALE =====
-    const CLIENT_ID = document.querySelector('meta[name="clientID"]').content;
-    const INFURA_URL = document.querySelector('meta[name="infuraURL"]').content;
+    const CLIENT_ID = document.querySelector('meta[name="clientID"]')?.content || '';
+    const INFURA_URL = document.querySelector('meta[name="infuraURL"]')?.content || '';
+    const INFURA_API_KEY = INFURA_URL.split('/').pop() || '';
     const CONTRACT_ADDRESS = "0xEC023A57E96E0a94E30EB9892F05fC002A545aA5";
     const FT_CONTRACT_ADDRESS = "0xF96ab75dEf75945e3E4a62E918468d49DaC97598";
     const FT_PRICE_POL = "0.02";
     const POLYGON_CHAIN_ID = '0x89'; // 137 in decimale
-
-    // Estrai configurazione dai meta tag
-    const clientID = document.querySelector('meta[name="clientID"]')?.content || '';
-    const infuraURL = document.querySelector('meta[name="infuraURL"]')?.content || '';
-    const infuraAPIKey = infuraURL.split('/').pop() || '';
+    const NFT_PRICE_PER_TOKEN_ID = 0.04; // Prezzo per ogni unità di token ID (es. NFT 5 = 5 * 0.04 = 0.20 POL)
 
     // Determina ambiente (DEVE essere definito PRIMA di initializeMetaMaskSDK)
     const IS_PRODUCTION = window.location.hostname === 'avvstancamarcello.github.io';
@@ -1302,7 +1299,9 @@
         
         try {
             if (typeof MetaMaskSDK === 'undefined' || !MetaMaskSDK.MetaMaskSDK) {
-                console.warn('⚠️ MetaMaskSDK non disponibile');
+                if (!IS_PRODUCTION) {
+                    console.warn('⚠️ MetaMaskSDK non disponibile');
+                }
                 return null;
             }
             
@@ -1324,7 +1323,9 @@
             
             return sdkInstance;
         } catch (error) {
-            console.error('❌ Errore inizializzazione SDK:', error);
+            if (!IS_PRODUCTION) {
+                console.error('❌ Errore inizializzazione SDK:', error);
+            }
             return null;
         } finally {
             sdkInitializing = false;
@@ -1885,7 +1886,7 @@
     function calculateTotalPrice() {
         const tokenId = parseInt(document.getElementById('token-id-select').value);
         const quantity = parseInt(document.getElementById('quantity-select').value);
-        const pricePerNFT = tokenId * 0.04;
+        const pricePerNFT = tokenId * NFT_PRICE_PER_TOKEN_ID;
         const totalPrice = pricePerNFT * quantity;
         
         document.getElementById('total-price-display').textContent = 
@@ -1981,7 +1982,7 @@
             const quantity = parseInt(document.getElementById('quantity-select').value);
             
             // Calcola prezzo basato su tokenId e quantità
-            const pricePerNFT = selectedTokenId * 0.04;
+            const pricePerNFT = selectedTokenId * NFT_PRICE_PER_TOKEN_ID;
             const totalPrice = pricePerNFT * quantity;
             
             // Track mint attempt
