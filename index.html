@@ -851,6 +851,12 @@
     let walletConnected = false;
     let currentAccount = null;
 
+    // ===== TEST DI CARICAMENTO LIBRERIE =====
+    console.log('🔧 TEST CARICAMENTO LIBRERIE:');
+    console.log('✅ Ethers disponibile:', typeof ethers !== 'undefined');
+    console.log('✅ MetaMask SDK disponibile:', typeof MetaMaskSDK !== 'undefined');
+    console.log('✅ window.ethereum disponibile:', typeof window.ethereum !== 'undefined');
+
     // ===== FUNZIONI DI LOG E STATUS =====
     function log(message, isError = false) {
         console.log(message);
@@ -966,109 +972,124 @@
         }
     }
 
-    // ===== CONNESSIONE WALLET =====
+    // ===== CONNESSIONE WALLET CON PRIORITÀ ESTENSIONE BROWSER =====
     async function connectWallet() {
         try {
-            log("🚀 Avvio connessione MetaMask SDK...");
+            log("🚀 Avvio connessione wallet...");
             updateConnectionStatus(false, "Connessione in corso...");
+            updateMintStatus('working', 'In attesa di connessione...');
 
-            // VERIFICA CARICAMENTO SDK
-            if (typeof MetaMaskSDK === 'undefined') {
-                log('⏳ MetaMask SDK in caricamento, attendo 2 secondi...');
-                await new Promise(resolve => setTimeout(resolve, 2000));
+            // ✅ PRIORITÀ 1: Usa estensione browser MetaMask
+            if (typeof window.ethereum !== 'undefined') {
+                log('✅ MetaMask estensione browser rilevata');
+                
+                if (window.ethereum.isMetaMask) {
+                    provider = window.ethereum;
+                    log('✅ Confermata estensione MetaMask ufficiale');
+                } else {
+                    log('⚠️ Wallet rilevato ma non è MetaMask', true);
+                    provider = window.ethereum;
+                }
+            }
+            // ✅ PRIORITÀ 2: Carica MetaMask SDK come fallback
+            else {
+                log('⏳ Nessuna estensione rilevata, carico MetaMask SDK...');
                 
                 if (typeof MetaMaskSDK === 'undefined') {
-                    throw new Error('MetaMask SDK non caricato. Ricarica la pagina (F5) e riprova.');
+                    throw new Error('❌ MetaMask SDK non caricato. Installa MetaMask o ricarica la pagina.');
                 }
+                
+                const MMSDK = new MetaMaskSDK.MetaMaskSDK({
+                    dappMetadata: {
+                        name: "LHISA NFT - Medical Research",
+                        url: window.location.href
+                    },
+                    infuraAPIKey: INFURA_URL.split('/').pop(),
+                    logging: { developerMode: true }
+                });
+
+                provider = MMSDK.getProvider();
+                log('✅ MetaMask SDK caricato con successo');
             }
-            
-            log('✅ MetaMask SDK disponibile');
 
-            const MMSDK = new MetaMaskSDK.MetaMaskSDK({
-                dappMetadata: {
-                    name: "LHISA NFT - Medical Research",
-                    url: window.location.href
-                },
-                infuraAPIKey: INFURA_URL.split('/').pop(),
-                logging: {
-                    developerMode: true
-                }
-            });
-
-            provider = MMSDK.getProvider();
-            
             if (!provider) {
-                throw new Error("MetaMask non rilevato! Installa l'estensione MetaMask.");
+                throw new Error('❌ Nessun provider disponibile. Installa MetaMask.');
             }
 
-            log("✅ Provider MetaMask rilevato");
-
-            const accounts = await provider.request({ method: 'eth_requestAccounts' });
+            // Richiedi connessione account
+            log('📡 Richiesta connessione account...');
+            const accounts = await provider.request({ 
+                method: 'eth_requestAccounts' 
+            });
+            
             if (!accounts || accounts.length === 0) {
                 throw new Error("Nessun account trovato. Sblocca MetaMask e riprova.");
             }
             
             currentAccount = accounts[0];
-            log(`👤 Account rilevato: ${currentAccount.substring(0, 10)}...${currentAccount.substring(38)}`);
+            log(`✅ Account connesso: ${currentAccount}`);
 
+            // Verifica e cambia rete se necessario
             const networkOk = await checkAndSwitchToPolygon();
             if (!networkOk) {
-                throw new Error("Devi connetterti a Polygon Mainnet per usare questa dApp!");
+                throw new Error('Impossibile connettersi a Polygon');
             }
 
+            // Inizializza ethers.js
             const ethersProvider = new ethers.BrowserProvider(provider);
             signer = await ethersProvider.getSigner();
-            log(`✅ Signer ethers.js inizializzato`);
-
+            
+            // Inizializza contratti
             const contractABI = window.CONTRACT_ABI;
             if (!contractABI || !Array.isArray(contractABI)) {
                 throw new Error("ABI del contratto non caricata! Verifica che abi.js sia incluso correttamente.");
             }
-            log(`✅ ABI caricata (${contractABI.length} metodi)`);
-
+            
             contractInstance = new ethers.Contract(CONTRACT_ADDRESS, contractABI, signer);
-            log(`✅ Contratto NFT inizializzato: ${CONTRACT_ADDRESS.substring(0, 10)}...`);
+            log(`✅ Contratto NFT inizializzato`);
             
-            if (window.FT_CONTRACT_ABI && FT_CONTRACT_ADDRESS !== "0x...") {
-                ftContractInstance = new ethers.Contract(
-                    FT_CONTRACT_ADDRESS, 
-                    window.FT_CONTRACT_ABI, 
-                    signer
-                );
-                log(`✅ Contratto FT ERC-20 inizializzato: ${FT_CONTRACT_ADDRESS.substring(0, 10)}...`);
-                
-                const ftBtn = document.getElementById('buy-ft-btn');
-                if (ftBtn) {
-                    ftBtn.disabled = false;
-                    ftBtn.style.backgroundColor = '#2E7D32';
-                }
+            if (window.FT_CONTRACT_ABI) {
+                ftContractInstance = new ethers.Contract(FT_CONTRACT_ADDRESS, window.FT_CONTRACT_ABI, signer);
+                log(`✅ Contratto FT inizializzato`);
             }
-            
-            walletConnected = true;
-            updateConnectionStatus(true, `Connesso: ${currentAccount.substring(0, 8)}...`);
-            updateMintStatus('ready', 'Pronto per mintare NFT');
-            
-            const connectBtn = document.getElementById('connect-btn');
-            connectBtn.textContent = `✅ ${currentAccount.substring(0, 6)}...${currentAccount.substring(38)}`;
-            connectBtn.disabled = true;
-            connectBtn.style.backgroundColor = '#4CAF50';
 
-            const mintBtn = document.getElementById('interactive-mint-btn');
-            if (mintBtn) {
-                mintBtn.disabled = false;
-                mintBtn.style.backgroundColor = '#4CAF50';
-            }
+            walletConnected = true;
             
-            provider.on('accountsChanged', handleAccountsChanged);
-            provider.on('chainChanged', handleChainChanged);
+            // Aggiorna UI
+            updateConnectionStatus(true, `Connesso: ${currentAccount.slice(0,6)}...${currentAccount.slice(-4)}`);
+            updateMintStatus('ready', 'Pronto per mint!');
             
-            log("🎉 Connessione completata! Puoi procedere con il mint.");
+            document.getElementById('connect-btn').textContent = '✅ Wallet Connesso';
+            document.getElementById('connect-btn').disabled = true;
+            document.getElementById('interactive-mint-btn').disabled = false;
+            document.getElementById('buy-ft-btn').disabled = false;
+
+            log('🎉 Connessione completata con successo!');
+
+            // Ascolta cambio account
+            provider.on('accountsChanged', (accounts) => {
+                if (accounts.length === 0) {
+                    log('⚠️ Wallet disconnesso', true);
+                    location.reload();
+                } else {
+                    currentAccount = accounts[0];
+                    log(`🔄 Account cambiato: ${currentAccount}`);
+                    location.reload();
+                }
+            });
+
+            // Ascolta cambio rete
+            provider.on('chainChanged', () => {
+                log('🔄 Rete cambiata, ricarico pagina...');
+                location.reload();
+            });
 
         } catch (error) {
-            log(`❌ ERRORE CONNESSIONE: ${error.message}`, true);
-            updateConnectionStatus(false, "Errore: " + error.message);
+            log('❌ ERRORE: ' + error.message, true);
+            updateConnectionStatus(false, 'Errore di connessione');
             updateMintStatus('error', 'Impossibile connettersi');
-            alert(`❌ Errore di connessione:\n\n${error.message}\n\nAssicurati di:\n- Avere MetaMask installato\n- Essere connesso a Polygon Mainnet\n- Avere sbloccato il wallet`);
+            
+            alert('Errore di connessione:\n\n' + error.message + '\n\nAssicurati di:\n- Avere MetaMask installato\n- Essere connesso a Polygon Mainnet\n- Avere sbloccato il wallet');
         }
     }
 
@@ -1339,6 +1360,7 @@
         calculateTotalPrice();
         
         log("✅ Event listeners registrati");
+        log("💻 Sistema pronto. Clicca 'Connetti Wallet' per iniziare.");
         updateMintStatus('ready', 'In attesa di connessione wallet');
     });
     </script>
