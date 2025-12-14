@@ -1266,6 +1266,7 @@
     let walletConnected = false;
     let currentAccount = null;
     let sdkInstance = null; // Store SDK instance for reuse
+    let sdkInitializing = false; // Prevent concurrent SDK initialization
 
     // ===== ANALYTICS =====
     let analytics = {
@@ -1672,17 +1673,25 @@
                     throw new Error('❌ MetaMask SDK non caricato. Installa MetaMask o ricarica la pagina.');
                 }
                 
-                // Initialize SDK only once
-                if (!sdkInstance) {
-                    sdkInstance = new MetaMaskSDK.MetaMaskSDK({
-                        dappMetadata: {
-                            name: "LHISA NFT - Medical Research",
-                            url: window.location.href
-                        },
-                        logging: {
-                            developerMode: !IS_PRODUCTION
-                        }
-                    });
+                // Initialize SDK only once (with concurrency protection)
+                if (!sdkInstance && !sdkInitializing) {
+                    sdkInitializing = true;
+                    try {
+                        sdkInstance = new MetaMaskSDK.MetaMaskSDK({
+                            dappMetadata: {
+                                name: "LHISA NFT - Medical Research",
+                                url: window.location.href
+                            },
+                            logging: {
+                                developerMode: !IS_PRODUCTION
+                            }
+                        });
+                    } finally {
+                        sdkInitializing = false;
+                    }
+                } else if (sdkInitializing) {
+                    // Wait for ongoing initialization
+                    throw new Error('⏳ SDK inizializzazione in corso. Riprova tra un momento.');
                 }
 
                 provider = sdkInstance.getProvider();
