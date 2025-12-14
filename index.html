@@ -2588,17 +2588,6 @@
         }
     }
 
-    // ===== SCROLL ALLA SEZIONE MINT =====
-    function scrollToMintSection(tokenId) {
-        document.getElementById('token-id-select').value = tokenId;
-        calculateTotalPrice();
-        document.querySelector('.mint-box.nft-box').scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'center' 
-        });
-        log(`📍 Scroll a sezione mint - Token ID ${tokenId} preselezionato`);
-    }
-
     // ===== ALIAS PER COMPATIBILITÀ =====
     /**
      * Switch to Polygon network (alias for checkAndSwitchToPolygon)
