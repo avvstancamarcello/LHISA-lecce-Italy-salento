@@ -450,7 +450,7 @@
 
     <header>
         <div class="language-selector" style="position: absolute; top: 20px; right: 20px;">
-          <button id="translateBtn" onclick="toggleLanguage()" style="padding: 8px 16px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">English</button>
+          <button id="translateBtn" type="button" aria-label="Cambia lingua in inglese" onclick="toggleLanguage()" style="padding: 8px 16px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">English</button>
         </div>     
         <h1 class="header-main">LHISA NFT – Ricerca Scientifica e Salute</h1> <p class="header-links">
             🔗 <a href="https://lhilecce.it" target="_blank">Visita lhilecce.it SITO UFFICIALE</a> |
@@ -508,7 +508,7 @@
             width="350" 
             height="350"
             style="width: 100%; max-width: 350px; height: auto; object-fit: contain;">
-        <p class="normal-text"><a href="https://polygonscan.com/address/0xcAD9C4EfBa776f9F55A71d442EC024BBB5DD2b1c" target="_blank" class="normal-link">Smart Contract Verificato - Leggilo aprendo questo link.</a></p>
+        <p class="normal-text"><a href="https://polygonscan.com/address/0xcAD9C4EfBa776f9F55A71d442EC024BBB5DD2b1c" target="_blank" rel="noopener noreferrer" class="normal-link" aria-label="Smart Contract Verificato - apre in una nuova scheda">Smart Contract Verificato - Leggilo aprendo questo link.</a></p>
         <div id="contract-status" style="margin: 15px 0; padding: 10px; text-align: center;"></div>
     </div>
 
@@ -544,7 +544,7 @@
                     La Depressione è ormai annoverata come una malattia sociale,
                     molto insidiosa e non facilmente riconoscibile nelle famiglie, che oggi
                     può colpire chiunque, senza distinzione di età, di livello d'istruzione
-                    o di attività di lavoro. il Prof. Riccardo SIMONI ha dedicato 35 anni
+                    o di attività di lavoro. Il Prof. Riccardo SIMONI ha dedicato 35 anni
                     di studi clinici alla patologia depressiva, individuando i farmaci
                     più efficaci e meno aggressivi per l'organismo, e riportando il paziente
                     al pieno equilibrio psicofisico nella gestione delle proprie capacità.
@@ -1013,7 +1013,7 @@
     </div> 
 
     <div class="normal-text">
-         <p>© <strong></strong>Copyright</strong> Avv. Marcello Stanca - Firenze - Giugno 2024</p>
+         <p>© <strong>Copyright</strong> Avv. Marcello Stanca - Firenze - Giugno 2024</p>
     </div>
     
     <!-- SEZIONE FUNGIBLE TOKEN (FT) ERC-20 -->
@@ -1527,7 +1527,7 @@
                     statusEl.appendChild(document.createTextNode('✅ '));
                     
                     const link = document.createElement('a');
-                    link.href = `https://polygonscan.com/address/${CONTRACT_ADDRESS}#code`;
+                    link.href = `https://polygonscan.com/address/${encodeURIComponent(CONTRACT_ADDRESS)}#code`;
                     link.target = '_blank';
                     link.rel = 'noopener noreferrer';
                     link.setAttribute('aria-label', 'Contratto Verificato su Polygonscan - apre in una nuova scheda');
