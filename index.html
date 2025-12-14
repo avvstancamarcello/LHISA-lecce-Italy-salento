@@ -1216,16 +1216,21 @@
         window.metamaskLoaded = false;
         window.abiLoaded = false;
         
+        // Determina ambiente per logging
+        const isProd = window.location.hostname === 'avvstancamarcello.github.io';
+        
         // Timeout per rilevare librerie non caricate
         const LOAD_TIMEOUT = 10000; // 10 secondi
         let timeoutId = setTimeout(function() {
             if (!window.ethersLoaded || !window.metamaskLoaded || !window.abiLoaded) {
-                console.error('❌ Timeout caricamento librerie');
-                console.log('Status:', {
-                    ethers: window.ethersLoaded,
-                    metamask: window.metamaskLoaded,
-                    abi: window.abiLoaded
-                });
+                if (!isProd) {
+                    console.error('❌ Timeout caricamento librerie');
+                    console.log('Status:', {
+                        ethers: window.ethersLoaded,
+                        metamask: window.metamaskLoaded,
+                        abi: window.abiLoaded
+                    });
+                }
                 alert('Errore di caricamento!\n\nAlcune librerie non sono state caricate.\nRicarica la pagina o verifica la connessione internet.');
             }
         }, LOAD_TIMEOUT);
@@ -1233,31 +1238,46 @@
         window.checkLibrariesLoaded = function() {
             if (window.ethersLoaded && window.metamaskLoaded && window.abiLoaded) {
                 clearTimeout(timeoutId);
-                console.log('✅ Tutte le librerie caricate correttamente');
+                if (!isProd) {
+                    console.log('✅ Tutte le librerie caricate correttamente');
+                }
                 document.dispatchEvent(new Event('librariesReady'));
             }
         };
         
         window.handleScriptError = function(scriptName) {
             clearTimeout(timeoutId);
-            console.error('❌ Errore caricamento:', scriptName);
+            if (!isProd) {
+                console.error('❌ Errore caricamento:', scriptName);
+            }
             alert('Errore critico!\n\nImpossibile caricare: ' + scriptName + '\n\nVerifica la connessione internet e ricarica la pagina.');
         };
     })();
     </script>
     
-    <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js" async onload="window.ethersLoaded = true; checkLibrariesLoaded();" onerror="handleScriptError('ethers.js')"></script>
-    <script src="https://unpkg.com/@metamask/sdk/dist/metamask-sdk.umd.js" async onload="window.metamaskLoaded = true; checkLibrariesLoaded();" onerror="handleScriptError('MetaMask SDK')"></script>
+    <!-- NO defer su MetaMask SDK per garantire disponibilità immediata -->
+    <script src="https://cdn.jsdelivr.net/npm/@metamask/sdk/dist/browser/umd/metamask-sdk.js" onload="window.metamaskLoaded = true; checkLibrariesLoaded();" onerror="handleScriptError('MetaMask SDK')"></script>
+    
+    <!-- Ethers.js v6 -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.7.0/dist/ethers.umd.min.js" async onload="window.ethersLoaded = true; checkLibrariesLoaded();" onerror="handleScriptError('ethers.js')"></script>
+    
+    <!-- ABI contratti -->
     <script src="abi.js" async onload="window.abiLoaded = true; checkLibrariesLoaded();" onerror="handleScriptError('abi.js')"></script>
 
     <script>
     // ===== CONFIGURAZIONE GLOBALE =====
-    const CLIENT_ID = document.querySelector('meta[name="clientID"]').content;
-    const INFURA_URL = document.querySelector('meta[name="infuraURL"]').content;
+    const CLIENT_ID = document.querySelector('meta[name="clientID"]')?.content || '';
+    const INFURA_URL = document.querySelector('meta[name="infuraURL"]')?.content || '';
+    // Infura API Key estratto dal meta tag (non usato nell'SDK, solo per riferimento)
+    const INFURA_API_KEY = INFURA_URL.split('/').pop() || '';
     const CONTRACT_ADDRESS = "0xEC023A57E96E0a94E30EB9892F05fC002A545aA5";
     const FT_CONTRACT_ADDRESS = "0xF96ab75dEf75945e3E4a62E918468d49DaC97598";
     const FT_PRICE_POL = "0.02";
     const POLYGON_CHAIN_ID = '0x89'; // 137 in decimale
+    const NFT_PRICE_PER_TOKEN_ID = 0.04; // Prezzo per ogni unità di token ID (es. NFT 5 = 5 * 0.04 = 0.20 POL)
+
+    // Determina ambiente (DEVE essere definito PRIMA di initializeMetaMaskSDK)
+    const IS_PRODUCTION = window.location.hostname === 'avvstancamarcello.github.io';
 
     let provider;
     let signer;
@@ -1267,6 +1287,51 @@
     let currentAccount = null;
     let sdkInstance = null; // Store SDK instance for reuse
     let sdkInitializing = false; // Prevent concurrent SDK initialization
+
+    // ===== INIZIALIZZAZIONE METAMASK SDK =====
+    /**
+     * Inizializza MetaMask SDK con gestione corretta degli errori
+     * @returns {Promise<Object|null>} L'istanza SDK o null in caso di errore
+     */
+    async function initializeMetaMaskSDK() {
+        if (sdkInstance || sdkInitializing) return sdkInstance;
+        
+        sdkInitializing = true;
+        
+        try {
+            if (typeof MetaMaskSDK === 'undefined' || !MetaMaskSDK.MetaMaskSDK) {
+                if (!IS_PRODUCTION) {
+                    console.warn('⚠️ MetaMaskSDK non disponibile');
+                }
+                return null;
+            }
+            
+            const options = {
+                dappMetadata: {
+                    name: 'LHISA NFT - Medical Research',
+                    url: window.location.href
+                },
+                checkInstallationImmediately: false,
+                developerMode: !IS_PRODUCTION
+            };
+            
+            sdkInstance = new MetaMaskSDK.MetaMaskSDK(options);
+            await sdkInstance.init();
+            
+            if (!IS_PRODUCTION) {
+                console.log('✅ MetaMask SDK inizializzato:', sdkInstance);
+            }
+            
+            return sdkInstance;
+        } catch (error) {
+            if (!IS_PRODUCTION) {
+                console.error('❌ Errore inizializzazione SDK:', error);
+            }
+            return null;
+        } finally {
+            sdkInitializing = false;
+        }
+    }
 
     // ===== ANALYTICS =====
     let analytics = {
@@ -1309,13 +1374,17 @@
         if (analytics.events.length > 50) {
             analytics.events.shift();
         }
-        console.log('📈 Event:', name, data);
+        if (!IS_PRODUCTION) {
+            console.log('📈 Event:', name, data);
+        }
         saveAnalytics();
     }
 
     // Export per admin (solo analytics aggregati, nessun dato sensibile)
     window.exportAnalytics = () => {
-        console.log('Analytics:', analytics);
+        if (!IS_PRODUCTION) {
+            console.log('Analytics:', analytics);
+        }
         const blob = new Blob([JSON.stringify(analytics, null, 2)], {type: 'application/json'});
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -1457,11 +1526,7 @@
         }
     };
 
-    // ===== CONFIGURAZIONE AMBIENTE =====
-    const IS_PRODUCTION = !['localhost', '127.0.0.1', '0.0.0.0'].includes(window.location.hostname) && 
-                          !window.location.hostname.startsWith('192.168.') &&
-                          window.location.protocol !== 'file:';
-
+    // ===== CONFIGURAZIONE AMBIENTE (già definito sopra, ma applica le regole qui) =====
     // Nascondi debug log in produzione
     if (IS_PRODUCTION) {
         const debugLogContainer = document.getElementById('debug-log');
@@ -1476,10 +1541,12 @@
     }
 
     // ===== TEST DI CARICAMENTO LIBRERIE =====
-    console.log('🔧 TEST CARICAMENTO LIBRERIE:');
-    console.log('✅ Ethers disponibile:', typeof ethers !== 'undefined');
-    console.log('✅ MetaMask SDK disponibile:', typeof MetaMaskSDK !== 'undefined');
-    console.log('✅ window.ethereum disponibile:', typeof window.ethereum !== 'undefined');
+    if (!IS_PRODUCTION) {
+        console.log('🔧 TEST CARICAMENTO LIBRERIE:');
+        console.log('✅ Ethers disponibile:', typeof ethers !== 'undefined');
+        console.log('✅ MetaMask SDK disponibile:', typeof MetaMaskSDK !== 'undefined');
+        console.log('✅ window.ethereum disponibile:', typeof window.ethereum !== 'undefined');
+    }
 
     // ===== HELPER FUNCTIONS FOR PROVIDER AND SIGNER =====
     /**
@@ -1508,15 +1575,15 @@
 
     // ===== FUNZIONI DI LOG E STATUS =====
     function log(message, isError = false) {
-        // Console log sempre disponibile per debug developer
-        if (isError) {
-            console.error(message);
-        } else {
-            console.log(message);
-        }
-        
-        // Debug visivo SOLO in ambiente di sviluppo
+        // Console log SOLO in sviluppo
         if (!IS_PRODUCTION) {
+            if (isError) {
+                console.error(message);
+            } else {
+                console.log(message);
+            }
+            
+            // Debug visivo in ambiente di sviluppo
             const debugLog = document.getElementById('debug-log');
             if (debugLog) {
                 const timestamp = new Date().toLocaleTimeString('it-IT');
@@ -1669,29 +1736,15 @@
             else {
                 log('⏳ Nessuna estensione rilevata, carico MetaMask SDK...');
                 
-                if (typeof MetaMaskSDK === 'undefined') {
+                if (typeof MetaMaskSDK === 'undefined' || !MetaMaskSDK.MetaMaskSDK) {
                     throw new Error('❌ MetaMask SDK non caricato. Installa MetaMask o ricarica la pagina.');
                 }
                 
-                // Initialize SDK only once (with concurrency protection)
-                if (!sdkInstance && !sdkInitializing) {
-                    sdkInitializing = true;
-                    try {
-                        sdkInstance = new MetaMaskSDK.MetaMaskSDK({
-                            dappMetadata: {
-                                name: "LHISA NFT - Medical Research",
-                                url: window.location.href
-                            },
-                            logging: {
-                                developerMode: !IS_PRODUCTION
-                            }
-                        });
-                    } finally {
-                        sdkInitializing = false;
-                    }
-                } else if (sdkInitializing) {
-                    // Wait for ongoing initialization
-                    throw new Error('⏳ SDK inizializzazione in corso. Riprova tra un momento.');
+                // Initialize SDK using the dedicated function
+                sdkInstance = await initializeMetaMaskSDK();
+                
+                if (!sdkInstance) {
+                    throw new Error('❌ Impossibile inizializzare MetaMask SDK.');
                 }
 
                 provider = sdkInstance.getProvider();
@@ -1834,7 +1887,7 @@
     function calculateTotalPrice() {
         const tokenId = parseInt(document.getElementById('token-id-select').value);
         const quantity = parseInt(document.getElementById('quantity-select').value);
-        const pricePerNFT = tokenId * 0.04;
+        const pricePerNFT = tokenId * NFT_PRICE_PER_TOKEN_ID;
         const totalPrice = pricePerNFT * quantity;
         
         document.getElementById('total-price-display').textContent = 
@@ -1912,24 +1965,34 @@
     }
 
     // ===== FUNZIONE MINT NFT =====
-    async function mintNFT() {
+    /**
+     * Mint NFT singolo con tokenId specificato o da UI
+     * @param {number} [tokenId] - Token ID da mintare (opzionale, usa UI se non specificato)
+     */
+    async function mintNFT(tokenId) {
         if (!walletConnected || !contractInstance) {
             alert("⚠️ Devi prima connettere il wallet!");
             return;
         }
 
         try {
-            const tokenId = parseInt(document.getElementById('token-id-select').value);
+            // Se tokenId non è fornito, leggi da UI
+            const selectedTokenId = tokenId !== undefined 
+                ? parseInt(tokenId) 
+                : parseInt(document.getElementById('token-id-select').value);
             const quantity = parseInt(document.getElementById('quantity-select').value);
-            const totalPrice = calculateTotalPrice();
+            
+            // Calcola prezzo basato su tokenId e quantità
+            const pricePerNFT = selectedTokenId * NFT_PRICE_PER_TOKEN_ID;
+            const totalPrice = pricePerNFT * quantity;
             
             // Track mint attempt
             analytics.mintAttempts++;
-            trackEvent('mint_attempt', {tokenId, quantity});
+            trackEvent('mint_attempt', {tokenId: selectedTokenId, quantity});
             
-            log(`🎨 Avvio mint: ${quantity}x NFT Token ID ${tokenId}`);
+            log(`🎨 Avvio mint: ${quantity}x NFT Token ID ${selectedTokenId}`);
             log(`💰 Costo totale: ${totalPrice.toFixed(4)} POL`);
-            updateMintStatus('working', `Mintando ${quantity}x NFT ${tokenId}...`);
+            updateMintStatus('working', `Mintando ${quantity}x NFT ${selectedTokenId}...`);
             
             const mintBtn = document.getElementById('interactive-mint-btn');
             const originalText = mintBtn.textContent;
@@ -1941,7 +2004,7 @@
             
             const tx = await contractInstance.mint(
                 currentAccount, 
-                tokenId, 
+                selectedTokenId, 
                 quantity, 
                 "0x",
                 {
@@ -1951,7 +2014,7 @@
             );
             
             // Track mint success
-            trackEvent('mint_success', {tokenId, txHash: tx.hash});
+            trackEvent('mint_success', {tokenId: selectedTokenId, txHash: tx.hash});
             
             log(`📝 Transazione inviata: ${tx.hash}`);
             log(`🔗 Visualizza su: https://polygonscan.com/tx/${tx.hash}`);
@@ -1966,7 +2029,7 @@
             log(`✅ MINT COMPLETATO!`);
             log(`📦 Blocco: ${receipt.blockNumber}`);
             log(`⛽ Gas usato: ${receipt.gasUsed.toString()}`);
-            updateMintStatus('ready', `✅ ${quantity}x NFT ${tokenId} mintati con successo!`);
+            updateMintStatus('ready', `✅ ${quantity}x NFT ${selectedTokenId} mintati con successo!`);
             
             mintBtn.textContent = '✅ Mint Completato!';
             mintBtn.style.backgroundColor = '#2E7D32';
@@ -1974,7 +2037,7 @@
             alert(
                 `🎉 NFT MINTATO CON SUCCESSO!\n\n` +
                 `📦 Quantità: ${quantity}\n` +
-                `🎨 Token ID: ${tokenId}\n` +
+                `🎨 Token ID: ${selectedTokenId}\n` +
                 `💰 Pagato: ${totalPrice.toFixed(4)} POL\n` +
                 `🔗 TX Hash: ${tx.hash.substring(0, 20)}...\n\n` +
                 `Visualizza su PolygonScan:\n` +
@@ -2100,6 +2163,75 @@
             block: 'center' 
         });
         log(`📍 Scroll a sezione mint - Token ID ${tokenId} preselezionato`);
+    }
+
+    // ===== ALIAS PER COMPATIBILITÀ =====
+    /**
+     * Switch to Polygon network (alias for checkAndSwitchToPolygon)
+     * @returns {Promise<boolean>} True if successful
+     */
+    async function switchToPolygon() {
+        return await checkAndSwitchToPolygon();
+    }
+
+    /**
+     * Mint Fungible Token with specified amount
+     * @param {number} amount - Amount of FT to mint
+     */
+    async function mintFT(amount) {
+        if (!walletConnected || !ftContractInstance) {
+            alert("⚠️ Devi prima connettere il wallet!");
+            return;
+        }
+
+        try {
+            if (isNaN(amount) || amount < 1 || amount > 1000) {
+                alert("⚠️ Quantità non valida!\nInserisci un valore tra 1 e 1000.");
+                return;
+            }
+
+            const totalPricePOL = (amount * parseFloat(FT_PRICE_POL)).toFixed(4);
+            log(`🪙 Acquisto di ${amount} Token FT per ${totalPricePOL} POL`);
+            
+            updateMintStatus('working', `Mintando ${amount} Token FT...`);
+
+            const valueInWei = ethers.parseEther(totalPricePOL);
+            
+            const tx = await ftContractInstance.mintLHISA(amount, {
+                value: valueInWei,
+                gasLimit: 200000
+            });
+            
+            log(`📝 TX FT inviata: ${tx.hash}`);
+            updateMintStatus('working', 'In attesa conferma blockchain...');
+            
+            const receipt = await tx.wait();
+            
+            log(`✅ Token FT acquistati! Blocco: ${receipt.blockNumber}`);
+            updateMintStatus('ready', `✅ ${amount} Token FT mintati con successo!`);
+            
+            alert(
+                `🎉 TOKEN FT MINTATI!\n\n` +
+                `🪙 Quantità: ${amount}\n` +
+                `💰 Pagato: ${totalPricePOL} POL\n` +
+                `🔗 TX: ${tx.hash.substring(0, 20)}...`
+            );
+            
+        } catch (error) {
+            log(`❌ ERRORE MINT FT: ${error.message}`, true);
+            updateMintStatus('error', 'Mint FT fallito');
+            
+            let errorMsg = "❌ Errore mint Token FT:\n\n";
+            if (error.code === 4001 || error.code === 'ACTION_REJECTED') {
+                errorMsg += "Transazione rifiutata dall'utente.";
+            } else if (error.message.includes('insufficient funds')) {
+                errorMsg += "Fondi POL insufficienti!";
+            } else {
+                errorMsg += error.message;
+            }
+            
+            alert(errorMsg);
+        }
     }
 
     // ===== INIZIALIZZAZIONE =====
@@ -2336,3 +2468,4 @@ function closeDash() {
 
 
 
+</html>
