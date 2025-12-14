@@ -5,6 +5,26 @@
     <title>LHISA Lecce NFT – Ricerca Scientifica STOP DEPRESSION - Cura e GUARIGIONE</title> 
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
     
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="LHISA NFT Lecce - Acquista NFT per finanziare ricerca scientifica sulla depressione. Medical Hotel LHI Salento, progetto blockchain Polygon con Prof. Riccardo Simoni.">
+    <meta name="keywords" content="NFT Lecce, ricerca depressione, Medical Hotel LHI, blockchain Polygon, NFT sanitari, Salento">
+    <meta name="author" content="Avv. Marcello Stanca">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://avvstancamarcello.github.io/LHISA-lecce-Italy-salento/">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://avvstancamarcello.github.io/LHISA-lecce-Italy-salento/">
+    <meta property="og:title" content="LHISA NFT Lecce - Ricerca Scientifica STOP DEPRESSION">
+    <meta property="og:description" content="NFT unici per sostenere ricerca sulla depressione. Medical Hotel LHI Lecce.">
+    <meta property="og:image" content="https://avvstancamarcello.github.io/LHISA-lecce-Italy-salento/images/LHI_NFT_LECCE_logo.svg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LHISA NFT Lecce - Ricerca Depressione">
+    <meta name="twitter:description" content="NFT per finanziare ricerca sulla depressione">
+    <meta name="twitter:image" content="https://avvstancamarcello.github.io/LHISA-lecce-Italy-salento/images/STOP_DEPRESSION_LHI.jpg">
+    
     <!-- Preload risorse critiche -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://unpkg.com" crossorigin>
@@ -350,6 +370,42 @@
             color: green;
         }
         
+        /* Screen Reader Only */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Focus visibile per tastiera */
+        button:focus-visible,
+        a:focus-visible,
+        select:focus-visible {
+            outline: 3px solid #ff9800;
+            outline-offset: 2px;
+        }
+
+        /* Skip link */
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: #000;
+            color: #fff;
+            padding: 8px;
+            z-index: 10000;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+        
         /* Indicatore ambiente sviluppo */
         .dev-indicator {
             position: fixed;
@@ -381,6 +437,8 @@
           content="https://polygon-mainnet.infura.io/v3/c690c86b64b74bd5a69ad2d32cf2a0c6">
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Salta al contenuto</a>
+    <main id="main-content" role="main">
     <!-- Indicatore ambiente (visibile solo in dev) -->
     <div id="env-indicator" style="display: none;">
         <span class="dev-indicator">🔧 AMBIENTE DI SVILUPPO</span>
@@ -451,31 +509,36 @@
             height="350"
             style="width: 100%; max-width: 350px; height: auto; object-fit: contain;">
         <p class="normal-text"><a href="https://polygonscan.com/address/0xcAD9C4EfBa776f9F55A71d442EC024BBB5DD2b1c" target="_blank" class="normal-link">Smart Contract Verificato - Leggilo aprendo questo link.</a></p>
+        <div id="contract-status" style="margin: 15px 0; padding: 10px; text-align: center;"></div>
     </div>
 
-      <div class="section-title">1. La DEPRESSIONE. Un Progetto per la ricerca scientifica</div>
-    <div class="section-content">
-        Acquistando un NFT, non solo entri in possesso di un asset digitale di valore,
-        ma finanzi direttamente la ricerca scientifica per la guarigione dalla
-        "DEPRESSIONE", contribuendo a un obiettivo di immenso valore sociale.
-        Il referente scientifico, Responsabile del progetto di ricerca e cura
-        è il Prof. Riccardo SIMONI, iscritto all'Ordine dei Medici di Firenze.
-        <a href="images/Simoni2.jpg" target="_blank" class="normal-link">Consulta curriculum</a>
-        Il Responsabile scientifico del progetto, è medico specialista in
-        Psichiatria, che vanta 30 anni di grande esperienza clinica ospedaliera,
-        docenza in corsi di specializzazione e master di formazione per la ricerca
-        scientifica e farmacologica, e può documentare numerosi casi di guarigione
-        grazie all'uso di una terapia personalizzata, monitorata in tempo reale
-        con flusso di feedback individuali sulle terapie personalizzate.
-        dalla Depressione, anche di personaggi dello spettacolo.
-        La Depressione è ormai annoverata come una malattia sociale,
-        molto insidiosa e non facilmente riconoscibile nelle famiglie, che oggi
-        può colpire chiunque, senza distinzione di età, di livello d'istruzione
-        o di attività di lavoro. iL Prof. Riccardo SIMONI ha dedicato 35 anni
-        di studi clinici alla patologia depressiva, individuando i farmaci
-        più efficaci e meno aggressivi per l'organismo, e riportando il paziente
-        al pieno equilibrio psicofisico nella gestione delle proprie capacità.                        
-    </div>
+      <article id="progetto-depressione">
+        <header>
+            <h2 class="section-title">1. La DEPRESSIONE: Un Progetto per la Ricerca Scientifica</h2>
+        </header>
+        
+        <section class="section-content">
+            <p>
+                Acquistando un NFT, non solo entri in possesso di un asset digitale di valore,
+                ma finanzi direttamente la ricerca scientifica per la guarigione dalla
+                <strong>DEPRESSIONE</strong>, contribuendo a un obiettivo di immenso valore sociale.
+            </p>
+            
+            <aside class="researcher-info">
+                <p>
+                    Il referente scientifico è il <strong>Prof. Riccardo SIMONI</strong>, 
+                    iscritto all'Ordine dei Medici di Firenze.
+                    <a href="images/Simoni2.jpg" target="_blank" class="normal-link" 
+                       aria-label="Consulta curriculum Professor Simoni">Consulta curriculum</a>
+                </p>
+                <p>
+                    Medico specialista in Psichiatria con <strong>30 anni di esperienza clinica</strong>,
+                    docente in corsi di specializzazione per la ricerca scientifica e farmacologica.
+                    Ha dedicato 35 anni agli studi sulla depressione.
+                </p>
+            </aside>
+        </section>
+    </article>
 
     <!-- Logo NFT LHI + Logo LHI istituzionale affiancati -->
     <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 40px; margin: 20px 0;">
@@ -951,7 +1014,14 @@
         <div id="ft-price-display" style="color: white; font-weight: bold; margin: 10px 0;">
             Prezzo: 0.02 POL (≈ $0.02)
         </div>
-        <button id="buy-ft-btn" disabled style="background-color: #2E7D32;">Acquista Token FT</button>
+        <button 
+            id="buy-ft-btn" 
+            type="button"
+            disabled 
+            aria-label="Acquista token fungibili LHI"
+            style="background-color: #2E7D32;">
+            Acquista Token FT
+        </button>
         <div id="ft-status" style="margin-top: 10px; color: white;"></div>
     </div>
     
@@ -969,8 +1039,13 @@
     
     <!-- Menu a tendina per selezione Token ID -->
     <div style="margin: 15px 0;">
-        <label for="token-id-select" style="font-weight: bold; margin-bottom: 5px; display: block;">Scegli valore NFT (Token ID):</label>
-        <select id="token-id-select" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 1em; width: 200px;">
+        <label for="token-id-select" style="font-weight: bold; margin-bottom: 5px; display: block;">
+            Scegli valore NFT (Token ID):
+        </label>
+        <select 
+            id="token-id-select" 
+            aria-label="Seleziona Token ID NFT"
+            style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 1em; width: 200px;">
             <option value="5">NFT 5 (0.20 POL)</option>
             <option value="10">NFT 10 (0.40 POL)</option>
             <option value="15">NFT 15 (0.60 POL)</option>
@@ -1032,8 +1107,20 @@
         </div>
     </div>
 
-    <button id="connect-btn" style="margin-bottom: 16px; padding: 10px 24px; background-color: #ff9800; color: white; border: none; border-radius: 6px; font-size: 1.1em; cursor: pointer;">Connetti Wallet</button>
-    <button id="interactive-mint-btn" disabled>Mint NFT Selezionato!</button>
+    <button 
+        id="connect-btn" 
+        type="button"
+        aria-label="Connetti wallet MetaMask per acquistare NFT"
+        style="margin-bottom: 16px; padding: 10px 24px; background-color: #ff9800; color: white; border: none; border-radius: 6px; font-size: 1.1em; cursor: pointer;">
+        Connetti Wallet
+    </button>
+    <button 
+        id="interactive-mint-btn" 
+        type="button"
+        disabled
+        aria-label="Acquista NFT selezionato dal menu">
+        Mint NFT Selezionato!
+    </button>
     </div>
 
     <!-- Caricamento asincrono ottimizzato -->
@@ -1387,6 +1474,35 @@
         return totalPrice;
     }
 
+    // ===== VERIFICA CONTRATTO SU POLYGONSCAN =====
+    async function verifyContract() {
+        try {
+            log('🔍 Verifica contratto Polygonscan...');
+            
+            const response = await fetch(
+                `https://api.polygonscan.com/api?module=contract&action=getabi&address=${CONTRACT_ADDRESS}`
+            );
+            
+            const data = await response.json();
+            const statusEl = document.getElementById('contract-status');
+            
+            if (data.status === '1') {
+                log('✅ Contratto verificato');
+                if (statusEl) {
+                    statusEl.innerHTML = `✅ <a href="https://polygonscan.com/address/${CONTRACT_ADDRESS}#code" target="_blank">Contratto Verificato</a>`;
+                    statusEl.style.color = '#28a745';
+                }
+                return true;
+            } else {
+                log('⚠️ Contratto non verificato');
+                return false;
+            }
+        } catch (error) {
+            log('❌ Errore verifica: ' + error.message, true);
+            return false;
+        }
+    }
+
     // ===== FUNZIONE MINT NFT =====
     async function mintNFT() {
         if (!walletConnected || !contractInstance) {
@@ -1606,6 +1722,9 @@
         log("✅ Event listeners registrati");
         log("💻 Sistema pronto. Clicca 'Connetti Wallet' per iniziare.");
         updateMintStatus('ready', 'In attesa di connessione wallet');
+        
+        // Verifica contratto dopo 2 secondi
+        setTimeout(() => verifyContract(), 2000);
     });
     </script>
 <script>
@@ -1738,6 +1857,7 @@ function restoreOriginal() {
         });
 }
 </script>
+</main>
 </body>
 
 
