@@ -1147,34 +1147,30 @@
         <select 
             id="token-id-select" 
             aria-label="Seleziona Token ID NFT"
+            onchange="updateTotalPrice()"
             style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 1em; width: 200px;">
-            <option value="5">NFT 5 (0.20 POL)</option>
-            <option value="10">NFT 10 (0.40 POL)</option>
-            <option value="15">NFT 15 (0.60 POL)</option>
-            <option value="20">NFT 20 (0.80 POL)</option>
-            <option value="25">NFT 25 (1.00 POL)</option>
-            <option value="30">NFT 30 (1.20 POL)</option>
-            <option value="35">NFT 35 (1.40 POL)</option>
-            <option value="40">NFT 40 (1.60 POL)</option>
-            <option value="45">NFT 45 (1.80 POL)</option>
-            <option value="50">NFT 50 (2.00 POL)</option>
-            <option value="55">NFT 55 (2.20 POL)</option>
-            <option value="60">NFT 60 (2.40 POL)</option>
-            <option value="65">NFT 65 (2.60 POL)</option>
-            <option value="70">NFT 70 (2.80 POL)</option>
-            <option value="75">NFT 75 (3.00 POL)</option>
-            <option value="80">NFT 80 (3.20 POL)</option>
-            <option value="85">NFT 85 (3.40 POL)</option>
-            <option value="90">NFT 90 (3.60 POL)</option>
-            <option value="95">NFT 95 (3.80 POL)</option>
-            <option value="100">NFT 100 (4.00 POL)</option>
+            <option value="">-- Seleziona --</option>
+            <option value="5">Token ID 5 (0.1 POL)</option>
+            <option value="10">Token ID 10 (0.2 POL)</option>
+            <option value="15">Token ID 15 (0.3 POL)</option>
+            <option value="20">Token ID 20 (0.4 POL)</option>
+            <option value="25">Token ID 25 (0.5 POL)</option>
+            <option value="30">Token ID 30 (0.6 POL)</option>
+            <option value="35">Token ID 35 (0.7 POL)</option>
+            <option value="40">Token ID 40 (0.8 POL)</option>
+            <option value="75">Token ID 75 (1.5 POL)</option>
+            <option value="80">Token ID 80 (1.6 POL)</option>
+            <option value="85">Token ID 85 (1.7 POL)</option>
+            <option value="90">Token ID 90 (1.8 POL)</option>
+            <option value="95">Token ID 95 (1.9 POL)</option>
+            <option value="100">Token ID 100 (2.0 POL)</option>
         </select>
     </div>
     
     <!-- Menu a tendina per quantità -->
     <div style="margin: 15px 0;">
         <label for="quantity-select" style="font-weight: bold; margin-bottom: 5px; display: block;">Scegli quantità:</label>
-        <select id="quantity-select" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 1em; width: 200px;">
+        <select id="quantity-select" onchange="updateTotalPrice()" style="padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-size: 1em; width: 200px;">
             <option value="1">1 NFT</option>
             <option value="2">2 NFT</option>
             <option value="3">3 NFT</option>
@@ -1228,6 +1224,75 @@
         aria-label="Acquista NFT selezionato dal menu">
         Mint NFT Selezionato!
     </button>
+    </div>
+
+    <!-- Interactive Mint Section -->
+    <div id="mint-section" style="background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); border-radius: 12px; padding: 30px; margin: 30px auto; max-width: 600px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+        <h3 style="color: #2e7d32; margin-top: 0;">🎨 Mint NFT LHI</h3>
+        
+        <div style="margin: 20px 0;">
+            <label for="token-id-select-new" style="font-weight: bold; display: block; margin-bottom: 8px;">
+                Scegli Token ID (valore NFT):
+            </label>
+            <select id="token-id-select-new" 
+                    aria-label="Seleziona Token ID NFT"
+                    onchange="updateTotalPrice()"
+                    style="width: 100%; padding: 10px; font-size: 1em; border: 2px solid #4caf50; border-radius: 6px;">
+                <option value="">-- Seleziona --</option>
+                <option value="5">Token ID 5 (0.1 POL)</option>
+                <option value="10">Token ID 10 (0.2 POL)</option>
+                <option value="15">Token ID 15 (0.3 POL)</option>
+                <option value="20">Token ID 20 (0.4 POL)</option>
+                <option value="25">Token ID 25 (0.5 POL)</option>
+                <option value="30">Token ID 30 (0.6 POL)</option>
+                <option value="35">Token ID 35 (0.7 POL)</option>
+                <option value="40">Token ID 40 (0.8 POL)</option>
+                <option value="75">Token ID 75 (1.5 POL)</option>
+                <option value="80">Token ID 80 (1.6 POL)</option>
+                <option value="85">Token ID 85 (1.7 POL)</option>
+                <option value="90">Token ID 90 (1.8 POL)</option>
+                <option value="95">Token ID 95 (1.9 POL)</option>
+                <option value="100">Token ID 100 (2.0 POL)</option>
+            </select>
+        </div>
+        
+        <div style="margin: 20px 0;">
+            <label for="quantity-select-new" style="font-weight: bold; display: block; margin-bottom: 8px;">
+                Quantità:
+            </label>
+            <select id="quantity-select-new" 
+                    aria-label="Seleziona quantità"
+                    onchange="updateTotalPrice()"
+                    style="width: 100%; padding: 10px; font-size: 1em; border: 2px solid #4caf50; border-radius: 6px;">
+                <option value="1">1 NFT</option>
+                <option value="2">2 NFT</option>
+                <option value="3">3 NFT</option>
+                <option value="4">4 NFT</option>
+                <option value="5">5 NFT</option>
+                <option value="6">6 NFT</option>
+                <option value="7">7 NFT</option>
+                <option value="8">8 NFT</option>
+                <option value="9">9 NFT</option>
+                <option value="10">10 NFT</option>
+            </select>
+        </div>
+        
+        <div id="price-display" style="background: white; padding: 15px; border-radius: 8px; margin: 20px 0; text-align: center; border: 2px solid #4caf50;">
+            <p style="margin: 0; font-size: 1.2em; color: #2e7d32;">
+                <strong>Prezzo Totale:</strong> <span id="total-price">--</span> POL
+            </p>
+        </div>
+        
+        <button id="mint-btn" 
+                type="button"
+                disabled
+                onclick="mintNFTInteractive()"
+                aria-label="Mint NFT selezionato"
+                style="width: 100%; padding: 15px; background-color: #4caf50; color: white; border: none; border-radius: 8px; font-size: 1.2em; font-weight: bold; cursor: pointer;">
+            🎨 Mint NFT
+        </button>
+        
+        <div id="mint-status-new" style="margin-top: 15px; padding: 10px; border-radius: 6px; display: none;"></div>
     </div>
 
     <!-- Caricamento asincrono ottimizzato -->
@@ -1292,11 +1357,11 @@
     const INFURA_URL = document.querySelector('meta[name="infuraURL"]')?.content || '';
     // Infura API Key estratto dal meta tag (non usato nell'SDK, solo per riferimento)
     const INFURA_API_KEY = INFURA_URL.split('/').pop() || '';
-    const CONTRACT_ADDRESS = "0xEC023A57E96E0a94E30EB9892F05fC002A545aA5";
+    const CONTRACT_ADDRESS = "0xcAD9C4EfBa776f9F55A71d442EC024BBB5DD2b1c";
     const FT_CONTRACT_ADDRESS = "0xF96ab75dEf75945e3E4a62E918468d49DaC97598";
     const FT_PRICE_POL = "0.02";
     const POLYGON_CHAIN_ID = '0x89'; // 137 in decimale
-    const NFT_PRICE_PER_TOKEN_ID = 0.04; // Prezzo per ogni unità di token ID (es. NFT 5 = 5 * 0.04 = 0.20 POL)
+    const NFT_PRICE_PER_TOKEN_ID = 0.02; // Prezzo per ogni unità di token ID (es. NFT 5 = 5 * 0.02 = 0.10 POL)
 
     // Determina ambiente (DEVE essere definito PRIMA di initializeMetaMaskSDK)
     const IS_PRODUCTION = window.location.hostname === 'avvstancamarcello.github.io';
@@ -1893,6 +1958,12 @@
             document.getElementById('connect-btn').disabled = true;
             document.getElementById('interactive-mint-btn').disabled = false;
             
+            // Enable new mint section button
+            const mintBtn = document.getElementById('mint-btn');
+            if (mintBtn) {
+                mintBtn.disabled = false;
+            }
+            
             // Abilita bottone FT solo se contratto inizializzato
             if (ftContractInstance) {
                 document.getElementById('buy-ft-btn').disabled = false;
@@ -1996,6 +2067,68 @@
         return totalPrice;
     }
 
+    // ===== PRICE CALCULATION FOR NEW MINT SECTION =====
+    function updateTotalPrice() {
+        const tokenSelect = document.getElementById('token-id-select-new');
+        const quantitySelect = document.getElementById('quantity-select-new');
+        const priceDisplay = document.getElementById('total-price');
+        
+        if (!tokenSelect || !quantitySelect || !priceDisplay) {
+            // Fallback to old elements if new ones don't exist
+            const oldTokenSelect = document.getElementById('token-id-select');
+            const oldQuantitySelect = document.getElementById('quantity-select');
+            
+            if (!oldTokenSelect || !oldQuantitySelect || !priceDisplay) {
+                return;
+            }
+            
+            const tokenIdStr = oldTokenSelect.value;
+            const quantityStr = oldQuantitySelect.value;
+            
+            if (!tokenIdStr || !quantityStr) {
+                priceDisplay.textContent = '--';
+                return;
+            }
+            
+            const tokenId = parseInt(tokenIdStr);
+            const quantity = parseInt(quantityStr);
+            
+            if (isNaN(tokenId) || isNaN(quantity)) {
+                priceDisplay.textContent = 'Errore';
+                return;
+            }
+            
+            const pricePerNFT = tokenId * NFT_PRICE_PER_TOKEN_ID;
+            const totalPrice = pricePerNFT * quantity;
+            
+            priceDisplay.textContent = totalPrice.toFixed(2);
+            log(`Price calculated: ${quantity}x Token ${tokenId} = ${totalPrice} POL`);
+            return;
+        }
+        
+        const tokenIdStr = tokenSelect.value;
+        const quantityStr = quantitySelect.value;
+        
+        if (!tokenIdStr || !quantityStr) {
+            priceDisplay.textContent = '--';
+            return;
+        }
+        
+        const tokenId = parseInt(tokenIdStr);
+        const quantity = parseInt(quantityStr);
+        
+        if (isNaN(tokenId) || isNaN(quantity)) {
+            priceDisplay.textContent = 'Errore';
+            return;
+        }
+        
+        const pricePerNFT = tokenId * NFT_PRICE_PER_TOKEN_ID;
+        const totalPrice = pricePerNFT * quantity;
+        
+        priceDisplay.textContent = totalPrice.toFixed(2);
+        log(`Price calculated: ${quantity}x Token ${tokenId} = ${totalPrice} POL`);
+    }
+
     // ===== VERIFICA CONTRATTO SU POLYGONSCAN =====
     async function verifyContract() {
         try {
@@ -2081,7 +2214,11 @@
             if (tokenId !== undefined && tokenId !== null) {
                 selectedTokenId = parseInt(tokenId);
             } else {
-                const tokenSelect = document.getElementById('token-id-select');
+                // Try new UI elements first, then fall back to old ones
+                let tokenSelect = document.getElementById('token-id-select-new');
+                if (!tokenSelect || !tokenSelect.value) {
+                    tokenSelect = document.getElementById('token-id-select');
+                }
                 if (!tokenSelect || !tokenSelect.value) {
                     alert("⚠️ Seleziona un Token ID valido!");
                     return;
@@ -2097,7 +2234,11 @@
             
             // ROBUST quantity extraction with validation
             let quantity = 1; // Default quantity
-            const quantitySelect = document.getElementById('quantity-select');
+            // Try new UI elements first, then fall back to old ones
+            let quantitySelect = document.getElementById('quantity-select-new');
+            if (!quantitySelect || !quantitySelect.value) {
+                quantitySelect = document.getElementById('quantity-select');
+            }
             if (quantitySelect && quantitySelect.value) {
                 quantity = parseInt(quantitySelect.value);
             }
@@ -2134,11 +2275,28 @@
             log(`💰 Costo totale: ${totalPrice.toFixed(4)} POL`);
             updateMintStatus('working', `Mintando ${quantity}x NFT ${selectedTokenId}...`);
             
+            // Update both old and new mint buttons
             const mintBtn = document.getElementById('interactive-mint-btn');
+            const newMintBtn = document.getElementById('mint-btn');
             const originalText = mintBtn ? mintBtn.textContent : '';
+            const newOriginalText = newMintBtn ? newMintBtn.textContent : '';
+            
             if (mintBtn) {
                 mintBtn.disabled = true;
                 mintBtn.textContent = '⏳ Transazione in corso...';
+            }
+            if (newMintBtn) {
+                newMintBtn.disabled = true;
+                newMintBtn.textContent = '⏳ Transazione in corso...';
+            }
+            
+            // Show status in new mint section
+            const statusEl = document.getElementById('mint-status-new');
+            if (statusEl) {
+                statusEl.style.display = 'block';
+                statusEl.textContent = `🔄 Invio transazione... ${quantity} NFT (${totalPrice.toFixed(2)} POL)`;
+                statusEl.style.background = '#fff3cd';
+                statusEl.style.color = '#f57c00';
             }
             
             startProgress(); // Show progress bar
@@ -2167,6 +2325,14 @@
             if (mintBtn) {
                 mintBtn.textContent = '⏳ In attesa conferma blockchain...';
             }
+            if (newMintBtn) {
+                newMintBtn.textContent = '⏳ Conferma...';
+            }
+            if (statusEl) {
+                statusEl.textContent = `⏳ Transazione inviata! Hash: ${tx.hash.substring(0, 10)}...`;
+                statusEl.style.background = '#fff3cd';
+                statusEl.style.color = '#f57c00';
+            }
             
             const receipt = await tx.wait();
             
@@ -2182,6 +2348,20 @@
             if (mintBtn) {
                 mintBtn.textContent = '✅ Mint Completato!';
                 mintBtn.style.backgroundColor = '#2E7D32';
+            }
+            if (newMintBtn) {
+                newMintBtn.textContent = '✅ Mint Completato!';
+                newMintBtn.style.backgroundColor = '#2E7D32';
+            }
+            if (statusEl) {
+                statusEl.textContent = `✅ Mint completato! ${quantity} NFT Token ${selectedTokenId} nella tua wallet.`;
+                statusEl.style.background = '#e8f5e9';
+                statusEl.style.color = '#2e7d32';
+                
+                // Add Polygonscan link after a delay
+                setTimeout(() => {
+                    statusEl.innerHTML = `✅ Mint completato!<br><a href="https://polygonscan.com/tx/${tx.hash}" target="_blank" rel="noopener noreferrer" style="color: #2e7d32; text-decoration: underline;">Vedi su Polygonscan</a>`;
+                }, 1000);
             }
             
             alert(
@@ -2200,6 +2380,11 @@
                     mintBtn.textContent = originalText;
                     mintBtn.style.backgroundColor = '#4CAF50';
                 }
+                if (newMintBtn) {
+                    newMintBtn.disabled = false;
+                    newMintBtn.textContent = newOriginalText;
+                    newMintBtn.style.backgroundColor = '#4CAF50';
+                }
             }, 3000);
             
             // Refresh balance after successful mint
@@ -2213,9 +2398,16 @@
             updateMintStatus('error', 'Mint fallito');
             
             const mintBtn = document.getElementById('interactive-mint-btn');
+            const newMintBtn = document.getElementById('mint-btn');
+            const statusEl = document.getElementById('mint-status-new');
+            
             if (mintBtn) {
                 mintBtn.disabled = false;
                 mintBtn.textContent = '🎨 Mint NFT';
+            }
+            if (newMintBtn) {
+                newMintBtn.disabled = false;
+                newMintBtn.textContent = '🎨 Mint NFT';
             }
             
             let errorMsg = "❌ Errore durante il MINT:\n\n";
@@ -2236,12 +2428,48 @@
             
             alert(errorMsg);
             
+            // Show error in new status element
+            if (statusEl) {
+                statusEl.style.display = 'block';
+                statusEl.textContent = errorMsg.replace(/\n\n/g, ' ').replace(/\n/g, ' ');
+                statusEl.style.background = '#ffebee';
+                statusEl.style.color = '#c62828';
+            }
+            
             analytics.errors.push({
                 msg: error.message,
                 time: new Date().toISOString(),
                 context: 'mintNFT'
             });
             saveAnalytics();
+        }
+    }
+
+    // ===== MINT NFT INTERACTIVE =====
+    async function mintNFTInteractive() {
+        await mintNFT(null); // null = use dropdown selection
+    }
+
+    // ===== SCROLL TO MINT SECTION =====
+    function scrollToMintSection(tokenId) {
+        // Pre-select the token in new mint section
+        const tokenSelectNew = document.getElementById('token-id-select-new');
+        if (tokenSelectNew) {
+            tokenSelectNew.value = tokenId.toString();
+            updateTotalPrice();
+        }
+        
+        // Also update old section for backwards compatibility
+        const tokenSelect = document.getElementById('token-id-select');
+        if (tokenSelect) {
+            tokenSelect.value = tokenId.toString();
+            calculateTotalPrice();
+        }
+        
+        // Scroll to mint section
+        const mintSection = document.getElementById('mint-section');
+        if (mintSection) {
+            mintSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     }
 
