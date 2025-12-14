@@ -1963,24 +1963,34 @@
     }
 
     // ===== FUNZIONE MINT NFT =====
-    async function mintNFT() {
+    /**
+     * Mint NFT singolo con tokenId specificato o da UI
+     * @param {number} [tokenId] - Token ID da mintare (opzionale, usa UI se non specificato)
+     */
+    async function mintNFT(tokenId) {
         if (!walletConnected || !contractInstance) {
             alert("⚠️ Devi prima connettere il wallet!");
             return;
         }
 
         try {
-            const tokenId = parseInt(document.getElementById('token-id-select').value);
+            // Se tokenId non è fornito, leggi da UI
+            const selectedTokenId = tokenId !== undefined 
+                ? parseInt(tokenId) 
+                : parseInt(document.getElementById('token-id-select').value);
             const quantity = parseInt(document.getElementById('quantity-select').value);
-            const totalPrice = calculateTotalPrice();
+            
+            // Calcola prezzo basato su tokenId e quantità
+            const pricePerNFT = selectedTokenId * 0.04;
+            const totalPrice = pricePerNFT * quantity;
             
             // Track mint attempt
             analytics.mintAttempts++;
-            trackEvent('mint_attempt', {tokenId, quantity});
+            trackEvent('mint_attempt', {tokenId: selectedTokenId, quantity});
             
-            log(`🎨 Avvio mint: ${quantity}x NFT Token ID ${tokenId}`);
+            log(`🎨 Avvio mint: ${quantity}x NFT Token ID ${selectedTokenId}`);
             log(`💰 Costo totale: ${totalPrice.toFixed(4)} POL`);
-            updateMintStatus('working', `Mintando ${quantity}x NFT ${tokenId}...`);
+            updateMintStatus('working', `Mintando ${quantity}x NFT ${selectedTokenId}...`);
             
             const mintBtn = document.getElementById('interactive-mint-btn');
             const originalText = mintBtn.textContent;
@@ -1992,7 +2002,7 @@
             
             const tx = await contractInstance.mint(
                 currentAccount, 
-                tokenId, 
+                selectedTokenId, 
                 quantity, 
                 "0x",
                 {
@@ -2002,7 +2012,7 @@
             );
             
             // Track mint success
-            trackEvent('mint_success', {tokenId, txHash: tx.hash});
+            trackEvent('mint_success', {tokenId: selectedTokenId, txHash: tx.hash});
             
             log(`📝 Transazione inviata: ${tx.hash}`);
             log(`🔗 Visualizza su: https://polygonscan.com/tx/${tx.hash}`);
@@ -2017,7 +2027,7 @@
             log(`✅ MINT COMPLETATO!`);
             log(`📦 Blocco: ${receipt.blockNumber}`);
             log(`⛽ Gas usato: ${receipt.gasUsed.toString()}`);
-            updateMintStatus('ready', `✅ ${quantity}x NFT ${tokenId} mintati con successo!`);
+            updateMintStatus('ready', `✅ ${quantity}x NFT ${selectedTokenId} mintati con successo!`);
             
             mintBtn.textContent = '✅ Mint Completato!';
             mintBtn.style.backgroundColor = '#2E7D32';
@@ -2025,7 +2035,7 @@
             alert(
                 `🎉 NFT MINTATO CON SUCCESSO!\n\n` +
                 `📦 Quantità: ${quantity}\n` +
-                `🎨 Token ID: ${tokenId}\n` +
+                `🎨 Token ID: ${selectedTokenId}\n` +
                 `💰 Pagato: ${totalPrice.toFixed(4)} POL\n` +
                 `🔗 TX Hash: ${tx.hash.substring(0, 20)}...\n\n` +
                 `Visualizza su PolygonScan:\n` +
@@ -2456,3 +2466,4 @@ function closeDash() {
 
 
 
+</html>
