@@ -66,20 +66,53 @@
             body {
                 max-width: 100vw;
                 width: 100%;
-                padding: 5px;
+                padding: 10px;
                 margin: 0;
                 overflow-x: hidden;
             }
+            
+            /* Forza tutti i contenitori a stare dentro lo schermo */
+            * {
+                max-width: 100% !important;
+            }
+            
+            /* Logo più piccoli su mobile */
+            .section-content img,
+            svg {
+                max-width: 100% !important;
+                height: auto !important;
+            }
+            
+            /* Fix testo che esce */
+            .section-content,
+            .normal-text,
+            p, div, span {
+                max-width: 100% !important;
+                overflow-wrap: break-word !important;
+                word-break: break-word !important;
+                box-sizing: border-box !important;
+            }
+            
+            /* Titoli più piccoli su mobile */
+            .section-title {
+                font-size: 1.3em !important;
+                padding: 0 10px;
+                line-height: 1.3;
+            }
+            
+            /* Logo container stack verticale su mobile */
+            [style*="display: flex"] {
+                flex-direction: column !important;
+                align-items: center !important;
+                width: 100% !important;
+                gap: 15px !important;
+            }
+            
             .section-content {
                 padding: 5px;
                 max-width: 100%;
                 width: 100%;
                 margin: 10px 0;
-            }
-            .section-title {
-                font-size: 1.1em !important;
-                padding: 0 5px;
-                line-height: 1.3;
             }
             .grid-row {
                 flex-direction: row !important;
@@ -195,11 +228,13 @@
         }
         /* Stili per le sezioni di testo */
         .section-title {
-            font-size: 1.3em;
+            font-size: 1.5em !important;
+            font-weight: bold;
             color: #b22222;
             margin-top: 40px;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             text-align: center;
+            line-height: 1.4;
         }
         /* TESTO GIUSTIFICATO PER TUTTE LE SEZIONI */
         .section-content,
@@ -370,6 +405,33 @@
             color: green;
         }
         
+        /* Fix overflow testo fuori schermo */
+        .normal-text,
+        .section-content,
+        .section-content p,
+        .section-content div {
+            max-width: 100%;
+            overflow-wrap: break-word;
+            word-wrap: break-word;
+            word-break: break-word;
+            hyphens: auto;
+        }
+
+        /* Fix container flex che causa overflow */
+        body > div,
+        body > section,
+        body > article {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        /* Previeni overflow negli elementi flex */
+        .grid-row,
+        [style*="display: flex"] {
+            flex-wrap: wrap;
+            overflow: hidden;
+        }
+        
         /* Screen Reader Only */
         .sr-only {
             position: absolute;
@@ -514,7 +576,9 @@
 
       <article id="progetto-depressione">
         <header>
-            <h2 class="section-title">1. La DEPRESSIONE: Un Progetto per la Ricerca Scientifica</h2>
+            <h2 class="section-title" style="font-size: 1.5em !important; font-weight: bold; color: #b22222; margin: 30px 0 20px 0;">
+                1. La DEPRESSIONE: Un Progetto per la Ricerca Scientifica
+            </h2>
         </header>
         
         <section class="section-content">
@@ -553,43 +617,70 @@
         </section>
     </article>
 
-    <!-- Logo NFT LHI + Logo LHI istituzionale affiancati -->
-    <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 40px; margin: 20px 0;">
-        <!-- Logo NFT LHI -->
-        <div style="display: flex; flex-direction: column; align-items: center;">
-            <a href="images/LHI_NFT_LECCE_logo.svg" target="_blank">
-                <img src="images/LHI_NFT_LECCE_logo.svg" alt="NFT marketplace" style="width: 100%; max-width: 320px; height: auto; object-fit: contain; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
-            </a>
-            <p class="normal-text" style="margin-top: 8px;">Logo Icona LHI Lecce NFT per Polygon ed Opensea Market Place.</p>
-            <p class="normal-text">
-                🌊 <a href="https://opensea.io/collection/lhi-lecce-nft" target="_blank" class="normal-link" style="font-weight: bold; color: #0077cc;">
-                    Visita la Collezione LHI Lecce NFT su OpenSea
+    <!-- Logo LHI centrato con dimensioni corrette -->
+    <div style="max-width: 900px; margin: 40px auto; text-align: center;">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+            
+            <!-- Logo NFT LHI -->
+            <div style="display: flex; flex-direction: column; align-items: center; max-width: 350px;">
+                <a href="images/LHI_NFT_LECCE_logo.svg" target="_blank">
+                    <img src="images/LHI_NFT_LECCE_logo.svg" 
+                         alt="Logo NFT marketplace LHI Lecce" 
+                         style="width: 350px; height: 350px; object-fit: contain; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);"
+                         loading="lazy"
+                         width="350"
+                         height="350">
                 </a>
-            </p>
-        </div>
-        <!-- Logo LHI istituzionale SVG -->
-        <div style="display: flex; flex-direction: column; align-items: center;">
-            <a href="https://www.lhilecce.it" target="_blank" title="LHI Lecce Sito Ufficiale">
-                <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="320" height="124" viewBox="0 0 10000 3885.9" style="max-width:320px; height:auto; object-fit:contain; border-radius:12px; box-shadow:0 2px 8px rgba(149,39,39,0.15);">
-                    <defs>
-                        <style type="text/css">
-                            .fil2 {fill:#952727}
-                            .fil1 {fill:#6B6B6A;fill-rule:nonzero}
-                            .fil0 {fill:#952727;fill-rule:nonzero}
-                        </style>
-                    </defs>
-                    <g id="Livello_x0020_1">
-                        <metadata id="CorelCorpID_0Corel-Layer"/>
-                        <path class="fil0" d="M2734.12 3338.59l0 -739.82 -1927.01 0c-38.48,0 -73.21,-34.67 -73.21,-77.09l0 -2515.95 -739.77 0 0 2593.04c0,404.62 331.25,739.82 739.77,739.82l2000.22 0z"/>
-                        <polygon class="fil1" points="5232.83,2040.16 5232.83,1300.43 3749.46,1300.43 3749.46,5.86 3009.7,5.86 3009.7,3338.59 3749.46,3338.59 3749.46,2040.16 "/>
-                        <path class="fil2" d="M5474.52 5.85l3650.34 0 0 3350.76 -3650.34 0 0 -3350.76zm4321.95 1342.2c-217.18,60.23 -540.68,34.04 -874.37,-87.29 -530.9,-193.25 -886.69,-554.91 -794.63,-807.76 18.88,-52.03 55.26,-95.47 105.87,-129.8 -128.36,35.55 -219.54,101.2 -253.77,195.19 -92.06,252.86 263.8,614.53 794.69,807.69 421.71,153.55 827.13,154.77 1022.21,21.97zm147.58 479.78c-303.43,84 -755.52,47.54 -1221.75,-121.99 -741.78,-270.15 -1238.99,-775.38 -1110.34,-1128.77 26.34,-72.71 77.22,-133.3 147.83,-181.43 -179.2,49.86 -306.65,141.48 -354.53,272.87 -128.47,353.23 368.58,858.62 1110.55,1128.59 589.17,214.51 1155.67,216.17 1428.24,30.73zm50.08 574.05c-375.97,104.18 -936.04,59.07 -1513.68,-151.09 -919.22,-334.69 -1535.15,-960.79 -1375.87,-1398.5 32.76,-90.16 95.89,-165.19 183.38,-224.73 -222.26,61.66 -380.12,175.27 -439.28,337.85 -159.36,437.78 456.56,1064.02 1375.83,1398.5 729.99,265.72 1431.87,267.73 1769.62,37.97zm-213.54 515.79c-401.71,111.28 -1000.36,63.02 -1617.74,-161.68 -982.46,-357.5 -1640.77,-1026.63 -1470.56,-1494.54 35.13,-96.38 102.52,-176.6 196,-240.25 -237.45,65.91 -406.24,187.28 -469.49,361.18 -170.38,467.93 488.09,1137 1470.52,1494.67 780.22,283.96 1530.37,286.28 1891.27,40.62zm-374.53 508.43c-375.89,103.98 -936.03,58.8 -1513.6,-151.28 -919.2,-334.65 -1535.31,-960.67 -1376,-1398.48 32.9,-90.16 95.91,-165.18 183.41,-224.74 -222.14,61.61 -380,175.28 -439.18,337.88 -159.45,437.95 456.45,1063.98 1375.85,1398.51 729.97,265.69 1431.75,267.74 1769.52,38.11zm-624.93 341.27c-279.6,77.45 -696.19,43.94 -1125.84,-112.55 -683.76,-248.8 -1141.93,-714.53 -1023.42,-1040.2 24.31,-67.02 71.23,-122.93 136.26,-167.26 -165.16,45.88 -282.58,130.45 -326.66,251.35 -118.49,325.69 339.68,791.5 1023.36,1040.19 543.15,197.76 1065.13,199.43 1316.3,28.47z"/>
-                    </g>
-                </svg>
-            </a>
-            <p class="normal-text" style="margin-top: 8px;">Logo istituzionale LHI Lecce<br><a href="https://www.lhilecce.it" target="_blank" class="normal-link">www.lhilecce.it</a></p>
+                <p class="normal-text" style="margin: 12px 0 8px 0; font-size: 1em; text-align: center;">
+                    Logo Icona LHI Lecce NFT per Polygon ed OpenSea Market Place
+                </p>
+                <p class="normal-text" style="margin: 0; text-align: center;">
+                    🌊 <a href="https://opensea.io/collection/lhi-lecce-nft" 
+                          target="_blank" 
+                          class="normal-link" 
+                          style="font-weight: bold; color: #0077cc; font-size: 1em;">
+                        Visita la Collezione LHI Lecce NFT su OpenSea
+                    </a>
+                </p>
+            </div>
+            
+            <!-- Separatore -->
+            <div style="width: 80%; height: 2px; background: linear-gradient(to right, transparent, #b22222, transparent); margin: 20px 0;"></div>
+            
+            <!-- Logo Istituzionale LHI - RIDIMENSIONATO -->
+            <div style="display: flex; flex-direction: column; align-items: center; max-width: 350px;">
+                <a href="https://www.lhilecce.it" target="_blank" title="LHI Lecce Sito Ufficiale">
+                    <svg xmlns="http://www.w3.org/2000/svg" 
+                         xml:space="preserve" 
+                         width="350" 
+                         height="136" 
+                         viewBox="0 0 10000 3885.9" 
+                         style="max-width: 350px; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+                        <defs>
+                            <style type="text/css">
+                                .fil2 {fill:#952727}
+                                .fil1 {fill:#6B6B6A;fill-rule:nonzero}
+                                .fil0 {fill:#952727;fill-rule:nonzero}
+                            </style>
+                        </defs>
+                        <g id="Livello_x0020_1">
+                            <metadata id="CorelCorpID_0Corel-Layer"/>
+                            <path class="fil0" d="M2734.12 3338.59l0 -739.82 -1927.01 0c-38.48,0 -73.21,-34.67 -73.21,-77.09l0 -2515.95 -739.77 0 0 2593.04c0,404.62 331.25,739.82 739.77,739.82l2000.22 0z"/>
+                            <polygon class="fil1" points="5232.83,2040.16 5232.83,1300.43 3749.46,1300.43 3749.46,5.86 3009.7,5.86 3009.7,3338.59 3749.46,3338.59 3749.46,2040.16 "/>
+                            <path class="fil2" d="M5474.52 5.85l3650.34 0 0 3350.76 -3650.34 0 0 -3350.76zm4321.95 1342.2c-217.18,60.23 -540.68,34.04 -874.37,-87.29 -530.9,-193.25 -886.69,-554.91 -794.63,-807.76 18.88,-52.03 55.26,-95.47 105.87,-129.8 -128.36,35.55 -219.54,101.2 -253.77,195.19 -92.06,252.86 263.8,614.53 794.69,807.69 421.71,153.55 827.13,154.77 1022.21,21.97zm147.58 479.78c-303.43,84 -755.52,47.54 -1221.75,-121.99 -741.78,-270.15 -1238.99,-775.38 -1110.34,-1128.77 26.34,-72.71 77.22,-133.3 147.83,-181.43 -179.2,49.86 -306.65,141.48 -354.53,272.87 -128.47,353.23 368.58,858.62 1110.55,1128.59 589.17,214.51 1155.67,216.17 1428.24,30.73zm50.08 574.05c-375.97,104.18 -936.04,59.07 -1513.68,-151.09 -919.22,-334.69 -1535.15,-960.79 -1375.87,-1398.5 32.76,-90.16 95.89,-165.19 183.38,-224.73 -222.26,61.66 -380.12,175.27 -439.28,337.85 -159.36,437.78 456.56,1064.02 1375.83,1398.5 729.99,265.72 1431.87,267.73 1769.62,37.97zm-213.54 515.79c-401.71,111.28 -1000.36,63.02 -1617.74,-161.68 -982.46,-357.5 -1640.77,-1026.63 -1470.56,-1494.54 35.13,-96.38 102.52,-176.6 196,-240.25 -237.45,65.91 -406.24,187.28 -469.49,361.18 -170.38,467.93 488.09,1137 1470.52,1494.67 780.22,283.96 1530.37,286.28 1891.27,40.62zm-374.53 508.43c-375.89,103.98 -936.03,58.8 -1513.6,-151.28 -919.2,-334.65 -1535.31,-960.67 -1376,-1398.48 32.9,-90.16 95.91,-165.18 183.41,-224.74 -222.14,61.61 -380,175.28 -439.18,337.88 -159.45,437.95 456.45,1063.98 1375.85,1398.51 729.97,265.69 1431.75,267.74 1769.52,38.11zm-624.93 341.27c-279.6,77.45 -696.19,43.94 -1125.84,-112.55 -683.76,-248.8 -1141.93,-714.53 -1023.42,-1040.2 24.31,-67.02 71.23,-122.93 136.26,-167.26 -165.16,45.88 -282.58,130.45 -326.66,251.35 -118.49,325.69 339.68,791.5 1023.36,1040.19 543.15,197.76 1065.13,199.43 1316.3,28.47z"/>
+                        </g>
+                    </svg>
+                </a>
+                <p class="normal-text" style="margin: 12px 0; font-size: 1em; text-align: center;">
+                    Logo istituzionale LHI Lecce<br>
+                    <a href="https://www.lhilecce.it" target="_blank" class="normal-link">www.lhilecce.it</a>
+                </p>
+            </div>
+            
         </div>
     </div>
 
+    <!-- Continua con sezione successiva "2. Un Progetto Immobiliare..." -->
     <div class="section-title">2. Un Progetto Immobiliare Reale, un Valore Tangibile</div>
     <div class="section-content">
         A differenza di molti progetti digitali, il valore di un NFT LHI non è astratto.
@@ -947,21 +1038,19 @@
     </div>
 
 
+
+    <div class="section-title">💼 Connessione Wallet</div>
     <div class="section-content">
-        <p>L’interfaccia frontend include ora il nuovo SDK di <strong>MetaMask Embedded
-        Wallet</strong>, che permette:</p>
+        <p>L'interfaccia frontend supporta la connessione tramite:</p>
         <ul>
-            <li>Connessione diretta con MetaMask (senza estensione browser)</li>
-            <li>Onboarding semplificato con login via email/social</li>
-            <li>Compatibilità con oltre <strong>450 wallet</strong>, inclusi:</li>
-            <li>🔗 Coinbase Wallet</li>
-            <li>🦊 MetaMask Mobile</li>
-            <li>🐝 Binance Smart Chain (BNB Wallet)</li>
+            <li>🦊 <strong>MetaMask Browser Extension</strong> (modalità prioritaria)</li>
+            <li>📱 <strong>MetaMask SDK</strong> come fallback automatico quando l'estensione non è disponibile</li>
         </ul>
-        <p>L'SDK utilizza:</p>
+        <p>Per connetterti:</p>
         <ul>
-            <li>✅ Infura (Polygon): Endpoint configurato per Polygon Mainnet.</li>
-            <li>✅ Client ID SDK: Configurato nel tuo ambiente di sviluppo/deploy.</li>
+            <li>✅ Se hai installato l'estensione MetaMask nel browser, verrà utilizzata automaticamente</li>
+            <li>✅ Altrimenti, il sistema caricherà il MetaMask SDK per connessione mobile</li>
+            <li>✅ Configurato per <strong>Polygon Mainnet</strong> tramite Infura</li>
         </ul>
     </div>
 
@@ -993,19 +1082,24 @@
         <p>“Non chi comincia, ma quel che persevera.” 🇮🇹</p>
         <p><strong>Copyright © Giugno 2025 Avv. Marcello Stanca - Firenze.</strong></p>
 
-        <strong>Team e Collaboratori</strong><br>
-        Presidente del CdA: Dott.ssa Cinzia Colizzi (Dottore Commercialista)<br>
-        Responsabile dei lavori: dott. Antonio Primiceri<br>
-        Direttore dei Lavori: ing. Donato Nocco, ing. Pietro Licignano, ing. Roberto Paladini<br>
-        Coordinatore Sicurezza Esecuzione: ing. Roberto Paladini<br>
-        Progettisti Architettonici: arch. Angelo Ingrosso, ing. Pietro Licignano<br>
-        Progettisti Strutture: ing. Donato Nocco e ing. Livio Calo'<br>
-        Progettisti Impianti: p.ti ind.li Antonio Laurenti, Piero Romano, Giuseppe Serafino, Sandro Ciurlia, Giuseppe Martella<br>
-        Collaudatori: ing. Vito Morciano, ing. Giuseppe Bruno<br><br>
+    </div>
 
-        <strong>Partner Finanziari e Contributi</strong><br>
-        Contributo Regione Puglia programma Operativo Puglia FESR 2014-2020, Monte dei Paschi Siena, Capital Service di Firenze<br> 
-        Banca Popolare Pugliese, Banca di Credito Cooperativo di Terra d'Otranto. Supporto tecnico Protocollo Itaca Puglia 2011-2017<br>
+    <div class="section-title">👥 Team e Collaboratori</div>
+    <div class="section-content">
+        <p>Presidente del CdA: Dott.ssa Cinzia Colizzi (Dottore Commercialista)</p>
+        <p>Responsabile dei lavori: dott. Antonio Primiceri</p>
+        <p>Direttore dei Lavori: ing. Donato Nocco, ing. Pietro Licignano, ing. Roberto Paladini</p>
+        <p>Coordinatore Sicurezza Esecuzione: ing. Roberto Paladini</p>
+        <p>Progettisti Architettonici: arch. Angelo Ingrosso, ing. Pietro Licignano</p>
+        <p>Progettisti Strutture: ing. Donato Nocco e ing. Livio Calo'</p>
+        <p>Progettisti Impianti: p.ti ind.li Antonio Laurenti, Piero Romano, Giuseppe Serafino, Sandro Ciurlia, Giuseppe Martella</p>
+        <p>Collaudatori: ing. Vito Morciano, ing. Giuseppe Bruno</p>
+    </div>
+
+    <div class="section-title">💰 Partner Finanziari e Contributi</div>
+    <div class="section-content">
+        <p>Contributo Regione Puglia programma Operativo Puglia FESR 2014-2020, Monte dei Paschi Siena, Capital Service di Firenze</p>
+        <p>Banca Popolare Pugliese, Banca di Credito Cooperativo di Terra d'Otranto. Supporto tecnico Protocollo Itaca Puglia 2011-2017</p>
     </div>
 
     <div class="normal-text">
@@ -2037,7 +2131,7 @@ const translations = {
     'Quando clicchi "Mint", la Zecca Digitale di LHI, crea un bene virtuale immutabile che è soltanto per te. Ogni "Mint" genera un "Certificato di Nascita" (la transazione sulla blockchain) e un "Certificato di Residenza" cioè la sua presenza nel tuo wallet), garantendoti il pieno e verificabile possesso del tuo asset digitale. Nessuno potrà mai appropriarsi del tuo NFT che può essere venduto soltanto da te in rete tramite la tua firma digitale convalidata dal tuo wallet elettronico protetto da password, impronta digitale fisica e chiave privata elettronica di 64 caratteri': 'When you click "Mint," LHI\'s Digital Mint creates an immutable virtual asset that\'s unique to you. Each "Mint" generates a "Birth Certificate" (the transaction on the blockchain) and a "Certificate of Residency" (i.e., its presence in your wallet), guaranteeing you full and verifiable ownership of your digital asset. No one will ever be able to steal your NFT, which can only be sold online by you using your digital signature validated by your password-protected electronic wallet, physical fingerprint, and 64-character electronic private key.',
     'Il valore del tuo NFT è destinato a crescere per la elevata qualitàdei servizi offerti. LHI è presente da tempo nella lista degli Hotel a 4 stelle offerto su Booking ed Espedia. LHI vuole essere anche un centro di sollievo dalla sofferenza, offrendo una piscina con acqua di mare purissima estratta a 350 metri di profondità per talassoterapia, sauna e servizi di riabilitazione. Sostenere questo progetto significa investire in un ecosistema di benessere reale.': 'The value of your NFT is destined to grow with the excellence of the services offered. LHI has long been listed among the 4-star hotels offered on Booking.com and Espedia. LHI also aims to be a center for pain relief, offering a pool with pure seawater extracted from a depth of 350 meters for thalassotherapy, a sauna, and rehabilitation services. Supporting this project means investing in a real wellness ecosystem.',
     'CONTROLLA tu stesso il codice Solidity dello smart contract che è stato verificato, con segno di spunta Verde, sulla piattaforma blockchain Polygonscan, (protetto da Copyright) ma è anche presente su GitHub, piattaforma mondiale ed affidabile degli sviluppatori informatici. 🔍 Codice Trasparente del Contratto intelligente': 'CHECK for yourself the Solidity smart contract code, which has been verified with a green checkmark on the Polygonscan blockchain platform (protected by copyright), but is also available on GitHub, a global and trusted platform for IT developers. 🔍 Transparent Smart Contract Code',
-    'L\'interfaccia frontend include ora il nuovo SDK di MetaMask Embedded Wallet, che permette:Connessione diretta con MetaMask (senza estensione browser)Onboarding semplificato con login via email/social Compatibilità con oltre 450 wallet, inclusi:🔗 Coinbase Wallet 🦊 MetaMask Mobile 🐝 Binance Smart Chain (BNB Wallet)': 'The frontend interface now includes the new MetaMask Embedded Wallet SDK, which allows: Direct connection with MetaMask (without browser extension) Simplified onboarding with email/social login Compatibility with over 450 wallets, including 🔗 Coinbase Wallet 🦊 MetaMask Mobile 🐝 Binance Smart Chain (BNB Wallet)',
+    'L\'interfaccia frontend supporta la connessione tramite MetaMask Browser Extension (modalità prioritaria) e MetaMask SDK come fallback automatico quando l\'estensione non è disponibile. Configurato per Polygon Mainnet tramite Infura.': 'The frontend interface supports connection via MetaMask Browser Extension (priority mode) and MetaMask SDK as automatic fallback when the extension is not available. Configured for Polygon Mainnet via Infura.',
     'Team e Collaboratori Presidente del CdA: Dott.ssa Cinzia Colizzi (Dottore Commercialista)Responsabile dei lavori: dott. Antonio Primiceri Direttore dei Lavori: ing. Donato Nocco, ing. Pietro Licignano, ing. Roberto Paladini Coordinatore Sicurezza Esecuzione: ing. Roberto Paladini Progettisti Architettonici: arch. Angelo Ingrosso ing. Pietro Licignano Progettisti Strutture: ing. Donato Nocco e ing. Livio Calo\' Progettisti Impianti: p.ti ind.li Antonio Laurenti, Piero Romano, Giuseppe Serafino, Sandro Ciurlia, Giuseppe Martella Collaudatori: ing. Vito Morciano, ing. Giuseppe Bruno Partner Finanziari e Contributi Contributo Regione Puglia programma Operativo Puglia FESR 2014-2020, Monte dei Paschi Siena, Capital Service di FirenzeBanca Popolare Pugliese, Banca di Credito Cooperativo di Terra d\'Otranto. Supporto tecnico Protocollo Itaca Puglia 2011-2017 🙏 Grazie ancora per la tua visita! Lascia un feedback!': 'Team and Collaborators: Chairman of the Board of Directors: Dr. Cinzia Colizzi (Chartered Accountant) Project Manager: Dr. Antonio Primiceri Construction Manager: Eng. Donato Nocco, Eng. Pietro Licignano, Eng. Roberto Paladini Execution Safety Coordinator: Eng. Roberto Paladini Architectural Designers: Architect Angelo Ingrosso, Eng. Pietro Licignano Structural Designers: Eng. Donato Nocco and Eng. Livio Calo\' Systems Designers: Industrial Engineers Antonio Laurenti, Piero Romano, Giuseppe Serafino, Sandro Ciurlia, Giuseppe Martella Test Engineers: Eng. Vito Morciano, Eng. Giuseppe Bruno Financial Partners and Contributions: Contribution from the Puglia Region, Puglia ERDF Operational Program 2014-2020, Monte dei Paschi Siena, Capital Service of Florence, Banca Popolare Pugliese, Banca di Credito Cooperativo di Terra d\'Otranto. Technical Support for the Itaca Puglia Protocol 2011-2017 🙏 Thanks again for visiting! Leave your feedback!',
     'Smart Contract Verificato - Leggilo aprendo questo link.': 'Verified Smart Contract - Read it by opening this link.',
     'Codice Trasparente del Contratto intelligente': 'Transparent Code of the Smart Contract',
