@@ -10,8 +10,8 @@ This is the LHISA Lecce NFT project - a Web3 application for medical research fu
 - Blockchain: Polygon Mainnet (Chain ID: 0x89)
 - Smart Contract: ERC-1155 and ERC-20 hybrid NFT contract
 - Storage: IPFS via Pinata for NFT metadata
-- NFT Contract Address: `0xEC023A57E96E0a94E30EB9892F05fC002A545aA5`
-- FT Contract Address: `0xF96ab75dEf75945e3E4a62E918468d49DaC97598`
+- NFT Contract Address: `0xEC023A57E96E0a94E30EB9892F05fC002A545aA5` (verified on PolygonScan)
+- FT Contract Address: `0xF96ab75dEf75945e3E4a62E918468d49DaC97598` (verified on PolygonScan)
 
 ## Project Structure
 
@@ -32,9 +32,10 @@ This is the LHISA Lecce NFT project - a Web3 application for medical research fu
 ### Web3 Integration Patterns
 
 #### SDK Availability Checks
-- **RECOMMENDED**: Check `typeof MetaMaskSDK !== 'undefined'` before instantiating MetaMaskSDK
+- **BEST PRACTICE**: Check `typeof MetaMaskSDK !== 'undefined'` before instantiating MetaMaskSDK
 - Include a 2-second retry mechanism with error handling for more robust initialization
-- Current implementation instantiates directly; consider adding availability checks for production reliability
+- **Note**: Current implementation (as of Dec 2024) instantiates MetaMaskSDK directly without checks
+- When making changes to SDK initialization, consider adding availability checks for improved reliability
 
 #### Script Loading Order
 - External scripts load in specific order: ethers.js (with defer) → MetaMask SDK → abi.js → application code
