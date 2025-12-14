@@ -1050,7 +1050,7 @@
         });
         
         function checkLibrariesLoaded() {
-            const maxAttempts = 50; // 5 secondi max
+            const maxAttempts = 50; // 5000ms / 100ms = 50 attempts (5 secondi max)
             let attempts = 0;
             
             const interval = setInterval(function() {
@@ -1095,15 +1095,15 @@
     let currentAccount = null;
 
     // ===== CONFIGURAZIONE AMBIENTE =====
-    const IS_PRODUCTION = window.location.hostname !== 'localhost' && 
-                          !window.location.hostname.includes('127.0.0.1') &&
-                          !window.location.hostname.includes('192.168');
+    const IS_PRODUCTION = !['localhost', '127.0.0.1', '0.0.0.0'].includes(window.location.hostname) && 
+                          !window.location.hostname.startsWith('192.168.') &&
+                          window.location.protocol !== 'file:';
 
     // Nascondi debug log in produzione
     if (IS_PRODUCTION) {
         const debugLogContainer = document.getElementById('debug-log');
-        if (debugLogContainer && debugLogContainer.parentElement) {
-            debugLogContainer.parentElement.style.display = 'none';
+        if (debugLogContainer) {
+            debugLogContainer.style.display = 'none';
         }
     }
 
@@ -1574,7 +1574,7 @@
         log('🌐 Pagina caricata - Sistema pronto');
         log(`✅ Ethers.js v${ethers.version} caricato`);
         log('✅ MetaMask SDK caricato');
-        log(`✅ ABI contratto caricata (${window.CONTRACT_ABI ? window.CONTRACT_ABI.length : 0} funzioni)`)
+        log(`✅ ABI contratto caricata (${window.CONTRACT_ABI ? window.CONTRACT_ABI.length : 0} funzioni)`);
         
         log(`🔧 Contratto NFT: ${CONTRACT_ADDRESS}`);
         log(`🔧 Contratto FT: ${FT_CONTRACT_ADDRESS}`);
