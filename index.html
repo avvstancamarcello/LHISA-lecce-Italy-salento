@@ -1371,11 +1371,14 @@
         const interval = setInterval(() => {
             progress += 10;
             bar.style.width = progress + "%";
-            if (progress >= 100) clearInterval(interval);
+            if (progress >= 100) {
+                clearInterval(interval);
+                delete container.dataset.intervalId;
+            }
         }, 300);
         
         // Store interval ID for cleanup
-        container.dataset.intervalId = interval;
+        container.dataset.intervalId = String(interval);
     }
 
     /**
@@ -1388,7 +1391,7 @@
         
         // Clear any running interval
         if (container.dataset.intervalId) {
-            clearInterval(parseInt(container.dataset.intervalId));
+            clearInterval(Number(container.dataset.intervalId));
             delete container.dataset.intervalId;
         }
         
