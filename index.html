@@ -1194,6 +1194,145 @@
     let walletConnected = false;
     let currentAccount = null;
 
+    // ===== ANALYTICS =====
+    let analytics = {
+        visits: 0,
+        walletConnects: 0,
+        mints: 0,
+        errors: []
+    };
+
+    function initAnalytics() {
+        const stored = localStorage.getItem('lhisa_analytics');
+        if (stored) {
+            analytics = JSON.parse(stored);
+        }
+        analytics.visits++;
+        saveAnalytics();
+        log(`📊 Visite totali: ${analytics.visits}`);
+    }
+
+    function saveAnalytics() {
+        localStorage.setItem('lhisa_analytics', JSON.stringify(analytics));
+    }
+
+    function trackEvent(name, data = {}) {
+        console.log('📈 Event:', name, data);
+        saveAnalytics();
+    }
+
+    // Export per admin
+    window.exportAnalytics = () => {
+        console.log('Analytics:', analytics);
+        const blob = new Blob([JSON.stringify(analytics, null, 2)], {type: 'application/json'});
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `analytics_${Date.now()}.json`;
+        a.click();
+        log('📥 Analytics esportati');
+    };
+
+    // ===== PERFORMANCE MONITOR =====
+    class PerformanceMonitor {
+        constructor() {
+            this.metrics = {};
+            this.measurePageLoad();
+        }
+        
+        measurePageLoad() {
+            window.addEventListener('load', () => {
+                setTimeout(() => {
+                    if (performance.timing) {
+                        const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+                        this.metrics.pageLoad = loadTime;
+                        log(`⚡ Caricamento: ${(loadTime/1000).toFixed(2)}s`);
+                        
+                        if (loadTime > 3000) {
+                            log('⚠️ Caricamento lento', true);
+                        }
+                    }
+                }, 0);
+            });
+        }
+        
+        async measure(name, fn) {
+            const start = performance.now();
+            try {
+                const result = await fn();
+                const duration = performance.now() - start;
+                this.metrics[name] = duration;
+                log(`⏱️ ${name}: ${duration.toFixed(0)}ms`);
+                return result;
+            } catch (error) {
+                log(`❌ ${name} fallito`, true);
+                throw error;
+            }
+        }
+    }
+
+    const perfMonitor = new PerformanceMonitor();
+
+    // ===== ERROR BOUNDARY =====
+    let errorCount = 0;
+
+    window.addEventListener('error', (e) => {
+        errorCount++;
+        analytics.errors.push({
+            msg: e.message,
+            time: new Date().toISOString()
+        });
+        saveAnalytics();
+        log(`🚨 Errore: ${e.message}`, true);
+        
+        if (errorCount > 10) {
+            log('❌ Troppi errori. Ricaricare pagina.', true);
+        }
+    });
+
+    window.addEventListener('unhandledrejection', (e) => {
+        log(`🚨 Promise rejected: ${e.reason}`, true);
+    });
+
+    // ===== STORAGE MANAGER =====
+    const storage = {
+        set(key, value) {
+            try {
+                localStorage.setItem('lhisa_' + key, JSON.stringify(value));
+                return true;
+            } catch (e) {
+                log('❌ Storage pieno', true);
+                this.cleanup();
+                return false;
+            }
+        },
+        
+        get(key) {
+            try {
+                const item = localStorage.getItem('lhisa_' + key);
+                return item ? JSON.parse(item) : null;
+            } catch (e) {
+                return null;
+            }
+        },
+        
+        cleanup() {
+            log('🧹 Pulizia storage...');
+            for (let key in localStorage) {
+                if (key.startsWith('lhisa_')) {
+                    const item = this.get(key.replace('lhisa_', ''));
+                    // Rimuovi se più vecchio di 30 giorni
+                    if (item && item.timestamp) {
+                        const age = Date.now() - item.timestamp;
+                        if (age > 30 * 24 * 60 * 60 * 1000) {
+                            localStorage.removeItem(key);
+                        }
+                    }
+                }
+            }
+        }
+    };
+
     // ===== CONFIGURAZIONE AMBIENTE =====
     const IS_PRODUCTION = !['localhost', '127.0.0.1', '0.0.0.0'].includes(window.location.hostname) && 
                           !window.location.hostname.startsWith('192.168.') &&
@@ -1243,6 +1382,25 @@
                     debugLog.removeChild(debugLog.firstChild);
                 }
             }
+        }
+    }
+    
+    // ===== THROTTLING SISTEMA =====
+    let logQueue = [];
+    let logTimer = null;
+
+    function logThrottled(message, isError = false) {
+        logQueue.push({ message, isError, time: Date.now() });
+        
+        if (!logTimer) {
+            logTimer = setTimeout(() => {
+                logQueue.forEach(item => log(item.message, item.isError));
+                if (logQueue.length > 5) {
+                    log(`📊 ${logQueue.length} eventi processati`);
+                }
+                logQueue = [];
+                logTimer = null;
+            }, 500);
         }
     }
     
@@ -1345,6 +1503,10 @@
     // ===== CONNESSIONE WALLET CON PRIORITÀ ESTENSIONE BROWSER =====
     async function connectWallet() {
         try {
+            // Track wallet connect event
+            analytics.walletConnects++;
+            trackEvent('wallet_connect');
+            
             log("🚀 Avvio connessione wallet...");
             updateConnectionStatus(false, "Connessione in corso...");
             updateMintStatus('working', 'In attesa di connessione...');
@@ -1567,6 +1729,10 @@
             const quantity = parseInt(document.getElementById('quantity-select').value);
             const totalPrice = calculateTotalPrice();
             
+            // Track mint attempt
+            analytics.mints++;
+            trackEvent('mint_attempt', {tokenId, quantity});
+            
             log(`🎨 Avvio mint: ${quantity}x NFT Token ID ${tokenId}`);
             log(`💰 Costo totale: ${totalPrice.toFixed(4)} POL`);
             updateMintStatus('working', `Mintando ${quantity}x NFT ${tokenId}...`);
@@ -1589,6 +1755,9 @@
                     gasLimit: 350000
                 }
             );
+            
+            // Track mint success
+            trackEvent('mint_success', {tokenId, txHash: tx.hash});
             
             log(`📝 Transazione inviata: ${tx.hash}`);
             log(`🔗 Visualizza su: https://polygonscan.com/tx/${tx.hash}`);
@@ -1739,6 +1908,10 @@
     // ===== INIZIALIZZAZIONE =====
     // Attendi che librerie siano pronte
     document.addEventListener('librariesReady', () => {
+        // Initialize analytics
+        initAnalytics();
+        log('💡 Ctrl+Shift+D per dashboard admin');
+        
         log('🌐 Pagina caricata - Sistema pronto');
         log(`✅ Ethers.js v${ethers.version} caricato`);
         log('✅ MetaMask SDK caricato');
@@ -1910,6 +2083,45 @@ function restoreOriginal() {
 }
 </script>
 </main>
+
+<!-- Admin Dashboard -->
+<div id="admin-dash" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%); background:white; border:2px solid #333; padding:20px; border-radius:10px; z-index:10000; max-width:500px; box-shadow:0 10px 40px rgba(0,0,0,0.3);">
+    <button onclick="closeDash()" style="position:absolute; top:10px; right:10px; background:#dc3545; color:white; border:none; padding:5px 10px; cursor:pointer; border-radius:4px;">✕</button>
+    <h3 style="margin-top:0;">📊 LHISA Analytics</h3>
+    <div id="dash-content"></div>
+    <button onclick="window.exportAnalytics()" style="margin-top:15px; background:#28a745; color:white; border:none; padding:10px; width:100%; cursor:pointer; border-radius:4px;">📥 Export</button>
+</div>
+
+<script>
+document.addEventListener('keydown', (e) => {
+    if (e.ctrlKey && e.shiftKey && e.key === 'D') {
+        openDash();
+    }
+});
+
+function openDash() {
+    const dash = document.getElementById('admin-dash');
+    const content = document.getElementById('dash-content');
+    
+    content.innerHTML = `
+        <ul style="list-style:none; padding:0;">
+            <li>🌐 Visite: <strong>${analytics.visits}</strong></li>
+            <li>🔗 Connessioni: <strong>${analytics.walletConnects}</strong></li>
+            <li>🎨 Mint: <strong>${analytics.mints}</strong></li>
+            <li>🚨 Errori: <strong>${analytics.errors.length}</strong></li>
+        </ul>
+        <p style="font-size:0.9em; color:#666;">⚡ Caricamento: ${perfMonitor.metrics.pageLoad ? (perfMonitor.metrics.pageLoad/1000).toFixed(2) + 's' : 'N/A'}</p>
+        <p style="font-size:0.85em; color:#999;">Premi Ctrl+Shift+D per chiudere</p>
+    `;
+    
+    dash.style.display = 'block';
+}
+
+function closeDash() {
+    document.getElementById('admin-dash').style.display = 'none';
+}
+</script>
+
 </body>
 
 
