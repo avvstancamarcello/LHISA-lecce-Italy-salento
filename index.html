@@ -529,16 +529,16 @@
                     Il referente scientifico, Responsabile del progetto di ricerca e cura
                     è il <strong>Prof. Riccardo SIMONI</strong>, iscritto all'Ordine dei Medici di Firenze.
                     <a href="images/Simoni2.jpg" target="_blank" class="normal-link" 
-                       aria-label="Consulta curriculum Prof. Simoni">Consulta curriculum</a>
+                       aria-label="Consulta curriculum Prof. Simoni - apre in una nuova scheda">Consulta curriculum</a>
                 </p>
                 <p>
                     Il Responsabile scientifico del progetto, è medico specialista in
                     Psichiatria, che vanta <strong>30 anni di grande esperienza clinica ospedaliera</strong>,
                     docenza in corsi di specializzazione e master di formazione per la ricerca
                     scientifica e farmacologica, e può documentare numerosi casi di guarigione
+                    dalla Depressione, anche di personaggi dello spettacolo,
                     grazie all'uso di una terapia personalizzata, monitorata in tempo reale
-                    con flusso di feedback individuali sulle terapie personalizzate
-                    dalla Depressione, anche di personaggi dello spettacolo.
+                    con flusso di feedback individuali sulle terapie personalizzate.
                 </p>
                 <p>
                     La Depressione è ormai annoverata come una malattia sociale,
@@ -1492,9 +1492,20 @@
         try {
             log('🔍 Verifica contratto Polygonscan...');
             
+            // Crea una Promise con timeout di 10 secondi
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000);
+            
             const response = await fetch(
-                `https://api.polygonscan.com/api?module=contract&action=getabi&address=${CONTRACT_ADDRESS}`
+                `https://api.polygonscan.com/api?module=contract&action=getabi&address=${CONTRACT_ADDRESS}`,
+                { signal: controller.signal }
             );
+            
+            clearTimeout(timeoutId);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             
             const data = await response.json();
             const statusEl = document.getElementById('contract-status');
@@ -1502,16 +1513,24 @@
             if (data.status === '1') {
                 log('✅ Contratto verificato');
                 if (statusEl) {
-                    statusEl.innerHTML = `✅ <a href="https://polygonscan.com/address/${CONTRACT_ADDRESS}#code" target="_blank">Contratto Verificato</a>`;
+                    statusEl.innerHTML = `✅ <a href="https://polygonscan.com/address/${CONTRACT_ADDRESS}#code" target="_blank" aria-label="Contratto Verificato su Polygonscan - apre in una nuova scheda">Contratto Verificato</a>`;
                     statusEl.style.color = '#28a745';
                 }
                 return true;
             } else {
                 log('⚠️ Contratto non verificato');
+                if (statusEl) {
+                    statusEl.innerHTML = '⚠️ Contratto in attesa di verifica';
+                    statusEl.style.color = '#ffa500';
+                }
                 return false;
             }
         } catch (error) {
-            log('❌ Errore verifica: ' + error.message, true);
+            if (error.name === 'AbortError') {
+                log('❌ Timeout verifica contratto', true);
+            } else {
+                log('❌ Errore verifica: ' + error.message, true);
+            }
             return false;
         }
     }
