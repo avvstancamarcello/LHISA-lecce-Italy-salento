@@ -40,3 +40,4 @@ index_with_images.html
 # File di cache o di sistema
 .DS_Store
 .gitattributes
+.bak
