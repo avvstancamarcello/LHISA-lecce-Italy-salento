@@ -1199,18 +1199,21 @@
         visits: 0,
         walletConnects: 0,
         mints: 0,
-        errors: []
+        mintAttempts: 0,
+        errors: [],
+        events: []
     };
 
     function initAnalytics() {
         try {
             const stored = localStorage.getItem('lhisa_analytics');
             if (stored) {
-                analytics = JSON.parse(stored);
+                const parsed = JSON.parse(stored);
+                Object.assign(analytics, parsed);
             }
         } catch (e) {
             log('⚠️ Errore caricamento analytics, reset dati', true);
-            analytics = { visits: 0, walletConnects: 0, mints: 0, errors: [] };
+            Object.assign(analytics, { visits: 0, walletConnects: 0, mints: 0, mintAttempts: 0, errors: [], events: [] });
         }
         analytics.visits++;
         saveAnalytics();
@@ -1222,6 +1225,16 @@
     }
 
     function trackEvent(name, data = {}) {
+        const event = {
+            name,
+            data,
+            timestamp: new Date().toISOString()
+        };
+        analytics.events.push(event);
+        // Mantieni solo ultimi 50 eventi per evitare crescita eccessiva
+        if (analytics.events.length > 50) {
+            analytics.events.shift();
+        }
         console.log('📈 Event:', name, data);
         saveAnalytics();
     }
@@ -1341,7 +1354,9 @@
         
         cleanup() {
             log('🧹 Pulizia storage...');
-            // Itera attraverso le chiavi di localStorage in modo sicuro
+            const keysToRemove = [];
+            
+            // Prima raccogli le chiavi da rimuovere
             for (let i = 0; i < localStorage.length; i++) {
                 const key = localStorage.key(i);
                 if (key && key.startsWith('lhisa_')) {
@@ -1351,9 +1366,7 @@
                         if (item && item.timestamp) {
                             const age = Date.now() - item.timestamp;
                             if (age > 30 * 24 * 60 * 60 * 1000) {
-                                localStorage.removeItem(key);
-                                log(`🗑️ Rimosso: ${key}`);
-                                i--; // Decrementa perché abbiamo rimosso un elemento
+                                keysToRemove.push(key);
                             }
                         }
                     } catch (e) {
@@ -1361,6 +1374,12 @@
                     }
                 }
             }
+            
+            // Poi rimuovi le chiavi
+            keysToRemove.forEach(key => {
+                localStorage.removeItem(key);
+                log(`🗑️ Rimosso: ${key}`);
+            });
         }
     };
 
@@ -1742,7 +1761,7 @@
             const totalPrice = calculateTotalPrice();
             
             // Track mint attempt
-            analytics.mints++;
+            analytics.mintAttempts++;
             trackEvent('mint_attempt', {tokenId, quantity});
             
             log(`🎨 Avvio mint: ${quantity}x NFT Token ID ${tokenId}`);
@@ -1777,6 +1796,9 @@
             mintBtn.textContent = '⏳ In attesa conferma blockchain...';
             
             const receipt = await tx.wait();
+            
+            // Track successful mint after confirmation
+            analytics.mints++;
             
             log(`✅ MINT COMPLETATO!`);
             log(`📦 Blocco: ${receipt.blockNumber}`);
@@ -2130,8 +2152,10 @@ function openDash() {
         <ul style="list-style:none; padding:0;">
             <li>🌐 Visite: <strong>${analytics.visits}</strong></li>
             <li>🔗 Connessioni: <strong>${analytics.walletConnects}</strong></li>
-            <li>🎨 Mint: <strong>${analytics.mints}</strong></li>
+            <li>🎨 Mint Riusciti: <strong>${analytics.mints}</strong></li>
+            <li>🔄 Tentativi Mint: <strong>${analytics.mintAttempts}</strong></li>
             <li>🚨 Errori: <strong>${analytics.errors.length}</strong></li>
+            <li>📊 Eventi: <strong>${analytics.events.length}</strong></li>
         </ul>
         <p style="font-size:0.9em; color:#666;">⚡ Caricamento: ${perfMonitor.metrics.pageLoad ? (perfMonitor.metrics.pageLoad/1000).toFixed(2) + 's' : 'N/A'}</p>
         <p style="font-size:0.85em; color:#999;">Premi Ctrl+Shift+A per chiudere o usa il pulsante ✕</p>
