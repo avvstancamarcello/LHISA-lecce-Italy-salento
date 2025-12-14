@@ -1165,12 +1165,18 @@
                 document.dispatchEvent(new Event('librariesReady'));
             }
         };
+        
+        window.handleScriptError = function(scriptName) {
+            clearTimeout(timeoutId);
+            console.error('❌ Errore caricamento:', scriptName);
+            alert('Errore critico!\n\nImpossibile caricare: ' + scriptName + '\n\nVerifica la connessione internet e ricarica la pagina.');
+        };
     })();
     </script>
     
-    <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js" async onload="window.ethersLoaded = true; checkLibrariesLoaded();"></script>
-    <script src="https://unpkg.com/@metamask/sdk/dist/metamask-sdk.umd.js" async onload="window.metamaskLoaded = true; checkLibrariesLoaded();"></script>
-    <script src="abi.js" async onload="window.abiLoaded = true; checkLibrariesLoaded();"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js" async onload="window.ethersLoaded = true; checkLibrariesLoaded();" onerror="handleScriptError('ethers.js')"></script>
+    <script src="https://unpkg.com/@metamask/sdk/dist/metamask-sdk.umd.js" async onload="window.metamaskLoaded = true; checkLibrariesLoaded();" onerror="handleScriptError('MetaMask SDK')"></script>
+    <script src="abi.js" async onload="window.abiLoaded = true; checkLibrariesLoaded();" onerror="handleScriptError('abi.js')"></script>
 
     <script>
     // ===== CONFIGURAZIONE GLOBALE =====
