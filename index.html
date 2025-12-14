@@ -4,6 +4,20 @@
     <meta charset="UTF-8">
     <title>LHISA Lecce NFT – Ricerca Scientifica STOP DEPRESSION - Cura e GUARIGIONE</title> 
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
+    
+    <!-- Preload risorse critiche -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://polygon-mainnet.infura.io" crossorigin>
+
+    <!-- DNS Prefetch per servizi esterni -->
+    <link rel="dns-prefetch" href="https://polygonscan.com">
+    <link rel="dns-prefetch" href="https://opensea.io">
+    <link rel="dns-prefetch" href="https://lhilecce.it">
+
+    <!-- Preload immagine banner (above the fold) -->
+    <link rel="preload" as="image" href="images/banner.png" type="image/png">
+    
     <style>
         * {
             box-sizing: border-box;
@@ -335,6 +349,31 @@
             font-weight: bold;
             color: green;
         }
+        
+        /* Indicatore ambiente sviluppo */
+        .dev-indicator {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background: linear-gradient(135deg, #ff6b6b, #ff8787);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+            z-index: 9999;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .prod-indicator {
+            display: none; /* Nascosto in produzione */
+        }
     </style>
     <meta name="clientID"
           content="BPOZFh3Z8-D35OCK2tAPyeybjWmNA_GAlJ2pw-MSxZlDcMeit73G0PXUVE-EF9GWrX7DSpxktOulSTEuh4cR0fs">
@@ -342,6 +381,11 @@
           content="https://polygon-mainnet.infura.io/v3/c690c86b64b74bd5a69ad2d32cf2a0c6">
 </head>
 <body>
+    <!-- Indicatore ambiente (visibile solo in dev) -->
+    <div id="env-indicator" style="display: none;">
+        <span class="dev-indicator">🔧 AMBIENTE DI SVILUPPO</span>
+    </div>
+
     <div class="banner-container">
         <img src="images/banner.png" alt="Banner del Progetto LHISA NFT">
     </div>
@@ -362,22 +406,50 @@
     <div class="grid-row">
 
         <div class="building-card">
-            <img alt="edificio1" src="images/edificio1.png" style="width: 100%; max-width: 300px; height: auto; object-fit: contain;">
+            <img 
+                alt="Struttura medica LHI Lecce - Medical Hotel all'avanguardia" 
+                src="images/edificio1.png" 
+                loading="lazy" 
+                decoding="async"
+                width="300" 
+                height="200"
+                style="width: 100%; max-width: 300px; height: auto; object-fit: contain;">
             <p>La nostra struttura medica all'avanguardia.</p>
         </div>
         <div class="building-card">
-            <img alt="edificio2" src="images/edificio2.png" style="width: 100%; max-width: 300px; height: auto; object-fit: contain;">
+            <img 
+                alt="Spazi benessere LHI Lecce - Riabilitazione e comfort" 
+                src="images/edificio2.png" 
+                loading="lazy" 
+                decoding="async"
+                width="300" 
+                height="200"
+                style="width: 100%; max-width: 300px; height: auto; object-fit: contain;">
             <p>Spazi dedicati al benessere e alla riabilitazione.</p>
         </div>
         <div class="building-card">
-            <img alt="edificio3" src="images/edificio3.png" style="width: 100%; max-width: 300px; height: auto; object-fit: contain;">
+            <img 
+                alt="Architettura LHI Lecce - Design e salute" 
+                src="images/edificio3.png" 
+                loading="lazy" 
+                decoding="async"
+                width="300" 
+                height="200"
+                style="width: 100%; max-width: 300px; height: auto; object-fit: contain;">
             <p>Architettura e comfort al servizio della salute.</p>
         </div>
     </div>
 
     <!-- Smart Contract Verificato centrato -->
     <div style="display: flex; flex-direction: column; align-items: center; margin: 20px 0;">
-        <img alt="moneta-scientifica-iconica" src="images/STOP_DEPRESSION_LHI.jpg" style="width: 100%; max-width: 350px; height: auto; object-fit: contain;">
+        <img 
+            alt="Moneta scientifica Stop Depression - NFT LHI Lecce" 
+            src="images/STOP_DEPRESSION_LHI.jpg" 
+            loading="lazy" 
+            decoding="async"
+            width="350" 
+            height="350"
+            style="width: 100%; max-width: 350px; height: auto; object-fit: contain;">
         <p class="normal-text"><a href="https://polygonscan.com/address/0xcAD9C4EfBa776f9F55A71d442EC024BBB5DD2b1c" target="_blank" class="normal-link">Smart Contract Verificato - Leggilo aprendo questo link.</a></p>
     </div>
 
@@ -457,7 +529,14 @@
     <div style="display: flex; flex-direction: row; align-items: flex-start; justify-content: center; gap: 40px; margin: 30px 0;">
         <!-- Immagine Moneta Scientifico Stop Depression -->
         <div style="display: flex; flex-direction: column; align-items: center;">
-            <img alt="NFT Moneta Scientifico Stop Depression" src="images/STOP_DEPRESSION_LHI.jpg" style="width: 500px; height: 500px; object-fit: contain; border-radius: 18px; box-shadow: 0 2px 12px rgba(0,0,0,0.13);">
+            <img 
+                alt="NFT Moneta Scientifico Stop Depression - Ricerca LHI Lecce" 
+                src="images/STOP_DEPRESSION_LHI.jpg" 
+                loading="lazy" 
+                decoding="async"
+                width="500" 
+                height="500"
+                style="width: 500px; height: 500px; object-fit: contain; border-radius: 18px; box-shadow: 0 2px 12px rgba(0,0,0,0.13);">
         </div>
         <!-- Logo NFT LHI con didascalia e link OpenSea -->
         <div style="display: flex; flex-direction: column; align-items: center; max-width: 500px;">
@@ -482,12 +561,24 @@
             
             <div class="grid-row">
                 <div class="nft-card">
-                    <img src="images/75.jpg" alt="NFT 75">
+                    <img 
+                        src="images/75.jpg" 
+                        alt="NFT 75 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                        loading="lazy" 
+                        decoding="async"
+                        width="200" 
+                        height="200">
                     <p data-translate="nft_75">NFT 75</p>
                     <button class="mint-individual-btn" onclick="scrollToMintSection(75)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 75</button>
                 </div>
                 <div class="nft-card">
-                    <img src="images/80.jpg" alt="NFT 80">
+                    <img 
+                        src="images/80.jpg" 
+                        alt="NFT 80 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                        loading="lazy" 
+                        decoding="async"
+                        width="200" 
+                        height="200">
                     <p data-translate="nft_80">NFT 80</p>
                     <button class="mint-individual-btn" onclick="scrollToMintSection(80)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 80</button>
                 </div>
@@ -499,12 +590,24 @@
             
             <div class="grid-row">
                 <div class="nft-card">
-                    <img src="images/85.jpg" alt="NFT 85">
+                    <img 
+                        src="images/85.jpg" 
+                        alt="NFT 85 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                        loading="lazy" 
+                        decoding="async"
+                        width="200" 
+                        height="200">
                     <p data-translate="nft_85">NFT 85</p>
                     <button class="mint-individual-btn" onclick="scrollToMintSection(85)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 85</button>
                 </div>
                 <div class="nft-card">
-                    <img src="images/90.jpg" alt="NFT 90">
+                    <img 
+                        src="images/90.jpg" 
+                        alt="NFT 90 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                        loading="lazy" 
+                        decoding="async"
+                        width="200" 
+                        height="200">
                     <p data-translate="nft_90">NFT 90</p>
                     <button class="mint-individual-btn" onclick="scrollToMintSection(90)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 90</button>
                 </div>
@@ -516,12 +619,24 @@
             
             <div class="grid-row">
                 <div class="nft-card">
-                    <img src="images/95.jpg" alt="NFT 95">
+                    <img 
+                        src="images/95.jpg" 
+                        alt="NFT 95 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                        loading="lazy" 
+                        decoding="async"
+                        width="200" 
+                        height="200">
                     <p data-translate="nft_95">NFT 95</p>
                     <button class="mint-individual-btn" onclick="scrollToMintSection(95)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 95</button>
                 </div>
                 <div class="nft-card">
-                    <img src="images/100.jpg" alt="NFT 100">
+                    <img 
+                        src="images/100.jpg" 
+                        alt="NFT 100 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                        loading="lazy" 
+                        decoding="async"
+                        width="200" 
+                        height="200">
                     <p data-translate="nft_100">NFT 100</p>
                     <button class="mint-individual-btn" onclick="scrollToMintSection(100)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 100</button>
                 </div>
@@ -533,12 +648,24 @@
             
             <div class="grid-row">
                 <div class="nft-card">
-                    <img src="images/05.jpg" alt="NFT 5">
+                    <img 
+                        src="images/05.jpg" 
+                        alt="NFT 5 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                        loading="lazy" 
+                        decoding="async"
+                        width="200" 
+                        height="200">
                     <p data-translate="nft_5">NFT 5</p>
                     <button class="mint-individual-btn" onclick="scrollToMintSection(5)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 5</button>
                 </div>
                 <div class="nft-card">
-                    <img src="images/10.jpg" alt="NFT 10">
+                    <img 
+                        src="images/10.jpg" 
+                        alt="NFT 10 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                        loading="lazy" 
+                        decoding="async"
+                        width="200" 
+                        height="200">
                     <p data-translate="nft_10">NFT 10</p>
                     <button class="mint-individual-btn" onclick="scrollToMintSection(10)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 10</button>
                 </div>
@@ -550,12 +677,24 @@
             
             <div class="grid-row">
                 <div class="nft-card">
-                    <img src="images/15.jpg" alt="NFT 15">
+                    <img 
+                        src="images/15.jpg" 
+                        alt="NFT 15 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                        loading="lazy" 
+                        decoding="async"
+                        width="200" 
+                        height="200">
                     <p data-translate="nft_15">NFT 15</p>
                     <button class="mint-individual-btn" onclick="scrollToMintSection(15)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 15</button>
                 </div>
                 <div class="nft-card">
-                    <img src="images/20.jpg" alt="NFT 20">
+                    <img 
+                        src="images/20.jpg" 
+                        alt="NFT 20 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                        loading="lazy" 
+                        decoding="async"
+                        width="200" 
+                        height="200">
                     <p data-translate="nft_20">NFT 20</p>
                     <button class="mint-individual-btn" onclick="scrollToMintSection(20)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 20</button>
                 </div>
@@ -567,12 +706,24 @@
             
             <div class="grid-row">
                 <div class="nft-card">
-                    <img src="images/25.jpg" alt="NFT 25">
+                    <img 
+                        src="images/25.jpg" 
+                        alt="NFT 25 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                        loading="lazy" 
+                        decoding="async"
+                        width="200" 
+                        height="200">
                     <p data-translate="nft_25">NFT 25</p>
                     <button class="mint-individual-btn" onclick="scrollToMintSection(25)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 25</button>
                 </div>
                 <div class="nft-card">
-                    <img src="images/30.jpg" alt="NFT 30">
+                    <img 
+                        src="images/30.jpg" 
+                        alt="NFT 30 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                        loading="lazy" 
+                        decoding="async"
+                        width="200" 
+                        height="200">
                     <p data-translate="nft_30">NFT 30</p>
                     <button class="mint-individual-btn" onclick="scrollToMintSection(30)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 30</button>
                 </div>
@@ -584,12 +735,24 @@
             
             <div class="grid-row">
                 <div class="nft-card">
-                    <img src="images/35.jpg" alt="NFT 35">
+                    <img 
+                        src="images/35.jpg" 
+                        alt="NFT 35 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                        loading="lazy" 
+                        decoding="async"
+                        width="200" 
+                        height="200">
                     <p data-translate="nft_35">NFT 35</p>
                     <button class="mint-individual-btn" onclick="scrollToMintSection(35)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 35</button>
                 </div>
                 <div class="nft-card">
-                    <img src="images/40.jpg" alt="NFT 40">
+                    <img 
+                        src="images/40.jpg" 
+                        alt="NFT 40 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                        loading="lazy" 
+                        decoding="async"
+                        width="200" 
+                        height="200">
                     <p data-translate="nft_40">NFT 40</p>
                     <button class="mint-individual-btn" onclick="scrollToMintSection(40)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 40</button>
                 </div>
@@ -611,12 +774,24 @@
         
         <div class="grid-row">
             <div class="nft-card">
-                <img src="images/75.jpg" alt="NFT 75">
+                <img 
+                    src="images/75.jpg" 
+                    alt="NFT 75 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                    loading="lazy" 
+                    decoding="async"
+                    width="200" 
+                    height="200">
                 <p data-translate="nft_75">NFT 75</p>
                 <button class="mint-individual-btn" onclick="scrollToMintSection(75)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 75</button>
             </div>
             <div class="nft-card">
-                <img src="images/80.jpg" alt="NFT 80">
+                <img 
+                    src="images/80.jpg" 
+                    alt="NFT 80 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                    loading="lazy" 
+                    decoding="async"
+                    width="200" 
+                    height="200">
                 <p data-translate="nft_80">NFT 80</p>
                 <button class="mint-individual-btn" onclick="scrollToMintSection(80)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 80</button>
             </div>
@@ -637,12 +812,24 @@
 
     <div class="grid-row">
         <div class="nft-card">
-            <img src="images/85.jpg" alt="NFT 85">
+            <img 
+                src="images/85.jpg" 
+                alt="NFT 85 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                loading="lazy" 
+                decoding="async"
+                width="200" 
+                height="200">
             <p data-translate="nft_85">NFT 85</p>
             <button class="mint-individual-btn" onclick="scrollToMintSection(85)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 85</button>
         </div>
         <div class="nft-card">
-            <img src="images/90.jpg" alt="NFT 90">
+            <img 
+                src="images/90.jpg" 
+                alt="NFT 90 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                loading="lazy" 
+                decoding="async"
+                width="200" 
+                height="200">
             <p data-translate="nft_90">NFT 90</p>
             <button class="mint-individual-btn" onclick="scrollToMintSection(90)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 90</button>
         </div>
@@ -659,12 +846,24 @@
            
         <div class="grid-row">
             <div class="nft-card">
-                <img src="images/95.jpg" alt="NFT 95">
+                <img 
+                    src="images/95.jpg" 
+                    alt="NFT 95 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                    loading="lazy" 
+                    decoding="async"
+                    width="200" 
+                    height="200">
                 <p data-translate="nft_95">NFT 95</p>
                 <button class="mint-individual-btn" onclick="scrollToMintSection(95)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 95</button>
             </div>
             <div class="nft-card">
-                <img src="images/100.jpg" alt="NFT 100">
+                <img 
+                    src="images/100.jpg" 
+                    alt="NFT 100 - Contributo ricerca scientifica depressione - LHI Lecce" 
+                    loading="lazy" 
+                    decoding="async"
+                    width="200" 
+                    height="200">
                 <p data-translate="nft_100">NFT 100</p>
                 <button class="mint-individual-btn" onclick="scrollToMintSection(100)" style="background-color: #4CAF50; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer; margin-top: 5px;">Mint NFT 100</button>
             </div>
@@ -759,7 +958,13 @@
     <!-- SEZIONE NFT -->
     <div class="mint-box nft-box">
     <h3 class="section-title">Mint il Tuo NFT Scientifico!</h3>
-    <img src="images/STOP_DEPRESSION_LHI.jpg" alt="NFT Scientifico" width="180" height="180"> 
+    <img 
+        src="images/STOP_DEPRESSION_LHI.jpg" 
+        alt="NFT Scientifico Stop Depression - LHI Lecce" 
+        loading="lazy" 
+        decoding="async"
+        width="180" 
+        height="180">
     <p>Sostieni la ricerca medica acquistando un NFT unico.</p>
     
     <!-- Menu a tendina per selezione Token ID -->
@@ -831,9 +1036,47 @@
     <button id="interactive-mint-btn" disabled>Mint NFT Selezionato!</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js"></script>
-    <script src="https://unpkg.com/@metamask/sdk/dist/metamask-sdk.umd.js"></script>
-    <script src="abi.js"></script>
+    <!-- Caricamento asincrono ottimizzato -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js" async></script>
+    <script src="https://unpkg.com/@metamask/sdk/dist/metamask-sdk.umd.js" async></script>
+    <script src="abi.js" async></script>
+
+    <!-- Gestore caricamento librerie -->
+    <script>
+    (function() {
+        // Attendi caricamento completo di tutte le librerie
+        window.addEventListener('load', function() {
+            checkLibrariesLoaded();
+        });
+        
+        function checkLibrariesLoaded() {
+            const maxAttempts = 50; // 5000ms / 100ms = 50 attempts (5 secondi max)
+            let attempts = 0;
+            
+            const interval = setInterval(function() {
+                attempts++;
+                
+                const ethersLoaded = typeof window.ethers !== 'undefined';
+                const metamaskLoaded = typeof window.MetaMaskSDK !== 'undefined';
+                const abiLoaded = typeof window.CONTRACT_ABI !== 'undefined';
+                
+                if (ethersLoaded && metamaskLoaded && abiLoaded) {
+                    clearInterval(interval);
+                    console.log('✅ Tutte le librerie caricate correttamente');
+                    document.dispatchEvent(new Event('librariesReady'));
+                } else if (attempts >= maxAttempts) {
+                    clearInterval(interval);
+                    console.error('❌ Timeout caricamento librerie');
+                    console.log('Status:', {
+                        ethers: ethersLoaded,
+                        metamask: metamaskLoaded,
+                        abi: abiLoaded
+                    });
+                }
+            }, 100);
+        }
+    })();
+    </script>
 
     <script>
     // ===== CONFIGURAZIONE GLOBALE =====
@@ -851,6 +1094,24 @@
     let walletConnected = false;
     let currentAccount = null;
 
+    // ===== CONFIGURAZIONE AMBIENTE =====
+    const IS_PRODUCTION = !['localhost', '127.0.0.1', '0.0.0.0'].includes(window.location.hostname) && 
+                          !window.location.hostname.startsWith('192.168.') &&
+                          window.location.protocol !== 'file:';
+
+    // Nascondi debug log in produzione
+    if (IS_PRODUCTION) {
+        const debugLogContainer = document.getElementById('debug-log');
+        if (debugLogContainer) {
+            debugLogContainer.style.display = 'none';
+        }
+    }
+
+    // Mostra indicatore solo in sviluppo
+    if (!IS_PRODUCTION) {
+        document.getElementById('env-indicator').style.display = 'block';
+    }
+
     // ===== TEST DI CARICAMENTO LIBRERIE =====
     console.log('🔧 TEST CARICAMENTO LIBRERIE:');
     console.log('✅ Ethers disponibile:', typeof ethers !== 'undefined');
@@ -859,19 +1120,28 @@
 
     // ===== FUNZIONI DI LOG E STATUS =====
     function log(message, isError = false) {
-        console.log(message);
+        // Console log sempre disponibile per debug developer
+        if (isError) {
+            console.error(message);
+        } else {
+            console.log(message);
+        }
         
-        const debugLog = document.getElementById('debug-log');
-        if (debugLog) {
-            const timestamp = new Date().toLocaleTimeString('it-IT');
-            const logEntry = document.createElement('div');
-            logEntry.innerHTML = `[${timestamp}] ${message}`;
-            if (isError) logEntry.style.color = '#ff4444';
-            debugLog.appendChild(logEntry);
-            debugLog.scrollTop = debugLog.scrollHeight;
-            
-            while (debugLog.children.length > 10) {
-                debugLog.removeChild(debugLog.firstChild);
+        // Debug visivo SOLO in ambiente di sviluppo
+        if (!IS_PRODUCTION) {
+            const debugLog = document.getElementById('debug-log');
+            if (debugLog) {
+                const timestamp = new Date().toLocaleTimeString('it-IT');
+                const logEntry = document.createElement('div');
+                logEntry.innerHTML = `[${timestamp}] ${message}`;
+                if (isError) logEntry.style.color = '#ff4444';
+                debugLog.appendChild(logEntry);
+                debugLog.scrollTop = debugLog.scrollHeight;
+                
+                // Mantieni solo ultimi 10 messaggi
+                while (debugLog.children.length > 10) {
+                    debugLog.removeChild(debugLog.firstChild);
+                }
             }
         }
     }
@@ -1299,30 +1569,12 @@
     }
 
     // ===== INIZIALIZZAZIONE =====
-    window.addEventListener('DOMContentLoaded', () => {
+    // Attendi che librerie siano pronte
+    document.addEventListener('librariesReady', () => {
         log('🌐 Pagina caricata - Sistema pronto');
-        
-        // VERIFICA CARICAMENTO LIBRERIE
-        setTimeout(() => {
-            if (typeof ethers === 'undefined') {
-                log('❌ ERRORE: Ethers.js non caricato!', true);
-            } else {
-                log('✅ Ethers.js v' + ethers.version + ' caricato');
-            }
-            
-            if (typeof MetaMaskSDK === 'undefined') {
-                log('❌ WARNING: MetaMask SDK non ancora disponibile', true);
-                log('💡 Se i pulsanti non funzionano, ricarica la pagina (F5)');
-            } else {
-                log('✅ MetaMask SDK caricato correttamente');
-            }
-            
-            if (typeof window.CONTRACT_ABI === 'undefined') {
-                log('❌ WARNING: ABI non caricata da abi.js', true);
-            } else {
-                log('✅ ABI contratto caricata (' + window.CONTRACT_ABI.length + ' funzioni)');
-            }
-        }, 500); // Attendi 500ms per verificare
+        log(`✅ Ethers.js v${ethers.version} caricato`);
+        log('✅ MetaMask SDK caricato');
+        log(`✅ ABI contratto caricata (${window.CONTRACT_ABI ? window.CONTRACT_ABI.length : 0} funzioni)`);
         
         log(`🔧 Contratto NFT: ${CONTRACT_ADDRESS}`);
         log(`🔧 Contratto FT: ${FT_CONTRACT_ADDRESS}`);
