@@ -835,446 +835,413 @@
     <script src="https://unpkg.com/@metamask/sdk/dist/metamask-sdk.umd.js"></script>
     <script src="abi.js"></script>
 
-    <script>
-        // ===== SISTEMA DI DEBUG E SPIE COLORATE =====
+     <script>
+    // ===== SISTEMA DI DEBUG E SPIE COLORATE =====
+    
+    // Funzione UNICA di log (elimina duplicato)
+    function log(message, isError = false) {
+        console.log(message);
         
-        // Funzione per aggiornare le spie di stato
-        function updateConnectionStatus(connected, message) {
-            const light = document.getElementById('connection-light');
-            const text = document.getElementById('connection-text');
+        // Log nel debug panel verde
+        const debugLog = document. getElementById('debug-log');
+        if (debugLog) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.innerHTML = `[${timestamp}] ${message}`;
+            if (isError) logEntry.style.color = '#ff4444';
+            debugLog. appendChild(logEntry);
+            debugLog.scrollTop = debugLog. scrollHeight;
             
-            if (connected) {
+            // Mantieni solo gli ultimi 10 messaggi
+            while (debugLog.children.length > 10) {
+                debugLog. removeChild(debugLog.firstChild);
+            }
+        }
+    }
+    
+    // Funzione per aggiornare le spie di stato
+    function updateConnectionStatus(connected, message) {
+        const light = document.getElementById('connection-light');
+        const text = document.getElementById('connection-text');
+        
+        if (connected) {
+            light.style.backgroundColor = '#44ff44';
+            light.style.boxShadow = '0 0 15px rgba(68,255,68,0.8)';
+            text. innerHTML = '✅ ' + message;
+            text.style. color = '#2E7D32';
+        } else {
+            light.style.backgroundColor = '#ff4444';
+            light.style.boxShadow = '0 0 10px rgba(255,68,68,0.5)';
+            text.innerHTML = '❌ ' + message;
+            text.style.color = '#D32F2F';
+        }
+    }
+    
+    function updateMintStatus(status, message) {
+        const light = document.getElementById('mint-light');
+        const text = document. getElementById('mint-text');
+        
+        switch(status) {
+            case 'ready':
                 light.style.backgroundColor = '#44ff44';
                 light.style.boxShadow = '0 0 15px rgba(68,255,68,0.8)';
                 text.innerHTML = '✅ ' + message;
                 text.style.color = '#2E7D32';
-            } else {
+                break;
+            case 'working':
+                light.style. backgroundColor = '#ffaa00';
+                light.style.boxShadow = '0 0 15px rgba(255,170,0,0.8)';
+                text.innerHTML = '⏳ ' + message;
+                text.style.color = '#F57C00';
+                break;
+            case 'error':
                 light.style.backgroundColor = '#ff4444';
                 light.style.boxShadow = '0 0 10px rgba(255,68,68,0.5)';
                 text.innerHTML = '❌ ' + message;
                 text.style.color = '#D32F2F';
-            }
+                break;
         }
-        
-        function updateMintStatus(status, message) {
-            const light = document.getElementById('mint-light');
-            const text = document.getElementById('mint-text');
+    }
+    
+    // CONFIGURAZIONE GLOBALE
+    const CLIENT_ID = document. querySelector('meta[name="clientID"]').content;
+    const INFURA_URL = document.querySelector('meta[name="infuraURL"]').content;
+    const CONTRACT_ADDRESS = "0xEC023A57E96E0a94E30EB9892F05fC002A545aA5";
+    const FT_CONTRACT_ADDRESS = "0xF96ab75dEf75945e3E4a62E918468d49DaC97598";
+    const FT_PRICE_POL = "0.02";
+    const POLYGON_CHAIN_ID = '0x89'; // 137 in hex (Polygon Mainnet)
+
+    let provider;
+    let signer;
+    let contractInstance;
+    let ftContractInstance;
+    let walletConnected = false;
+    let currentAccount = null;
+
+    // Verifica che siamo su Polygon Mainnet
+    async function checkNetwork() {
+        try {
+            const network = await provider.request({ method: 'eth_chainId' });
+            log(`🌐 Rete rilevata: ${network}`);
             
-            switch(status) {
-                case 'ready':
-                    light.style.backgroundColor = '#44ff44';
-                    light.style.boxShadow = '0 0 15px rgba(68,255,68,0.8)';
-                    text.innerHTML = '✅ ' + message;
-                    text.style.color = '#2E7D32';
-                    break;
-                case 'working':
-                    light.style.backgroundColor = '#ffaa00';
-                    light.style.boxShadow = '0 0 15px rgba(255,170,0,0.8)';
-                    text.innerHTML = '⏳ ' + message;
-                    text.style.color = '#F57C00';
-                    break;
-                case 'error':
-                    light.style.backgroundColor = '#ff4444';
-                    light.style.boxShadow = '0 0 10px rgba(255,68,68,0.5)';
-                    text.innerHTML = '❌ ' + message;
-                    text.style.color = '#D32F2F';
-                    break;
-            }
-        }
-        
-        // Funzione di log migliorata con debug visivo
-        function log(message) {
-            console.log(message);
-            const debugLog = document.getElementById('debug-log');
-            if (debugLog) {
-                const timestamp = new Date().toLocaleTimeString();
-                const logEntry = document.createElement('div');
-                logEntry.innerHTML = `[${timestamp}] ${message}`;
-                debugLog.appendChild(logEntry);
-                debugLog.scrollTop = debugLog.scrollHeight;
+            if (network !== POLYGON_CHAIN_ID) {
+                log('⚠️ Rete sbagliata!  Richiedo cambio a Polygon... ', true);
                 
-                // Mantieni solo gli ultimi 10 messaggi
-                while (debugLog.children.length > 10) {
-                    debugLog.removeChild(debugLog.firstChild);
+                try {
+                    await provider.request({
+                        method: 'wallet_switchEthereumChain',
+                        params: [{ chainId:  POLYGON_CHAIN_ID }],
+                    });
+                    log('✅ Cambiato a Polygon Mainnet');
+                    return true;
+                } catch (switchError) {
+                    // Errore 4902: la chain non è stata aggiunta
+                    if (switchError. code === 4902) {
+                        try {
+                            await provider.request({
+                                method: 'wallet_addEthereumChain',
+                                params: [{
+                                    chainId: POLYGON_CHAIN_ID,
+                                    chainName:  'Polygon Mainnet',
+                                    nativeCurrency: {
+                                        name: 'POL',
+                                        symbol:  'POL',
+                                        decimals: 18
+                                    },
+                                    rpcUrls: [INFURA_URL],
+                                    blockExplorerUrls: ['https://polygonscan.com/']
+                                }],
+                            });
+                            log('✅ Polygon Mainnet aggiunta e attivata');
+                            return true;
+                        } catch (addError) {
+                            log('❌ Impossibile aggiungere Polygon:  ' + addError.message, true);
+                            return false;
+                        }
+                    }
+                    log('❌ Errore cambio rete:  ' + switchError.message, true);
+                    return false;
                 }
             }
+            return true;
+        } catch (error) {
+            log('❌ Errore verifica rete: ' + error. message, true);
+            return false;
         }
-        
-        // CONFIGURAZIONE GLOBALE (NON INCLUDERE CHIAVI PRIVATE QUI!)
-        const CLIENT_ID = document.querySelector('meta[name="clientID"]').content;
-        const INFURA_URL = document.querySelector('meta[name="infuraURL"]').content;
-        const CONTRACT_ADDRESS = "0xEC023A57E96E0a94E30EB9892F05fC002A545aA5"; // NUOVO INDIRIZZO DEL CONTRATTO DEPLOYATO!
-        
-        // CONFIGURAZIONE CONTRATTO FT ERC-20 (ECOSYSTEM DUAL-CONTRACT)
-        const FT_CONTRACT_ADDRESS = "0xF96ab75dEf75945e3E4a62E918468d49DaC97598"; // INDIRIZZO CONTRATTO FT ERC-20 ATTIVO
-        const FT_PRICE_POL = "0.02"; // Prezzo per token in POL
+    }
 
-        let provider;
-        let signer;
-        let contractInstance;
-        let ftContractInstance;
-        let walletConnected = false;
+    // Inizializzazione MetaMask SDK e Connessione Wallet
+    async function connectWallet() {
+        try {
+            log("⏳ Inizializzazione MetaMask SDK...");
+            updateConnectionStatus(false, "Connessione in corso...");
 
-        // Funzione per il LOG nella pagina
-        function log(message, isError = false) {
-            let logEl = document.getElementById("log");
-            if (!logEl) {
-                logEl = document.createElement("div");
-                logEl.id = "log";
-                logEl.style.maxHeight = "120px";
-                logEl.style.overflowY = "auto";
-                logEl.style.background = "#f9f9f9";
-                logEl.style.border = "1px solid #eee";
-                logEl.style.margin = "10px 0";
-                logEl.style.padding = "8px";
-                document.querySelector('.mint-box').appendChild(logEl);
-            }
-            const entry = document.createElement("div");
-            entry.textContent = message;
-            if (isError) entry.style.color = "red";
-            logEl.appendChild(entry);
-            logEl.scrollTop = logEl.scrollHeight;
-        }
+            const MMSDK = new MetaMaskSDK.MetaMaskSDK({
+                dappMetadata: {
+                    name: "LHISA NFT",
+                    url: "https://avvstancamarcello.github.io/LHISA-lecce-Italy-salento/"
+                },
+                infuraAPIKey: INFURA_URL. split('/').pop(),
+                logging: {
+                    developerMode: true,
+                },
+            });
 
-        // Inizializzazione MetaMask SDK e Connessione Wallet
-        async function connectWallet() {
-            try {
-                log("⏳ Tentativo di connessione a MetaMask Embedded Wallet...");
-
-                const MMSDK = new MetaMaskSDK.MetaMaskSDK({
-                    dappMetadata: {
-                        name: "LHISA NFT",
-                        url: "https://avvstancamarcello.github.io/LHISA-lecce-Italy-salento/"
-                    },
-                    infura: { projectId: INFURA_URL.split('/').pop() },
-                    embeddedWallet: { enabled: true, clientId: CLIENT_ID }
-                });
-
-                provider = MMSDK.getProvider();
-
-                const accounts = await provider.request({ method: 'eth_requestAccounts' });
-                if (!accounts || !accounts[0]) {
-                    throw new Error("Nessun account MetaMask trovato. Assicurati che MetaMask sia installato e sbloccato.");
-                }
-                signer = await new ethers.BrowserProvider(provider).getSigner();
-
-                const contractABI = window.CONTRACT_ABI; // Carica l'ABI da abi.js
-                if (!contractABI) {
-                    log("❌ Errore ABI: ABI non caricata! Assicurati che abi.js sia corretto.", true);
-                    alert("Errore ABI: Controlla la console per i dettagli.");
-                    return;
-                }
-
-                contractInstance = new ethers.Contract(CONTRACT_ADDRESS, contractABI, signer);
-                
-                // Inizializza anche il contratto FT ERC-20 (ABI standard ERC-20)
-                const ftABI = [
-                    "function transfer(address to, uint256 amount) external returns (bool)",
-                    "function balanceOf(address account) external view returns (uint256)",
-                    "function totalSupply() external view returns (uint256)",
-                    "function name() external view returns (string)",
-                    "function symbol() external view returns (string)",
-                    "function decimals() external view returns (uint8)",
-                    "function mint(address to, uint256 amount) external payable"
-                ];
-                
-                if (FT_CONTRACT_ADDRESS !== "0x...") {
-                    ftContractInstance = new ethers.Contract(FT_CONTRACT_ADDRESS, ftABI, signer);
-                    log(`✅ Contratto FT ERC-20 inizializzato: ${FT_CONTRACT_ADDRESS.substring(0, 8)}...`);
-                }
-                
-                walletConnected = true;
-                log(`✅ Wallet connesso: ${accounts[0].substring(0, 6)}...`);
-                const connectBtn = document.getElementById('connect-btn');
-                connectBtn.textContent = `Connesso: ${accounts[0].substring(0, 6)}...`;
-                connectBtn.disabled = true;
-                connectBtn.style.backgroundColor = '#4CAF50';
-
-                // Abilita il pulsante Mint Interattivo
-                document.getElementById('interactive-mint-btn').disabled = false;
-                document.getElementById('interactive-mint-btn').style.backgroundColor = '#4CAF50';
-                
-                // Abilita il pulsante FT se il contratto è configurato
-                if (FT_CONTRACT_ADDRESS !== "0x...") {
-                    document.getElementById('buy-ft-btn').disabled = false;
-                    document.getElementById('buy-ft-btn').style.backgroundColor = '#2E7D32';
-                    
-                    // Aggiorna il prezzo quando cambia la quantità
-                    document.getElementById('ft-amount').addEventListener('input', updateFTPrice);
-                    updateFTPrice(); // Calcola prezzo iniziale
-                    
-                    console.log('Sistema dual-contract attivo: NFT + FT con pagamenti POL');
-                } else {
-                    console.log('Contratto FT non configurato. Configurare FT_CONTRACT_ADDRESS per abilitare acquisti FT.');
-                    document.getElementById('ft-status').innerHTML = "⚠️ Contratto FT non ancora configurato";
-                } 
-
-            } catch (err) {
-                log(`❌ Errore durante la connessione: ${err.message}`, true);
-                console.error("Errore di connessione MetaMask Embedded:", err);
-                alert("Connessione fallita: " + err.message);
-                const connectBtn = document.getElementById('connect-btn');
-                if (connectBtn) {
-                  connectBtn.disabled = false;
-                  connectBtn.textContent = 'Connetti Wallet';
-                  connectBtn.style.backgroundColor = '#ff9800';
-                }
-            }
-        }
-
-        // ===== FUNZIONI PER FUNGIBLE TOKEN (FT) ERC-20 =====
-        
-        // Funzione per aggiornare il prezzo in tempo reale
-        function updateFTPrice() {
-            const amount = document.getElementById('ft-amount').value || 1;
-            const totalPOL = (parseFloat(FT_PRICE_POL) * amount).toFixed(4);
-            const totalUSD = (totalPOL * 1.0).toFixed(2); // Assumendo 1 POL ≈ $1
+            provider = MMSDK.getProvider();
             
-            document.getElementById('ft-price-display').innerHTML = 
-                `Prezzo Totale: ${totalPOL} POL (≈ $${totalUSD})`;
+            if (!provider) {
+                throw new Error("MetaMask non rilevato. Installa l'estensione MetaMask.");
+            }
+
+            // Richiedi account
+            const accounts = await provider.request({ method: 'eth_requestAccounts' });
+            if (!accounts || !accounts. length) {
+                throw new Error("Nessun account trovato. Sblocca MetaMask.");
+            }
+            
+            currentAccount = accounts[0];
+            log(`✅ Account rilevato: ${currentAccount.substring(0, 8)}...`);
+
+            // Verifica rete Polygon
+            const networkOk = await checkNetwork();
+            if (!networkOk) {
+                throw new Error("Devi essere connesso a Polygon Mainnet!");
+            }
+
+            // Inizializza provider ethers
+            const ethersProvider = new ethers.BrowserProvider(provider);
+            signer = await ethersProvider.getSigner();
+            log(`✅ Signer inizializzato`);
+
+            // Verifica ABI
+            const contractABI = window. CONTRACT_ABI;
+            if (!contractABI) {
+                throw new Error("ABI non caricata!  Controlla abi.js");
+            }
+
+            // Inizializza contratto NFT
+            contractInstance = new ethers.Contract(CONTRACT_ADDRESS, contractABI, signer);
+            log(`✅ Contratto NFT:  ${CONTRACT_ADDRESS.substring(0, 8)}...`);
+            
+            // Inizializza contratto FT
+            if (window.FT_CONTRACT_ABI && FT_CONTRACT_ADDRESS !== "0x...") {
+                ftContractInstance = new ethers.Contract(
+                    FT_CONTRACT_ADDRESS, 
+                    window.FT_CONTRACT_ABI, 
+                    signer
+                );
+                log(`✅ Contratto FT:  ${FT_CONTRACT_ADDRESS. substring(0, 8)}...`);
+                document.getElementById('buy-ft-btn').disabled = false;
+                document.getElementById('buy-ft-btn').style.backgroundColor = '#2E7D32';
+            }
+            
+            // Aggiorna UI
+            walletConnected = true;
+            updateConnectionStatus(true, `Connesso: ${currentAccount. substring(0, 10)}...`);
+            updateMintStatus('ready', 'Pronto per mintare NFT');
+            
+            const connectBtn = document.getElementById('connect-btn');
+            connectBtn. textContent = `✅ ${currentAccount.substring(0, 6)}...${currentAccount.substring(38)}`;
+            connectBtn.disabled = true;
+            connectBtn.style.backgroundColor = '#4CAF50';
+
+            document.getElementById('interactive-mint-btn').disabled = false;
+            document.getElementById('interactive-mint-btn').style.backgroundColor = '#4CAF50';
+            
+            // Listener per cambio account
+            provider.on('accountsChanged', handleAccountsChanged);
+            provider.on('chainChanged', handleChainChanged);
+            
+            log("🎉 Wallet connesso e pronto!");
+
+        } catch (error) {
+            log(`❌ ERRORE: ${error.message}`, true);
+            updateConnectionStatus(false, error.message);
+            updateMintStatus('error', 'Errore connessione');
+            alert(`Errore connessione: ${error.message}`);
         }
-        
-        // Funzione per acquistare Fungible Token
-        async function buyFungibleTokens() {
-            if (!walletConnected || !ftContractInstance) {
-                document.getElementById('ft-status').innerHTML = "⚠️ Connetti prima il wallet!";
+    }
+
+    // Handler cambio account
+    function handleAccountsChanged(accounts) {
+        if (accounts.length === 0) {
+            log('⚠️ Account disconnesso', true);
+            location.reload();
+        } else if (accounts[0] !== currentAccount) {
+            log(`🔄 Account cambiato: ${accounts[0]. substring(0, 8)}...`);
+            currentAccount = accounts[0];
+            location.reload();
+        }
+    }
+
+    // Handler cambio chain
+    function handleChainChanged(chainId) {
+        log(`🔄 Rete cambiata:  ${chainId}`);
+        location.reload();
+    }
+
+    // Calcolo prezzo totale NFT
+    function calculateTotalPrice() {
+        const tokenId = parseInt(document.getElementById('token-id-select').value);
+        const quantity = parseInt(document.getElementById('quantity-select').value);
+        const pricePerNFT = tokenId * 0.04; // 0.04 POL per unità di token ID
+        const totalPrice = pricePerNFT * quantity;
+        document.getElementById('total-price-display').textContent = 
+            `Prezzo Totale: ${totalPrice.toFixed(2)} POL`;
+        return totalPrice;
+    }
+
+    // Funzione MINT migliorata
+    async function mintNFT() {
+        if (!walletConnected || !contractInstance) {
+            alert("⚠️ Connetti prima il wallet!");
+            return;
+        }
+
+        try {
+            const tokenId = parseInt(document.getElementById('token-id-select').value);
+            const quantity = parseInt(document.getElementById('quantity-select').value);
+            const totalPrice = calculateTotalPrice();
+            
+            log(`🚀 Avvio mint:  ${quantity}x NFT ${tokenId}`);
+            updateMintStatus('working', `Mintando ${quantity} NFT ${tokenId}...`);
+            
+            const mintBtn = document.getElementById('interactive-mint-btn');
+            mintBtn.disabled = true;
+            mintBtn.textContent = '⏳ Transazione in corso...';
+
+            // Converti il prezzo in Wei
+            const valueInWei = ethers.parseEther(totalPrice.toFixed(18));
+            
+            log(`💰 Invio ${totalPrice.toFixed(4)} POL...`);
+            
+            // Chiama la funzione mint del contratto
+            const tx = await contractInstance.mint(currentAccount, tokenId, quantity, "0x", {
+                value:  valueInWei,
+                gasLimit: 300000 // Limite gas esplicito
+            });
+            
+            log(`📝 TX inviata: ${tx.hash. substring(0, 10)}...`);
+            updateMintStatus('working', 'Attendo conferma blockchain...');
+            
+            // Attendi conferma
+            const receipt = await tx.wait();
+            
+            log(`✅ MINT COMPLETATO! Block: ${receipt.blockNumber}`);
+            updateMintStatus('ready', `✅ ${quantity}x NFT ${tokenId} mintati! `);
+            
+            alert(`🎉 NFT mintato con successo!\n\nTX: ${tx.hash}\n\nVisualizza su:\nhttps://polygonscan.com/tx/${tx.hash}`);
+            
+            mintBtn.textContent = '✅ Mint Completato! ';
+            setTimeout(() => {
+                mintBtn. disabled = false;
+                mintBtn. textContent = 'Mint NFT Selezionato! ';
+            }, 3000);
+            
+        } catch (error) {
+            log(`❌ ERRORE MINT: ${error.message}`, true);
+            updateMintStatus('error', 'Mint fallito');
+            
+            let errorMsg = "Errore durante il mint:\n\n";
+            if (error. code === 4001) {
+                errorMsg += "Transazione rifiutata dall'utente";
+            } else if (error. code === -32603) {
+                errorMsg += "Errore interno - Fondi insufficienti? ";
+            } else {
+                errorMsg += error.message;
+            }
+            
+            alert(errorMsg);
+            
+            const mintBtn = document.getElementById('interactive-mint-btn');
+            mintBtn.disabled = false;
+            mintBtn.textContent = 'Mint NFT Selezionato!';
+        }
+    }
+
+    // Funzione Mint FT
+    async function buyFT() {
+        if (!walletConnected || !ftContractInstance) {
+            alert("⚠️ Connetti prima il wallet!");
+            return;
+        }
+
+        try {
+            const amount = parseInt(document.getElementById('ft-amount').value);
+            if (amount < 1 || amount > 1000) {
+                alert("Quantità non valida (1-1000)");
                 return;
             }
 
-            const amount = parseInt(document.getElementById('ft-amount').value) || 1;
-            const totalPOL = (parseFloat(FT_PRICE_POL) * amount).toFixed(4);
+            const totalPricePOL = (amount * parseFloat(FT_PRICE_POL)).toFixed(4);
+            log(`🪙 Acquisto ${amount} FT per ${totalPricePOL} POL`);
             
-            const buyButton = document.getElementById('buy-ft-btn');
-            buyButton.disabled = true;
-            buyButton.textContent = "Acquistando...";
-            buyButton.style.backgroundColor = '#ffc107';
+            const statusEl = document.getElementById('ft-status');
+            statusEl.textContent = '⏳ Transazione in corso...';
             
-            document.getElementById('ft-status').innerHTML = "⏳ Preparazione transazione...";
+            const buyBtn = document.getElementById('buy-ft-btn');
+            buyBtn.disabled = true;
 
-            try {
-                // Calcola il valore in Wei (POL usa 18 decimali come ETH)
-                const valueInWei = ethers.parseEther(totalPOL);
-                
-                document.getElementById('ft-status').innerHTML = `⏳ Acquisto di ${amount} token per ${totalPOL} POL...`;
-                
-                // Chiama la funzione mint del contratto FT con pagamento in POL
-                const tx = await ftContractInstance.mint(await signer.getAddress(), amount, {
-                    value: valueInWei,
-                    gasLimit: 150000
-                });
-                
-                document.getElementById('ft-status').innerHTML = `⏳ Transazione inviata! Hash: ${tx.hash.substring(0, 10)}...`;
-                
-                // Attendi conferma
-                const receipt = await tx.wait();
-                
-                if (receipt.status === 1) {
-                    document.getElementById('ft-status').innerHTML = 
-                        `✅ Successo! Acquistati ${amount} FT LHI! 
-                         <a href="https://polygonscan.com/tx/${receipt.hash}" target="_blank">Vedi su PolygonScan</a>`;
-                         
-                    // Reset input
-                    document.getElementById('ft-amount').value = 10;
-                    updateFTPrice();
-                } else {
-                    throw new Error("Transazione fallita");
-                }
-
-            } catch (error) {
-                console.error("Errore acquisto FT:", error);
-                document.getElementById('ft-status').innerHTML = 
-                    `❌ Errore: ${error.message || "Transazione fallita"}`;
-            } finally {
-                // Riabilita pulsante
-                buyButton.disabled = false;
-                buyButton.textContent = "Acquista Token FT";
-                buyButton.style.backgroundColor = '#2E7D32';
-            }
-        }
-
-        // ===== FUNZIONI PER MINT NFT CON MENU A TENDINA =====
-        
-        // Funzione per scorrere alla sezione mint e preselezionare il token ID
-        window.scrollToMintSection = function(tokenId) {
-            // Scorri alla sezione mint
-            document.querySelector('.mint-box.nft-box').scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'center' 
+            const valueInWei = ethers.parseEther(totalPricePOL);
+            
+            // Chiama mintLHISA del contratto FT
+            const tx = await ftContractInstance.mintLHISA(amount, {
+                value: valueInWei,
+                gasLimit: 200000
             });
             
-            // Preseleziona il token ID nel menu a tendina
-            const tokenSelect = document.getElementById('token-id-select');
-            if (tokenSelect) {
-                tokenSelect.value = tokenId;
-                updateTotalPrice(); // Aggiorna il prezzo
-            }
+            log(`📝 TX FT:  ${tx.hash.substring(0, 10)}...`);
+            statusEl.textContent = '⏳ Attendo conferma... ';
             
-            // Evidenzia temporaneamente la sezione
-            const mintBox = document.querySelector('.mint-box.nft-box');
-            mintBox.style.boxShadow = '0 0 20px #4CAF50';
-            setTimeout(() => {
-                mintBox.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
-            }, 2000);
-        }
-        
-        // Funzione per aggiornare il prezzo totale in tempo reale
-        function updateTotalPrice() {
-            const tokenId = parseInt(document.getElementById('token-id-select').value) || 5;
-            const quantity = parseInt(document.getElementById('quantity-select').value) || 1;
+            const receipt = await tx.wait();
             
-            // Calcolo: TokenID * 0.04 POL * quantità
-            const pricePerUnit = tokenId * 0.04;
-            const totalPrice = (pricePerUnit * quantity).toFixed(2);
+            log(`✅ FT acquistati! Block: ${receipt.blockNumber}`);
+            statusEl.textContent = `✅ ${amount} FT ricevuti!`;
             
-            document.getElementById('total-price-display').innerHTML = 
-                `Prezzo Totale: ${totalPrice} POL (${quantity}x NFT ${tokenId})`;
+            alert(`🎉 Token FT acquistati con successo!\n\nTX: ${tx.hash}`);
+            
+            buyBtn. disabled = false;
+            
+        } catch (error) {
+            log(`❌ ERRORE FT: ${error.message}`, true);
+            document.getElementById('ft-status').textContent = '❌ Errore acquisto';
+            alert(`Errore: ${error.message}`);
+            document.getElementById('buy-ft-btn').disabled = false;
         }
+    }
 
-        // Funzione per effettuare il mint NFT (patch robusta)
-        async function mintNFT() {
-            try {
-                if (!walletConnected || !contractInstance) {
-                    log("⚠️ Devi prima connettere il wallet!", true);
-                    return;
-                }
-                updateMintStatus('working', 'Mint in corso...');
-                // Prendi il tokenId e la quantità selezionati
-                const tokenId = parseInt(document.getElementById('token-id-select').value);
-                const quantity = parseInt(document.getElementById('quantity-select').value);
-
-                // Calcolo prezzo in base al tokenId (leggi il prezzo esatto dal menu)
-                // Esempio: estrai il prezzo dal testo della option selezionata
-                const select = document.getElementById('token-id-select');
-                const priceInfo = select.options[select.selectedIndex].text.match(/\(([ -9.]+) POL\)/);
-                const pricePerNFT = priceInfo ? parseFloat(priceInfo[1]) : 0.2; // Default 0.2 se non trovato
-
-                // Prezzo totale in POL
-                const totalPricePOL = pricePerNFT * quantity;
-                // Conversione in wei/ether
-                const totalPrice = ethers.parseEther(totalPricePOL.toString());
-
-                // Chiamata funzione mint (adatta questa chiamata al tuo smart contract!)
-                // Esempio comune: mint(tokenId, quantity) oppure mint(tokenId) (se senza quantity)
-                // Qui supponiamo che la funzione sia: mint(uint256 tokenId, uint256 quantity) payable
-                const tx = await contractInstance.mint(tokenId, quantity, { value: totalPrice });
-                log("⏳ Transazione inviata: " + tx.hash);
-                await tx.wait();
-                log("✅ Mint avvenuto con successo! TokenId: " + tokenId + " Quantità: " + quantity);
-                updateMintStatus('ready', 'Mint completato!');
-            } catch (err) {
-                log(`❌ Errore mint: ${err.message}`, true);
-                updateMintStatus('error', 'Errore durante il mint');
-            }
-        }
-
-
-        // Generazione dinamica della galleria NFT all'avvio della pagina
-            window.onload = function() {
-                const previewGrid = document.querySelector('.preview-grid');
-                // Definiamo i Token ID in base all'ordine specifico desiderato per le 5 righe
-                const tokenIdsToShow = [
-                    [5, 10, 15, 20],   // Fila 1
-                    [25, 30, 35, 40],  // Fila 2
-                    [45, 50, 55, 60],  // Fila 3
-                    [65, 70, 75, 80],  // Fila 4
-                    [85, 90, 95, 100]  // Fila 5
-                ];
-
-                tokenIdsToShow.forEach(row => {
-                    const rowDiv = document.createElement('div');
-                    rowDiv.className = 'grid-row'; // Ogni riga della griglia avrà la sua classe
-
-                    row.forEach(id => {
-                        const paddedId = id.toString().padStart(2, '0'); // Formatta per immagini (es. 05)
-                        const card = document.createElement('div');
-                        card.className = 'nft-card';
-                        card.innerHTML = `
-                            <img src="images/${paddedId}.jpg" alt="NFT ${id}"> <p>Token ID: #${id}</p>`;
-                        rowDiv.appendChild(card);
-                    });
-                    previewGrid.appendChild(rowDiv);
-                });
-
-
-                // Aggiungi event listeners con debug
-                document.getElementById('connect-btn').addEventListener('click', function() {
-                    log('🔘 Click su Connect Button rilevato');
-                    updateConnectionStatus(false, 'Tentativo di connessione...');
-                    connectWallet();
-                });
-                
-                // Aggancia l'evento click in modo robusto (evita doppioni)
-                const mintBtn = document.getElementById('interactive-mint-btn');
-                if (mintBtn) {
-                    mintBtn.removeEventListener('click', mintNFT);
-                    mintBtn.addEventListener('click', mintNFT);
-                }
-        // Aggancia SEMPRE l'evento anche su DOMContentLoaded (fallback)
-        document.addEventListener('DOMContentLoaded', function() {
-            const btn = document.getElementById('interactive-mint-btn');
-            if (btn) {
-                btn.removeEventListener('click', mintNFT);
-                btn.addEventListener('click', mintNFT);
-            }
+    // Scroll alla sezione mint
+    function scrollToMintSection(tokenId) {
+        document.getElementById('token-id-select').value = tokenId;
+        calculateTotalPrice();
+        document.querySelector('.mint-box. nft-box').scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
         });
-                
-                document.getElementById('buy-ft-btn').addEventListener('click', function() {
-                    log('🔘 Click su FT Buy Button rilevato');
-                    updateMintStatus('working', 'Avvio acquisto FT...');
-                    buyFungibleTokens();
-                });
-                
-                // Event listeners per aggiornare il prezzo in tempo reale
-                document.getElementById('token-id-select').addEventListener('change', function() {
-                    log('📝 Token ID cambiato');
-                    updateTotalPrice();
-                });
-                document.getElementById('quantity-select').addEventListener('change', function() {
-                    log('📝 Quantità cambiata');
-                    updateTotalPrice();
-                });
-                
-                // Calcola prezzo iniziale
-                updateTotalPrice();
-                
-                // Test iniziale e debug
-                setTimeout(function() {
-                    log('🔍 Test iniziale completato');
-                    updateMintStatus('ready', 'Sistema pronto');
-                    
-                    // Test che gli elementi critici esistano
-                    const testElements = {
-                        'connect-btn': document.getElementById('connect-btn'),
-                        'interactive-mint-btn': document.getElementById('interactive-mint-btn'),
-                        'buy-ft-btn': document.getElementById('buy-ft-btn'),
-                        'token-id-select': document.getElementById('token-id-select'),
-                        'quantity-select': document.getElementById('quantity-select')
-                    };
-                    
-                    Object.keys(testElements).forEach(id => {
-                        const element = testElements[id];
-                        if (element) {
-                            log(`✅ ${id}: TROVATO`);
-                        } else {
-                            log(`❌ ${id}: NON TROVATO!`);
-                        }
-                    });
-                    
-                    // Test click simulato per debug
-                    const connectBtn = document.getElementById('connect-btn');
-                    if (connectBtn) {
-                        log('🎯 Pulsante Connect pronto per il click');
-                    }
-                }, 1000);
-                
-                // Disabilita i pulsanti inizialmente
-                document.getElementById('interactive-mint-btn').disabled = true;
-                document.getElementById('interactive-mint-btn').style.backgroundColor = '#aaa';
-                document.getElementById('buy-ft-btn').disabled = true;
-                document.getElementById('buy-ft-btn').style.backgroundColor = '#aaa';
-            };        
+    }
 
-    </script>
+    // Event Listeners
+    window.addEventListener('DOMContentLoaded', () => {
+        log("💻 Pagina caricata - SDK pronto");
+        
+        document.getElementById('connect-btn').addEventListener('click', connectWallet);
+        document.getElementById('interactive-mint-btn').addEventListener('click', mintNFT);
+        document.getElementById('buy-ft-btn').addEventListener('click', buyFT);
+        
+        // Aggiorna prezzo quando cambiano i selettori
+        document.getElementById('token-id-select').addEventListener('change', calculateTotalPrice);
+        document.getElementById('quantity-select').addEventListener('change', calculateTotalPrice);
+        
+        // Aggiorna prezzo FT
+        document.getElementById('ft-amount').addEventListener('input', (e) => {
+            const amount = parseInt(e.target.value) || 0;
+            const totalPOL = (amount * parseFloat(FT_PRICE_POL)).toFixed(4);
+            const totalUSD = (amount * 0.02).toFixed(2);
+            document.getElementById('ft-price-display').textContent = 
+                `Prezzo: ${totalPOL} POL (≈ $${totalUSD})`;
+        });
+    });
+</script>
     <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js" defer></script>
     <script src="https://unpkg.com/@metamask/sdk/dist/metamask-sdk.umd.js"></script>
     <script src="abi.js"></script>
@@ -1410,3 +1377,4 @@ function restoreOriginal() {
 }
 </script>
 </body>
+
