@@ -10,7 +10,8 @@ This is the LHISA Lecce NFT project - a Web3 application for medical research fu
 - Blockchain: Polygon Mainnet (Chain ID: 0x89)
 - Smart Contract: ERC-1155 and ERC-20 hybrid NFT contract
 - Storage: IPFS via Pinata for NFT metadata
-- Contract Address: `0x2A4974aaDFFcFbe721A0B9f41059f6D62fdaface`
+- NFT Contract Address: `0xEC023A57E96E0a94E30EB9892F05fC002A545aA5`
+- FT Contract Address: `0xF96ab75dEf75945e3E4a62E918468d49DaC97598`
 
 ## Project Structure
 
@@ -31,23 +32,14 @@ This is the LHISA Lecce NFT project - a Web3 application for medical research fu
 ### Web3 Integration Patterns
 
 #### SDK Availability Checks
-- **ALWAYS** check `typeof MetaMaskSDK !== 'undefined'` before instantiating MetaMaskSDK
-- Include a 2-second retry mechanism with error handling
-- Example pattern:
-  ```javascript
-  if (typeof MetaMaskSDK === 'undefined') {
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    if (typeof MetaMaskSDK === 'undefined') {
-      throw new Error('MetaMask SDK not loaded');
-    }
-  }
-  ```
+- **RECOMMENDED**: Check `typeof MetaMaskSDK !== 'undefined'` before instantiating MetaMaskSDK
+- Include a 2-second retry mechanism with error handling for more robust initialization
+- Current implementation instantiates directly; consider adding availability checks for production reliability
 
 #### Script Loading Order
-- External scripts must load **synchronously** (no `defer` attribute)
-- Load order: ethers.js → MetaMask SDK → abi.js → application code
-- This prevents race conditions with MetaMaskSDK initialization
-- Scripts are located at lines 834-836 in index.html
+- External scripts load in specific order: ethers.js (with defer) → MetaMask SDK → abi.js → application code
+- Load order is critical to prevent race conditions with MetaMaskSDK initialization
+- Scripts are located in the HTML body before the main application script block
 
 ### Security Considerations
 
@@ -87,7 +79,7 @@ This is the LHISA Lecce NFT project - a Web3 application for medical research fu
 4. Update event logging for user feedback
 
 ### Updating MetaMask SDK
-1. Change script source in `index.html` (line 835)
+1. Update the MetaMask SDK script source in the script loading section of `index.html`
 2. Review breaking changes in SDK documentation
 3. Test connection flow thoroughly
 4. Verify multi-wallet compatibility
@@ -107,7 +99,8 @@ This is the LHISA Lecce NFT project - a Web3 application for medical research fu
 ## Resources
 
 - Official website: https://lhilecce.it
-- Contract on PolygonScan: https://polygonscan.com/address/0x2A4974aaDFFcFbe721A0B9f41059f6D62fdaface
+- NFT Contract on PolygonScan: https://polygonscan.com/address/0xEC023A57E96E0a94E30EB9892F05fC002A545aA5
+- FT Contract on PolygonScan: https://polygonscan.com/address/0xF96ab75dEf75945e3E4a62E918468d49DaC97598
 - Medical hotel location: See `LINK_LOCATION_hotel/` directory
 
 ## Testing
