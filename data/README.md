@@ -1,33 +1,33 @@
-# Legislative Data for 37 Countries
+# Database Internazionale - Responsabilità Bancaria per Truffe Finanziarie
 
-This directory contains JSON files with legislative information for 37 countries worldwide.
+Questo directory contiene i dati sulla regolamentazione finanziaria di 37 Paesi del Mondo in relazione alla **responsabilità delle banche per rimborsare i clienti vittime di truffe finanziarie** che la piattaforma bancaria non ha fermato.
 
-## Files
+## File
 
-- `legislative_data.json` - Contains comprehensive legislative information for 37 countries, including:
-  - Legislative system structure
-  - Health regulations
-  - NFT and cryptocurrency regulations
+- `legislative_data.json` - Database completo con informazioni sulla responsabilità bancaria per 37 paesi, includendo:
+  - Struttura del sistema legislativo
+  - Responsabilità bancaria per frodi finanziarie
+  - Protezione dei consumatori e diritti al rimborso
 
-## Data Structure
+## Struttura Dati
 
-Each country entry includes:
+Ogni paese include:
 
 ```json
 {
   "id": 1,
-  "name": "Country Name",
-  "code": "ISO Country Code",
+  "name": "Nome Paese",
+  "code": "Codice ISO",
   "legislative_info": {
-    "title": "Legislative System Title",
-    "description": "Description of the legislative system",
-    "health_regulations": "Health system regulations",
-    "nft_regulation": "NFT and cryptocurrency regulations"
+    "title": "Responsabilità Bancaria in [Paese]",
+    "description": "Descrizione del sistema legislativo e regolamentazione bancaria",
+    "bank_fraud_liability": "Normativa sulla responsabilità delle banche per rimborsi frodi",
+    "consumer_protection": "Protezione dei consumatori e meccanismi di ricorso"
   }
 }
 ```
 
-## Countries Included (37 total)
+## Paesi Inclusi (37 totali)
 
 1. Italia (IT)
 2. Germania (DE)
@@ -67,40 +67,54 @@ Each country entry includes:
 36. Russia (RU)
 37. Ucraina (UA)
 
-## Usage
+## Utilizzo
 
-The data is loaded dynamically in the main `index.html` page via a dropdown menu that allows users to select a country and view its legislative information.
+I dati vengono caricati dinamicamente nella pagina `BancheTruffaResponsabilita.html` tramite un menu a discesa che permette agli utenti di selezionare un paese e visualizzare le informazioni sulla responsabilità bancaria.
 
-### Implementation
+### Implementazione
 
-The dropdown menu is implemented in the "Consultazione Dati Legislativi Internazionali" section of the website, where users can:
+Il menu a discesa è implementato nella pagina dedicata `BancheTruffaResponsabilita.html`, dove gli utenti possono:
 
-1. Select a country from the dropdown menu
-2. View detailed legislative information including:
-   - Legislative system structure
-   - Health care regulations
-   - NFT and cryptocurrency regulations
+1. Selezionare un paese dal menu a discesa
+2. Visualizzare informazioni dettagliate inclusi:
+   - Sistema legislativo e regolamentazione bancaria
+   - Responsabilità delle banche per frodi finanziarie e rimborsi
+   - Protezione dei consumatori e meccanismi di ricorso
 
-### Code Example
+### Esempio di Codice
 
 ```javascript
-// Load legislative data
-async function loadLegislativeData() {
+// Carica i dati sulla responsabilità bancaria
+async function loadBankData() {
     const response = await fetch('data/legislative_data.json');
     const data = await response.json();
     return data.countries;
 }
 ```
 
-## Updates
+## Aggiornamenti
 
-To update or add countries, edit the `legislative_data.json` file following the existing structure. Ensure that:
+Per aggiornare o aggiungere paesi, modificare il file `legislative_data.json` seguendo la struttura esistente. Assicurarsi che:
 
-1. Each country has a unique `id`
-2. The `code` field uses ISO 3166-1 alpha-2 country codes
-3. All required fields are populated
-4. The JSON remains valid after edits
+1. Ogni paese abbia un `id` univoco
+2. Il campo `code` utilizzi codici paese ISO 3166-1 alpha-2
+3. Tutti i campi richiesti siano popolati
+4. Il JSON rimanga valido dopo le modifiche
+
+## Note Importanti
+
+⚠️ **Questo database è completamente separato dal progetto LHISA NFT**
+
+- I dati riguardano esclusivamente la **responsabilità bancaria per truffe finanziarie**
+- NON contiene informazioni su sanità, NFT o criptovalute
+- È accessibile tramite la pagina autonoma `BancheTruffaResponsabilita.html`
+- Non condivide dati con il progetto LHISA NFT (moneta elettronica per finanziare la ricerca sulla depressione)
+
+## Disclaimer
+
+Questo database è fornito a scopo informativo. Per consulenza legale specifica, si consiglia di consultare un avvocato specializzato in diritto bancario e finanziario.
 
 ## Copyright
 
-© 2025 Progetto LHISA (Moneta NFT per la Ricerca sulla Depressione) - Avv. Marcello Stanca
+© 2025 Avv. Marcello Stanca - Database Responsabilità Bancaria Internazionale
+

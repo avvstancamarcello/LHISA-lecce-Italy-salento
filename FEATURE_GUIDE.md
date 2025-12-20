@@ -1,46 +1,33 @@
-# 📚 Guida alla Funzionalità di Consultazione Dati Legislativi
+# 📚 Guida al Database Internazionale - Responsabilità Bancaria per Truffe Finanziarie
 
 ## Panoramica
 
-Questa funzionalità permette agli utenti del progetto LHISA (moneta NFT per il finanziamento della ricerca scientifica sulla diagnosi e cura della depressione) di consultare informazioni legislative, sanitarie e sulla regolamentazione degli NFT per 37 paesi del mondo attraverso un menu a discesa interattivo.
+Questo database fornisce informazioni sulla **regolamentazione finanziaria di 37 Paesi del Mondo** in relazione alla **responsabilità delle banche per rimborsare i clienti vittime di truffe finanziarie** che la piattaforma bancaria non ha fermato.
+
+⚠️ **IMPORTANTE**: Questo è un progetto **completamente separato** dal progetto LHISA NFT (moneta elettronica per il finanziamento della ricerca sulla depressione). I due progetti non condividono dati e hanno scopi completamente diversi.
 
 ## Implementazione Tecnica
 
 ### File Creati
 
-1. **`data/legislative_data.json`** (17.5 KB)
-   - Contiene i dati legislativi strutturati per 37 paesi
-   - Include informazioni su sistema legislativo, regolamentazione sanitaria e NFT
+1. **`BancheTruffaResponsabilita.html`** - Pagina web dedicata autonoma
+   - Interfaccia completa per consultare il database
+   - Completamente separata dal sito LHISA NFT
+   - Design professionale focalizzato sulla responsabilità bancaria
+
+2. **`data/legislative_data.json`** (40 KB)
+   - Contiene i dati sulla responsabilità bancaria per 37 paesi
+   - Include normative su rimborsi frodi e protezione consumatori
    - Formato JSON validato
 
-2. **`data/README.md`**
+3. **`data/README.md`**
    - Documentazione completa della struttura dati
    - Elenco dei 37 paesi inclusi
    - Istruzioni per aggiornamenti futuri
 
-3. **`test_legislative.html`** (file di test, escluso da git)
-   - Pagina di test isolata per verificare la funzionalità
-   - Permette test indipendenti senza interferenze con il sito principale
+### Modifiche ai File Esistenti
 
-### Modifiche al File Principale
-
-**`index.html`** - Aggiunte:
-
-1. **Sezione HTML** (linee ~2864-2889)
-   - Titolo della sezione con emoji 📚
-   - Descrizione introduttiva
-   - Menu a discesa (`<select>`) con label
-   - Area di visualizzazione dati (nascosta di default)
-
-2. **JavaScript** (linee ~2891-2986)
-   - Funzione `loadLegislativeData()`: carica i dati dal JSON
-   - Funzione `displayCountryData()`: visualizza i dati del paese selezionato
-   - Event listener per il cambio di selezione
-   - Gestione errori e validazione
-
-3. **CSS Responsive** (linee ~152-161)
-   - Stili specifici per mobile devices
-   - Padding e font-size ottimizzati per schermi piccoli
+**Nessuna modifica** al file `index.html` del progetto LHISA NFT - i due progetti sono completamente separati.
 
 ## Struttura Dati
 
@@ -52,13 +39,18 @@ Ogni paese nel file JSON ha questa struttura:
   "name": "Italia",
   "code": "IT",
   "legislative_info": {
-    "title": "Sistema Legislativo Italiano",
-    "description": "Descrizione del sistema legislativo...",
-    "health_regulations": "Informazioni sulla regolamentazione sanitaria...",
-    "nft_regulation": "Regolamentazione NFT e criptovalute..."
+    "title": "Responsabilità Bancaria in Italia",
+    "description": "Descrizione del sistema legislativo e regolamentazione bancaria...",
+    "bank_fraud_liability": "Normativa sulla responsabilità delle banche per frodi...",
+    "consumer_protection": "Protezione dei consumatori e meccanismi di ricorso..."
   }
 }
 ```
+
+### Campi Principali
+
+- **bank_fraud_liability**: Normativa sulla responsabilità delle banche per rimborsare clienti vittime di frodi finanziarie
+- **consumer_protection**: Diritti dei consumatori, limiti di responsabilità del cliente, meccanismi di ricorso e arbitrato
 
 ## I 37 Paesi Inclusi
 
@@ -104,48 +96,57 @@ Ogni paese nel file JSON ha questa struttura:
 
 ### Per gli Utenti
 
-1. **Selezione del Paese**
-   - Aprire il menu a discesa "Seleziona un Paese"
+1. **Accesso alla Pagina**
+   - Aprire il file `BancheTruffaResponsabilita.html` nel browser
+   - La pagina è completamente autonoma e separata dal progetto LHISA NFT
+
+2. **Selezione del Paese**
+   - Utilizzare il menu a discesa "Seleziona un Paese"
    - Scegliere uno dei 37 paesi disponibili
    - I paesi sono elencati con nome e codice ISO (es. "Italia (IT)")
 
-2. **Visualizzazione Dati**
+3. **Visualizzazione Dati**
    Dopo la selezione, vengono mostrate tre sezioni:
-   - 🏛️ **Sistema Legislativo**: Struttura e funzionamento del parlamento
-   - 🏥 **Regolamentazione Sanitaria**: Sistema sanitario nazionale
-   - 💎 **Regolamentazione NFT**: Normative su criptovalute e NFT
+   - 🏛️ **Sistema Legislativo**: Struttura e regolamentazione bancaria
+   - 🏦 **Responsabilità Bancaria per Truffe Finanziarie**: Normativa su rimborsi e responsabilità
+   - 💰 **Rimborsi e Protezione dei Consumatori**: Diritti, limiti di responsabilità, meccanismi di ricorso
 
-3. **Informazioni Aggiuntive**
+4. **Informazioni Aggiuntive**
    - Nome del paese
    - Codice ISO a due lettere
    - Scroll automatico alla sezione dati
 
 ### Design Responsive
 
-La funzionalità è completamente responsive:
+La pagina è completamente responsive:
 
-- **Desktop**: Layout a larghezza piena (max 500px per il dropdown)
+- **Desktop**: Layout ottimizzato con max-width di 1200px
 - **Mobile**: 
-  - Padding ridotto (15px invece di 20px)
-  - Font-size ottimizzato (0.95em per il select)
-  - Margini adattati per schermi piccoli
+  - Padding ridotto per massimizzare lo spazio
+  - Font-size adattato per leggibilità
+  - Design single-column per dispositivi piccoli
 
-## Come Usare la Funzionalità
+## Come Usare
 
-### Nell'Index.html Principale
-
-```html
-<!-- La sezione è già integrata nel file index.html -->
-<!-- Si trova prima della sezione "Admin Dashboard" -->
-```
-
-### Testing Isolato
-
-Per testare la funzionalità in modo isolato:
+### Accesso Diretto
 
 ```bash
-# Aprire il file di test nel browser
-open test_legislative.html
+# Aprire il file nel browser
+open BancheTruffaResponsabilita.html
+# oppure con un server locale
+python3 -m http.server 8000
+# Poi navigare a http://localhost:8000/BancheTruffaResponsabilita.html
+```
+
+### Separazione dal Progetto LHISA NFT
+
+⚠️ **IMPORTANTE**:
+- Questo database è **completamente autonomo**
+- **NON** è integrato in `index.html` (pagina del progetto LHISA NFT)
+- I due progetti non condividono dati o funzionalità
+- Hanno scopi completamente diversi:
+  - **BancheTruffaResponsabilita.html**: Responsabilità bancaria per frodi
+  - **index.html (LHISA NFT)**: Moneta elettronica per ricerca sulla depressione
 # oppure
 python3 -m http.server 8000
 # Poi navigare a http://localhost:8000/test_legislative.html
@@ -232,10 +233,10 @@ Per contribuire con nuovi dati o miglioramenti:
 
 ## Copyright
 
-© 2025 Progetto LHISA (Moneta NFT per la Ricerca sulla Depressione)
+© 2025 Database Internazionale - Responsabilità Bancaria per Truffe Finanziarie
 Avv. Marcello Stanca - Firenze, Italia
 
 ---
 
 **Ultimo aggiornamento**: 20 Dicembre 2025
-**Versione**: 1.0.0
+**Versione**: 2.0.0 - Separato dal progetto LHISA NFT
