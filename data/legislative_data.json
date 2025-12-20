@@ -1,0 +1,411 @@
+{
+  "countries": [
+    {
+      "id": 1,
+      "name": "Italia",
+      "code": "IT",
+      "legislative_info": {
+        "title": "Sistema Legislativo Italiano",
+        "description": "L'Italia è una repubblica parlamentare con un sistema legislativo bicamerale composto dalla Camera dei Deputati e dal Senato della Repubblica.",
+        "health_regulations": "Il Servizio Sanitario Nazionale (SSN) è regolato dal Decreto Legislativo 502/1992 e successive modifiche.",
+        "nft_regulation": "La regolamentazione degli NFT e criptovalute è in fase di adeguamento alle normative europee MiCA (Markets in Crypto-Assets)."
+      }
+    },
+    {
+      "id": 2,
+      "name": "Germania",
+      "code": "DE",
+      "legislative_info": {
+        "title": "Sistema Legislativo Tedesco",
+        "description": "La Germania ha un sistema federale con legislazione a livello federale (Bundestag) e statale (Landtag).",
+        "health_regulations": "Il sistema sanitario tedesco è basato su assicurazioni obbligatorie regolate dal Sozialgesetzbuch (SGB).",
+        "nft_regulation": "La BaFin (Autorità federale di vigilanza finanziaria) supervisiona le attività crypto e NFT."
+      }
+    },
+    {
+      "id": 3,
+      "name": "Francia",
+      "code": "FR",
+      "legislative_info": {
+        "title": "Sistema Legislativo Francese",
+        "description": "La Francia è una repubblica con un sistema legislativo bicamerale: Assemblée Nationale e Sénat.",
+        "health_regulations": "Il sistema sanitario è regolato dal Code de la Santé Publique.",
+        "nft_regulation": "L'AMF (Autorité des Marchés Financiers) regola il mercato crypto e NFT in Francia."
+      }
+    },
+    {
+      "id": 4,
+      "name": "Spagna",
+      "code": "ES",
+      "legislative_info": {
+        "title": "Sistema Legislativo Spagnolo",
+        "description": "La Spagna è una monarchia parlamentare con le Cortes Generales composte dal Congreso de los Diputados e dal Senado.",
+        "health_regulations": "Il Sistema Nacional de Salud è regolato dalla Ley General de Sanidad del 1986.",
+        "nft_regulation": "La CNMV (Comisión Nacional del Mercado de Valores) supervisiona le attività crypto."
+      }
+    },
+    {
+      "id": 5,
+      "name": "Portogallo",
+      "code": "PT",
+      "legislative_info": {
+        "title": "Sistema Legislativo Portoghese",
+        "description": "Il Portogallo ha un sistema parlamentare unicamerale (Assembleia da República).",
+        "health_regulations": "Il Serviço Nacional de Saúde è regolato dalla Lei de Bases da Saúde.",
+        "nft_regulation": "Il Portogallo sta adottando le normative europee MiCA per crypto e NFT."
+      }
+    },
+    {
+      "id": 6,
+      "name": "Regno Unito",
+      "code": "GB",
+      "legislative_info": {
+        "title": "Sistema Legislativo Britannico",
+        "description": "Il Regno Unito ha un parlamento bicamerale: House of Commons e House of Lords.",
+        "health_regulations": "Il National Health Service (NHS) è regolato dal NHS Act 2006.",
+        "nft_regulation": "La FCA (Financial Conduct Authority) regola le criptovalute e gli NFT."
+      }
+    },
+    {
+      "id": 7,
+      "name": "Stati Uniti",
+      "code": "US",
+      "legislative_info": {
+        "title": "Sistema Legislativo Americano",
+        "description": "Gli Stati Uniti hanno un sistema federale bicamerale con Senato e Camera dei Rappresentanti.",
+        "health_regulations": "Il sistema sanitario è regolato da normative federali e statali, incluso l'Affordable Care Act.",
+        "nft_regulation": "La SEC (Securities and Exchange Commission) e la CFTC regolano crypto e NFT."
+      }
+    },
+    {
+      "id": 8,
+      "name": "Canada",
+      "code": "CA",
+      "legislative_info": {
+        "title": "Sistema Legislativo Canadese",
+        "description": "Il Canada ha un parlamento bicamerale: House of Commons e Senate.",
+        "health_regulations": "Il Canada Health Act del 1984 regola il sistema sanitario pubblico.",
+        "nft_regulation": "Le Canadian Securities Administrators regolano il mercato crypto e NFT."
+      }
+    },
+    {
+      "id": 9,
+      "name": "Australia",
+      "code": "AU",
+      "legislative_info": {
+        "title": "Sistema Legislativo Australiano",
+        "description": "L'Australia ha un parlamento federale bicamerale con Senate e House of Representatives.",
+        "health_regulations": "Il sistema sanitario Medicare è regolato dal Health Insurance Act 1973.",
+        "nft_regulation": "L'ASIC (Australian Securities and Investments Commission) supervisiona crypto e NFT."
+      }
+    },
+    {
+      "id": 10,
+      "name": "Giappone",
+      "code": "JP",
+      "legislative_info": {
+        "title": "Sistema Legislativo Giapponese",
+        "description": "Il Giappone ha un parlamento bicamerale: Camera dei Rappresentanti e Camera dei Consiglieri.",
+        "health_regulations": "Il sistema sanitario universale è regolato dal Health Insurance Law.",
+        "nft_regulation": "La FSA (Financial Services Agency) regola le criptovalute tramite il Payment Services Act."
+      }
+    },
+    {
+      "id": 11,
+      "name": "Cina",
+      "code": "CN",
+      "legislative_info": {
+        "title": "Sistema Legislativo Cinese",
+        "description": "La Repubblica Popolare Cinese ha un'Assemblea Nazionale del Popolo unicamerale.",
+        "health_regulations": "Il sistema sanitario è regolato dalle Health Care Reform policies del governo centrale.",
+        "nft_regulation": "La Cina ha vietato le transazioni in criptovalute ma sta sviluppando lo Yuan digitale."
+      }
+    },
+    {
+      "id": 12,
+      "name": "India",
+      "code": "IN",
+      "legislative_info": {
+        "title": "Sistema Legislativo Indiano",
+        "description": "L'India ha un parlamento bicamerale: Lok Sabha (Camera Bassa) e Rajya Sabha (Camera Alta).",
+        "health_regulations": "Il National Health Policy 2017 guida il sistema sanitario indiano.",
+        "nft_regulation": "La Reserve Bank of India e la SEBI stanno definendo le regole per crypto e NFT."
+      }
+    },
+    {
+      "id": 13,
+      "name": "Brasile",
+      "code": "BR",
+      "legislative_info": {
+        "title": "Sistema Legislativo Brasiliano",
+        "description": "Il Brasile ha un Congresso Nazionale bicamerale: Camera dei Deputati e Senato Federale.",
+        "health_regulations": "Il Sistema Único de Saúde (SUS) è garantito dalla Costituzione del 1988.",
+        "nft_regulation": "Il Brasile ha approvato nel 2022 una legge per regolare le criptovalute."
+      }
+    },
+    {
+      "id": 14,
+      "name": "Messico",
+      "code": "MX",
+      "legislative_info": {
+        "title": "Sistema Legislativo Messicano",
+        "description": "Il Messico ha un Congresso bicamerale: Camera dei Deputati e Senato.",
+        "health_regulations": "Il sistema sanitario è regolato dalla Ley General de Salud.",
+        "nft_regulation": "La Ley Fintech del 2018 regola le attività legate alle criptovalute."
+      }
+    },
+    {
+      "id": 15,
+      "name": "Argentina",
+      "code": "AR",
+      "legislative_info": {
+        "title": "Sistema Legislativo Argentino",
+        "description": "L'Argentina ha un Congresso Nazionale bicamerale: Camera dei Deputati e Senato.",
+        "health_regulations": "Il sistema sanitario misto è regolato da normative federali e provinciali.",
+        "nft_regulation": "L'Argentina sta sviluppando regolamentazioni per crypto assets."
+      }
+    },
+    {
+      "id": 16,
+      "name": "Sud Africa",
+      "code": "ZA",
+      "legislative_info": {
+        "title": "Sistema Legislativo Sudafricano",
+        "description": "Il Sud Africa ha un parlamento bicamerale: National Assembly e National Council of Provinces.",
+        "health_regulations": "Il National Health Insurance Act mira a garantire l'accesso universale alla sanità.",
+        "nft_regulation": "La Financial Sector Conduct Authority supervisiona il mercato crypto."
+      }
+    },
+    {
+      "id": 17,
+      "name": "Corea del Sud",
+      "code": "KR",
+      "legislative_info": {
+        "title": "Sistema Legislativo Sudcoreano",
+        "description": "La Corea del Sud ha un'Assemblea Nazionale unicamerale.",
+        "health_regulations": "Il National Health Insurance Service garantisce copertura sanitaria universale.",
+        "nft_regulation": "La FSS (Financial Supervisory Service) regola rigorosamente crypto e NFT."
+      }
+    },
+    {
+      "id": 18,
+      "name": "Singapore",
+      "code": "SG",
+      "legislative_info": {
+        "title": "Sistema Legislativo di Singapore",
+        "description": "Singapore ha un parlamento unicamerale.",
+        "health_regulations": "Il sistema sanitario è regolato dal Ministry of Health con il sistema Medisave.",
+        "nft_regulation": "La MAS (Monetary Authority of Singapore) ha framework chiari per crypto e NFT."
+      }
+    },
+    {
+      "id": 19,
+      "name": "Svizzera",
+      "code": "CH",
+      "legislative_info": {
+        "title": "Sistema Legislativo Svizzero",
+        "description": "La Svizzera ha un'Assemblea Federale bicamerale: Consiglio Nazionale e Consiglio degli Stati.",
+        "health_regulations": "L'assicurazione sanitaria obbligatoria è regolata dalla LAMal.",
+        "nft_regulation": "La FINMA supervisiona le attività crypto con regolamentazione crypto-friendly."
+      }
+    },
+    {
+      "id": 20,
+      "name": "Norvegia",
+      "code": "NO",
+      "legislative_info": {
+        "title": "Sistema Legislativo Norvegese",
+        "description": "La Norvegia ha uno Storting unicamerale.",
+        "health_regulations": "Il sistema sanitario pubblico è finanziato attraverso la tassazione generale.",
+        "nft_regulation": "Finanstilsynet (FSA norvegese) supervisiona le attività crypto."
+      }
+    },
+    {
+      "id": 21,
+      "name": "Svezia",
+      "code": "SE",
+      "legislative_info": {
+        "title": "Sistema Legislativo Svedese",
+        "description": "La Svezia ha un Riksdag unicamerale.",
+        "health_regulations": "Il sistema sanitario è decentralizzato e gestito dai County Councils.",
+        "nft_regulation": "Finansinspektionen regola il mercato crypto."
+      }
+    },
+    {
+      "id": 22,
+      "name": "Danimarca",
+      "code": "DK",
+      "legislative_info": {
+        "title": "Sistema Legislativo Danese",
+        "description": "La Danimarca ha un Folketing unicamerale.",
+        "health_regulations": "Il sistema sanitario pubblico è finanziato dalla tassazione.",
+        "nft_regulation": "Finanstilsynet supervisiona le attività legate alle criptovalute."
+      }
+    },
+    {
+      "id": 23,
+      "name": "Paesi Bassi",
+      "code": "NL",
+      "legislative_info": {
+        "title": "Sistema Legislativo Olandese",
+        "description": "I Paesi Bassi hanno un parlamento bicamerale: Tweede Kamer e Eerste Kamer.",
+        "health_regulations": "Il sistema sanitario è basato su assicurazioni private obbligatorie.",
+        "nft_regulation": "L'AFM (Autoriteit Financiële Markten) regola crypto e NFT."
+      }
+    },
+    {
+      "id": 24,
+      "name": "Belgio",
+      "code": "BE",
+      "legislative_info": {
+        "title": "Sistema Legislativo Belga",
+        "description": "Il Belgio ha un parlamento federale bicamerale: Camera dei Rappresentanti e Senato.",
+        "health_regulations": "Il sistema sanitario è regolato dall'INAMI/RIZIV.",
+        "nft_regulation": "La FSMA supervisiona le attività crypto nel rispetto delle normative EU."
+      }
+    },
+    {
+      "id": 25,
+      "name": "Austria",
+      "code": "AT",
+      "legislative_info": {
+        "title": "Sistema Legislativo Austriaco",
+        "description": "L'Austria ha un parlamento federale bicamerale: Nationalrat e Bundesrat.",
+        "health_regulations": "Il sistema sanitario si basa su assicurazioni sociali obbligatorie.",
+        "nft_regulation": "La FMA (Financial Market Authority) regola crypto e NFT."
+      }
+    },
+    {
+      "id": 26,
+      "name": "Polonia",
+      "code": "PL",
+      "legislative_info": {
+        "title": "Sistema Legislativo Polacco",
+        "description": "La Polonia ha un parlamento bicamerale: Sejm e Senat.",
+        "health_regulations": "Il National Health Fund (NFZ) gestisce il sistema sanitario pubblico.",
+        "nft_regulation": "La KNF (Komisja Nadzoru Finansowego) supervisiona il mercato crypto."
+      }
+    },
+    {
+      "id": 27,
+      "name": "Grecia",
+      "code": "GR",
+      "legislative_info": {
+        "title": "Sistema Legislativo Greco",
+        "description": "La Grecia ha un parlamento unicamerale (Vouli).",
+        "health_regulations": "Il sistema sanitario nazionale (ESY) fornisce assistenza sanitaria pubblica.",
+        "nft_regulation": "La Hellenic Capital Market Commission regola crypto e digital assets."
+      }
+    },
+    {
+      "id": 28,
+      "name": "Repubblica Ceca",
+      "code": "CZ",
+      "legislative_info": {
+        "title": "Sistema Legislativo Ceco",
+        "description": "La Repubblica Ceca ha un parlamento bicamerale: Camera dei Deputati e Senato.",
+        "health_regulations": "L'assicurazione sanitaria pubblica è obbligatoria per tutti i residenti.",
+        "nft_regulation": "La CNB (Czech National Bank) supervisiona le attività crypto."
+      }
+    },
+    {
+      "id": 29,
+      "name": "Finlandia",
+      "code": "FI",
+      "legislative_info": {
+        "title": "Sistema Legislativo Finlandese",
+        "description": "La Finlandia ha un Eduskunta unicamerale.",
+        "health_regulations": "Il sistema sanitario pubblico è finanziato attraverso tassazione municipale.",
+        "nft_regulation": "La FIN-FSA (Financial Supervisory Authority) regola crypto assets."
+      }
+    },
+    {
+      "id": 30,
+      "name": "Irlanda",
+      "code": "IE",
+      "legislative_info": {
+        "title": "Sistema Legislativo Irlandese",
+        "description": "L'Irlanda ha un Oireachtas bicamerale: Dáil Éireann e Seanad Éireann.",
+        "health_regulations": "Il Health Service Executive (HSE) gestisce il sistema sanitario pubblico.",
+        "nft_regulation": "La Central Bank of Ireland supervisiona le attività crypto."
+      }
+    },
+    {
+      "id": 31,
+      "name": "Nuova Zelanda",
+      "code": "NZ",
+      "legislative_info": {
+        "title": "Sistema Legislativo Neozelandese",
+        "description": "La Nuova Zelanda ha un parlamento unicamerale.",
+        "health_regulations": "Il sistema sanitario pubblico è finanziato principalmente dal governo.",
+        "nft_regulation": "La FMA (Financial Markets Authority) regola crypto e digital assets."
+      }
+    },
+    {
+      "id": 32,
+      "name": "Israele",
+      "code": "IL",
+      "legislative_info": {
+        "title": "Sistema Legislativo Israeliano",
+        "description": "Israele ha un Knesset unicamerale.",
+        "health_regulations": "La National Health Insurance Law garantisce copertura sanitaria universale.",
+        "nft_regulation": "L'ISA (Israel Securities Authority) regola il mercato crypto."
+      }
+    },
+    {
+      "id": 33,
+      "name": "Emirati Arabi Uniti",
+      "code": "AE",
+      "legislative_info": {
+        "title": "Sistema Legislativo degli EAU",
+        "description": "Gli Emirati Arabi Uniti sono una federazione con un Federal National Council.",
+        "health_regulations": "Ogni emirato gestisce il proprio sistema sanitario con standard federali.",
+        "nft_regulation": "Dubai e Abu Dhabi hanno framework crypto-friendly con Virtual Assets Regulatory Authority."
+      }
+    },
+    {
+      "id": 34,
+      "name": "Arabia Saudita",
+      "code": "SA",
+      "legislative_info": {
+        "title": "Sistema Legislativo Saudita",
+        "description": "L'Arabia Saudita è una monarchia assoluta con un Majlis al-Shura consultivo.",
+        "health_regulations": "Il Ministero della Salute fornisce assistenza sanitaria gratuita ai cittadini.",
+        "nft_regulation": "La Capital Market Authority sta sviluppando regolamentazioni per crypto assets."
+      }
+    },
+    {
+      "id": 35,
+      "name": "Turchia",
+      "code": "TR",
+      "legislative_info": {
+        "title": "Sistema Legislativo Turco",
+        "description": "La Turchia ha una Grande Assemblea Nazionale unicamerale.",
+        "health_regulations": "Il sistema sanitario universale è gestito dal Ministero della Salute.",
+        "nft_regulation": "La CBRT ha vietato l'uso di crypto come mezzo di pagamento ma permette il trading."
+      }
+    },
+    {
+      "id": 36,
+      "name": "Russia",
+      "code": "RU",
+      "legislative_info": {
+        "title": "Sistema Legislativo Russo",
+        "description": "La Russia ha un'Assemblea Federale bicamerale: Duma di Stato e Consiglio della Federazione.",
+        "health_regulations": "Il sistema sanitario garantisce assistenza medica gratuita ai cittadini.",
+        "nft_regulation": "La Russia ha regolamentato le crypto nel 2020 ma vieta il loro uso come pagamento."
+      }
+    },
+    {
+      "id": 37,
+      "name": "Ucraina",
+      "code": "UA",
+      "legislative_info": {
+        "title": "Sistema Legislativo Ucraino",
+        "description": "L'Ucraina ha una Verkhovna Rada unicamerale.",
+        "health_regulations": "Il sistema sanitario sta attraversando riforme verso un modello assicurativo.",
+        "nft_regulation": "L'Ucraina ha legalizzato le criptovalute nel 2022 con il Virtual Assets Law."
+      }
+    }
+  ]
+}

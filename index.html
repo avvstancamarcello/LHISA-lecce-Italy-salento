@@ -2845,6 +2845,130 @@ function restoreOriginal() {
         });
 }
 </script>
+
+    <!-- Sezione Consultazione Dati Legislativi -->
+    <section id="legislative-section" style="margin: 40px auto; max-width: 1000px; padding: 20px; background: white; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+        <h2 class="section-title" style="font-size: 1.5em !important; font-weight: bold; color: #b22222; margin-bottom: 20px; text-align: center;">
+            📚 Consultazione Dati Legislativi Internazionali
+        </h2>
+        
+        <div class="section-content" style="text-align: justify; margin-bottom: 30px;">
+            <p>
+                Consulta le informazioni legislative, sanitarie e sulla regolamentazione degli NFT per 37 paesi del mondo.
+                Seleziona un paese dal menu a discesa per visualizzare i dati legislativi disponibili.
+            </p>
+        </div>
+        
+        <div style="margin: 20px 0;">
+            <label for="country-select" style="display: block; font-weight: bold; margin-bottom: 10px; font-size: 1.1em;">
+                Seleziona un Paese:
+            </label>
+            <select id="country-select" style="width: 100%; max-width: 500px; padding: 12px; font-size: 1em; border: 2px solid #ddd; border-radius: 6px; background: white; cursor: pointer;">
+                <option value="">-- Seleziona un paese --</option>
+            </select>
+        </div>
+        
+        <div id="legislative-data-display" style="margin-top: 30px; padding: 20px; background: #f9f9f9; border-radius: 8px; display: none; min-height: 200px;">
+            <h3 id="country-title" style="color: #b22222; margin-top: 0;"></h3>
+            <div id="country-data" style="line-height: 1.8;"></div>
+        </div>
+    </section>
+
+    <script>
+    // Legislative Data Management
+    let legislativeData = null;
+    
+    // Load legislative data on page load
+    async function loadLegislativeData() {
+        try {
+            const response = await fetch('data/legislative_data.json');
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            legislativeData = data.countries;
+            
+            // Populate the dropdown
+            const select = document.getElementById('country-select');
+            legislativeData.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.id;
+                option.textContent = `${country.name} (${country.code})`;
+                select.appendChild(option);
+            });
+            
+            console.log('✅ Legislative data loaded successfully:', legislativeData.length, 'countries');
+        } catch (error) {
+            console.error('❌ Error loading legislative data:', error);
+            const select = document.getElementById('country-select');
+            select.innerHTML = '<option value="">Errore nel caricamento dei dati</option>';
+        }
+    }
+    
+    // Display selected country data
+    function displayCountryData(countryId) {
+        if (!legislativeData || !countryId) {
+            document.getElementById('legislative-data-display').style.display = 'none';
+            return;
+        }
+        
+        const country = legislativeData.find(c => c.id === parseInt(countryId));
+        if (!country) {
+            document.getElementById('legislative-data-display').style.display = 'none';
+            return;
+        }
+        
+        const titleEl = document.getElementById('country-title');
+        const dataEl = document.getElementById('country-data');
+        const displayEl = document.getElementById('legislative-data-display');
+        
+        titleEl.textContent = country.legislative_info.title;
+        
+        dataEl.innerHTML = `
+            <div style="margin-bottom: 20px;">
+                <h4 style="color: #333; margin-bottom: 10px;">🏛️ Sistema Legislativo</h4>
+                <p style="text-align: justify;">${country.legislative_info.description}</p>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <h4 style="color: #333; margin-bottom: 10px;">🏥 Regolamentazione Sanitaria</h4>
+                <p style="text-align: justify;">${country.legislative_info.health_regulations}</p>
+            </div>
+            
+            <div style="margin-bottom: 20px;">
+                <h4 style="color: #333; margin-bottom: 10px;">💎 Regolamentazione NFT e Criptovalute</h4>
+                <p style="text-align: justify;">${country.legislative_info.nft_regulation}</p>
+            </div>
+            
+            <div style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-left: 4px solid #4CAF50; border-radius: 4px;">
+                <p style="margin: 0; font-size: 0.95em; color: #2e7d32;">
+                    <strong>📊 Paese:</strong> ${country.name}<br>
+                    <strong>🌍 Codice ISO:</strong> ${country.code}
+                </p>
+            </div>
+        `;
+        
+        displayEl.style.display = 'block';
+        
+        // Scroll to the data display
+        displayEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    
+    // Event listener for country selection
+    document.addEventListener('DOMContentLoaded', function() {
+        // Load legislative data when page is ready
+        loadLegislativeData();
+        
+        // Add change event listener to the select element
+        const select = document.getElementById('country-select');
+        if (select) {
+            select.addEventListener('change', function(e) {
+                displayCountryData(e.target.value);
+            });
+        }
+    });
+    </script>
+
 </main>
 
 <!-- Admin Dashboard -->
