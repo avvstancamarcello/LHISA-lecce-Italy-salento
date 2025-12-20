@@ -103,4 +103,4 @@ To update or add countries, edit the `legislative_data.json` file following the 
 
 ## Copyright
 
-© 2025 LHISA Lecce NFT Project - Avv. Marcello Stanca
+© 2025 Progetto LHISA (Moneta NFT per la Ricerca sulla Depressione) - Avv. Marcello Stanca

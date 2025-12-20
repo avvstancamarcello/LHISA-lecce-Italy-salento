@@ -2,7 +2,7 @@
 
 ## Panoramica
 
-Questa funzionalità permette agli utenti del sito LHISA NFT di consultare informazioni legislative, sanitarie e sulla regolamentazione degli NFT per 37 paesi del mondo attraverso un menu a discesa interattivo.
+Questa funzionalità permette agli utenti del progetto LHISA (moneta NFT per il finanziamento della ricerca scientifica sulla diagnosi e cura della depressione) di consultare informazioni legislative, sanitarie e sulla regolamentazione degli NFT per 37 paesi del mondo attraverso un menu a discesa interattivo.
 
 ## Implementazione Tecnica
 
@@ -232,7 +232,7 @@ Per contribuire con nuovi dati o miglioramenti:
 
 ## Copyright
 
-© 2025 LHISA Lecce NFT Project
+© 2025 Progetto LHISA (Moneta NFT per la Ricerca sulla Depressione)
 Avv. Marcello Stanca - Firenze, Italia
 
 ---
