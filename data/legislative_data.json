@@ -1,0 +1,411 @@
+{
+  "countries": [
+    {
+      "id": 1,
+      "name": "Italia",
+      "code": "IT",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Italia",
+        "description": "L'Italia è una repubblica parlamentare con un sistema legislativo bicamerale. La regolamentazione bancaria è supervisionata dalla Banca d'Italia e dall'IVASS per la protezione dei consumatori.",
+        "bank_fraud_liability": "Le banche italiane sono responsabili per le transazioni non autorizzate se non hanno implementato adeguate misure di sicurezza. Il D.Lgs. 11/2010 (recepimento PSD2) stabilisce che le banche devono rimborsare immediatamente le vittime di frodi, salvo grave negligenza del cliente. La responsabilità ricade sulla banca se il sistema di autenticazione forte non era attivo o se non ha rilevato operazioni sospette.",
+        "consumer_protection": "L'Arbitro Bancario Finanziario (ABF) offre un sistema di risoluzione extragiudiziale delle controversie. I consumatori hanno diritto al rimborso entro 10 giorni lavorativi dalla segnalazione della frode. La banca deve dimostrare la grave negligenza del cliente per evitare il rimborso completo."
+      }
+    },
+    {
+      "id": 2,
+      "name": "Germania",
+      "code": "DE",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Germania",
+        "description": "La Germania ha un sistema federale robusto con la BaFin (Bundesanstalt für Finanzdienstleistungsaufsicht) come autorità di vigilanza finanziaria principale.",
+        "bank_fraud_liability": "Il § 675u BGB (Codice Civile Tedesco) implementa la PSD2 europea. Le banche tedesche devono rimborsare immediatamente le transazioni non autorizzate, tranne nei casi di frode intenzionale o grave negligenza del cliente. La banca è responsabile se il sistema di sicurezza era inadeguato o se ha autorizzato transazioni evidentemente anomale senza verifica aggiuntiva.",
+        "consumer_protection": "I consumatori devono notificare la frode entro 13 mesi. La responsabilità massima del cliente è limitata a €50 prima della notifica, poi zero. La BaFin supervisiona che le banche rispettino gli obblighi di rimborso e sicurezza. Sistema di arbitrato bancario (Ombudsmann) disponibile gratuitamente."
+      }
+    },
+    {
+      "id": 3,
+      "name": "Francia",
+      "code": "FR",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Francia",
+        "description": "La Francia ha un sistema di protezione dei consumatori bancari molto avanzato, supervisionato dall'ACPR (Autorité de Contrôle Prudentiel et de Résolution) e dall'AMF.",
+        "bank_fraud_liability": "Il Code Monétaire et Financier (articoli L133-16 a L133-24) recepisce la PSD2. Le banche francesi hanno l'onere della prova: devono dimostrare che il cliente ha agito con grave negligenza o frode intenzionale. In caso contrario, il rimborso è immediato e completo. Le banche sono responsabili per operazioni sospette non bloccate dal sistema antifrode.",
+        "consumer_protection": "Protezione forte: il cliente paga massimo €50 prima della notifica, poi zero. Mediateur bancaire obbligatorio per tutte le banche. Rimborso entro massimo 10 giorni lavorativi. La banca deve provare attivamente la colpa grave del cliente, non è sufficiente la semplice negligenza."
+      }
+    },
+    {
+      "id": 4,
+      "name": "Spagna",
+      "code": "ES",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Spagna",
+        "description": "La Spagna ha implementato una delle protezioni più forti per i consumatori bancari in Europa, con supervisione della Banca de España.",
+        "bank_fraud_liability": "Il Real Decreto-ley 19/2018 recepisce la PSD2. Le banche spagnole sono responsabili per frodi se non hanno adottato l'autenticazione forte del cliente (SCA). Devono rimborsare immediatamente salvo prova di frode intenzionale del cliente. La semplice negligenza non esonera la banca. Responsabilità per transazioni anomale non bloccate.",
+        "consumer_protection": "Responsabilità cliente limitata a €50 prima della notifica. Zero dopo. Banco de España supervisiona rigorosamente i rimborsi. Servizio reclami gratuito. Le banche devono dimostrare con prove concrete la frode del cliente, non basta il sospetto. Termine di notifica: 13 mesi dalla transazione."
+      }
+    },
+    {
+      "id": 5,
+      "name": "Portogallo",
+      "code": "PT",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Portogallo",
+        "description": "Il Portogallo ha adottato standard elevati di protezione dei consumatori bancari, con il Banco de Portugal come autorità di vigilanza.",
+        "bank_fraud_liability": "Il Decreto-Lei n.º 91/2018 recepisce la PSD2. Le banche portoghesi devono rimborsare immediatamente le transazioni non autorizzate. Sono responsabili se il sistema di sicurezza era inadeguato o se non hanno rilevato pattern sospetti. La banca deve provare la grave negligenza intenzionale del cliente per evitare il rimborso.",
+        "consumer_protection": "Massimo €50 di responsabilità del cliente prima della notifica. Sistema di mediazione bancaria (Provedor do Cliente Bancário) gratuito. Rimborso rapido obbligatorio. La banca ha l'onere di provare la colpa del cliente. Protezione forte per vittime di phishing e frodi sofisticate."
+      }
+    },
+    {
+      "id": 6,
+      "name": "Regno Unito",
+      "code": "GB",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria nel Regno Unito",
+        "description": "Il Regno Unito ha uno dei sistemi di protezione dei consumatori bancari più avanzati, con la FCA (Financial Conduct Authority) e il sistema di Contingent Reimbursement Model (CRM).",
+        "bank_fraud_liability": "Payment Services Regulations 2017 implementa PSD2. Dal 2019, il Contingent Reimbursement Model Code impone alle banche di rimborsare le vittime di Authorized Push Payment (APP) fraud, salvo negligenza grave. Le banche sono responsabili se non hanno avvertito adeguatamente il cliente di rischi evidenti o se hanno processato pagamenti palesemente sospetti senza verifiche.",
+        "consumer_protection": "Per transazioni non autorizzate: responsabilità massima di £35 per il cliente prima della notifica. Zero dopo. Per APP fraud (bonifici autorizzati ma fraudolenti): rimborso obbligatorio salvo negligenza grave provata. Financial Ombudsman Service gratuito per controversie. Sistema CRM copre la maggior parte delle frodi APP."
+      }
+    },
+    {
+      "id": 7,
+      "name": "Stati Uniti",
+      "code": "US",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria negli Stati Uniti",
+        "description": "Gli Stati Uniti hanno un sistema complesso con regolamentazione federale e statale. La protezione principale viene dall'Electronic Fund Transfer Act (EFTA) e dal Regulation E.",
+        "bank_fraud_liability": "Regulation E (12 CFR Part 1005) protegge i consumatori per transazioni elettroniche non autorizzate. Le banche devono rimborsare se il cliente notifica entro 60 giorni. Responsabilità bancaria per frodi se non hanno implementato adeguate misure di sicurezza o se hanno ignorato flag di sicurezza evidenti. Per carte di credito, Fair Credit Billing Act limita responsabilità a $50.",
+        "consumer_protection": "Responsabilità cliente: $0 se notifica prima dell'uso fraudolento, $50 se entro 2 giorni, $500 se entro 60 giorni. Consumer Financial Protection Bureau (CFPB) supervisiona. Le banche devono investigare entro 10 giorni e risolvere entro 45 giorni. Zero Liability policies delle principali banche offrono protezione maggiore della legge."
+      }
+    },
+    {
+      "id": 8,
+      "name": "Canada",
+      "code": "CA",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Canada",
+        "description": "Il Canada ha un sistema bancario altamente regolamentato con protezioni forti per i consumatori, supervisionato dall'FCAC (Financial Consumer Agency of Canada).",
+        "bank_fraud_liability": "Il Canadian Code of Practice for Consumer Debit Card Services stabilisce che le banche sono responsabili per transazioni non autorizzate se il cliente ha protetto adeguatamente il PIN. Le banche devono rimborsare entro 10 giorni lavorativi dalla notifica. Responsabilità bancaria per frodi se il sistema di sicurezza era inadeguato o se non hanno rilevato pattern anomali evidenti.",
+        "consumer_protection": "Responsabilità zero per il cliente se ha protetto ragionevolmente il PIN e notificato prontamente. Massimo $50 in casi specifici. Le banche canadesi generalmente offrono Zero Liability Guarantee. FCAC supervisiona il rispetto del codice. Sistema Ombudsman for Banking Services and Investments (OBSI) per controversie gratuite."
+      }
+    },
+    {
+      "id": 9,
+      "name": "Australia",
+      "code": "AU",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Australia",
+        "description": "L'Australia ha un ePayments Code robusto che offre forte protezione ai consumatori, supervisionato dall'ASIC (Australian Securities and Investments Commission).",
+        "bank_fraud_liability": "L'ePayments Code stabilisce che le istituzioni finanziarie sono responsabili per tutte le transazioni non autorizzate, salvo che il cliente abbia contribuito alla frode con grave negligenza o divulgando volontariamente le credenziali. Le banche devono rimborsare entro 10 giorni lavorativi se non contestano, altrimenti entro 21 giorni dopo l'investigazione.",
+        "consumer_protection": "Responsabilità zero per il cliente per transazioni non autorizzate, salvo contributo alla frode. Le banche hanno l'onere della prova. Australian Financial Complaints Authority (AFCA) fornisce risoluzione gratuita delle controversie. Protezione forte per vittime di scam e phishing se la banca non ha implementato adeguate misure di sicurezza."
+      }
+    },
+    {
+      "id": 10,
+      "name": "Giappone",
+      "code": "JP",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Giappone",
+        "description": "Il Giappone ha un sistema bancario altamente regolamentato con la Financial Services Agency (FSA) come autorità principale di vigilanza.",
+        "bank_fraud_liability": "La Deposit Insurance Act e le linee guida della FSA stabiliscono che le banche giapponesi devono compensare i clienti per perdite dovute a frodi bancarie, salvo grave negligenza. Le banche sono responsabili se non hanno implementato adeguate misure di sicurezza o se hanno autorizzato transazioni evidentemente sospette. Sistema di compensazione rapida per frodi da carte e online banking.",
+        "consumer_protection": "Le banche giapponesi generalmente adottano politiche di rimborso complete per mantenere la reputazione. Sistema di risoluzione controversie attraverso Japanese Bankers Association. Compensazione tipicamente completa per vittime di phishing e malware bancario se il cliente ha seguito le procedure di sicurezza base. Forte enfasi sulla responsabilità bancaria per la sicurezza dei sistemi."
+      }
+    },
+    {
+      "id": 11,
+      "name": "Cina",
+      "code": "CN",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Cina",
+        "description": "La Cina ha un sistema bancario centralizzato controllato dalla People's Bank of China (PBOC) con crescente attenzione alla protezione dei consumatori.",
+        "bank_fraud_liability": "Le Measures for the Administration of Online Payment Services e successive regolamentazioni della PBOC stabiliscono che le istituzioni di pagamento devono compensare i clienti per perdite da transazioni non autorizzate. Le banche sono responsabili se non hanno implementato l'autenticazione richiesta o se hanno elaborato transazioni anomale. Crescente enforcement della responsabilità bancaria con il Consumer Rights Protection Bureau.",
+        "consumer_protection": "Sistema di compensazione in via di rafforzamento. Le banche devono investigare rapidamente e compensare se provano inadeguatezza dei propri sistemi. China Banking and Insurance Regulatory Commission (CBIRC) supervisiona la protezione dei consumatori. Sistema di reclami in evoluzione. Enfasi su prevenzione piuttosto che compensazione ex-post."
+      }
+    },
+    {
+      "id": 12,
+      "name": "India",
+      "code": "IN",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in India",
+        "description": "L'India ha sviluppato un framework robusto di protezione dei consumatori bancari sotto la supervisione della Reserve Bank of India (RBI).",
+        "bank_fraud_liability": "Le circolari RBI stabiliscono responsabilità zero per i clienti se notificano entro 3 giorni. Le banche indiane devono rimborsare completamente le transazioni non autorizzate se hanno fallito nell'implementare sicurezza adeguata o nel rilevare pattern sospetti. Due Factor Authentication obbligatoria. Le banche sono responsabili per ritardi nella notifica di transazioni al cliente.",
+        "consumer_protection": "Responsabilità cliente: Zero se notifica entro 3 giorni, limitata a Rs 5,000-10,000 (a seconda del tipo di account) se notifica entro 4-7 giorni. Banking Ombudsman Scheme fornisce risoluzione gratuita. RBI ha rafforzato significativamente la protezione nel 2017 e 2021. Rimborso obbligatorio entro 10 giorni dalla notifica."
+      }
+    },
+    {
+      "id": 13,
+      "name": "Brasile",
+      "code": "BR",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Brasile",
+        "description": "Il Brasile ha un Codice di Difesa del Consumatore molto protettivo e il Banco Central do Brasil (BCB) supervisiona rigorosamente le pratiche bancarie.",
+        "bank_fraud_liability": "Il Codice del Consumatore (Lei 8.078/90) e le risoluzioni BCB stabiliscono responsabilità oggettiva delle banche per frodi se non dimostrano colpa esclusiva del cliente. Le banche brasiliane devono provare che il cliente ha agito fraudolentemente o con negligenza gravissima. Giurisprudenza favorevole ai consumatori: le banche sono responsabili per transazioni anomale non bloccate.",
+        "consumer_protection": "Forte protezione del consumatore. Inversione dell'onere della prova: la banca deve dimostrare che non c'è stata frode. Sistema giudiziario generalmente favorevole ai consumatori vittime di frodi bancarie. BCB può sanzionare pesantemente le banche per inadeguata protezione. Procon (Proteção ao Consumidor) fornisce supporto gratuito."
+      }
+    },
+    {
+      "id": 14,
+      "name": "Messico",
+      "code": "MX",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Messico",
+        "description": "Il Messico ha rafforzato significativamente la protezione dei consumatori bancari con la Ley Fintech e le regolamentazioni CNBV.",
+        "bank_fraud_liability": "La Ley de Instituciones de Crédito e le Disposiciones della Comisión Nacional Bancaria y de Valores (CNBV) stabiliscono che le banche sono responsabili per operazioni non riconosciute dal cliente se non provano l'uso di strumenti di segurezza da parte del cliente stesso o negligenza grave. Devono rimborsare entro 45 giorni dalla reclamación.",
+        "consumer_protection": "CONDUSEF (Comisión Nacional para la Protección y Defensa de los Usuarios de Servicios Financieros) protegge i consumatori. Le banche devono dimostrare che il cliente ha ricevuto e utilizzato le credenziali in modo negligente. Procedura di reclamo obbligatoria. Arbitraggio finanziario disponibile. Crescente enforcement della protezione consumatori."
+      }
+    },
+    {
+      "id": 15,
+      "name": "Argentina",
+      "code": "AR",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Argentina",
+        "description": "L'Argentina ha un sistema di protezione dei consumatori supervisionato dal Banco Central de la República Argentina (BCRA) e orientato alla tutela dell'utente.",
+        "bank_fraud_liability": "Le comunicazioni BCRA stabiliscono che le entità finanziarie sono responsabili per operazioni no riconosciute dal cliente. La banca deve provare che il cliente ha agito con dolo o colpa grave. La responsabilità oggettiva della banca è la regola, salvo prova contraria. Le banche devono implementare sistemi di sicurezza robusti e monitorare transazioni anomale.",
+        "consumer_protection": "Ley de Defensa del Consumidor (24.240) si applica ai servizi bancari. BCRA supervisiona il rispetto degli standard. Le banche devono rimborsare rapidamente e possono recuperare solo se dimostrano colpa del cliente. Sistema di reclami presso BCRA. Giurisprudenza generalmente favorevole ai consumatori in casi di frode bancaria."
+      }
+    },
+    {
+      "id": 16,
+      "name": "Sud Africa",
+      "code": "ZA",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Sud Africa",
+        "description": "Il Sud Africa ha il Code of Banking Practice e supervisione della South African Reserve Bank (SARB) e del Financial Sector Conduct Authority (FSCA).",
+        "bank_fraud_liability": "Il Code of Banking Practice stabilisce che le banche sono responsabili per frodi se il cliente ha protetto ragionevolmente le credenziali. La banca deve provare negligenza grave del cliente. National Payment System Act richiede misure di sicurezza adeguate. Le banche sono responsabili per transazioni sospette non verificate adeguatamente.",
+        "consumer_protection": "Ombudsman for Banking Services fornisce risoluzione gratuita. Consumer Protection Act si applica ai servizi bancari. Le banche devono investigare e rispondere entro tempi definiti. Responsabilità limitata del cliente se ha seguito ragionevolmente le pratiche di sicurezza. Crescente enforcement della protezione consumatori da parte FSCA."
+      }
+    },
+    {
+      "id": 17,
+      "name": "Corea del Sud",
+      "code": "KR",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Corea del Sud",
+        "description": "La Corea del Sud ha uno dei sistemi bancari digitali più avanzati con forte protezione dei consumatori supervisionata dalla Financial Services Commission (FSC).",
+        "bank_fraud_liability": "L'Electronic Financial Transactions Act stabilisce responsabilità delle istituzioni finanziarie per transazioni non autorizzate salvo negligenza grave del cliente provata dalla banca. Sistema di certificazione digitale obbligatorio. Le banche sono responsabili se non hanno implementato adeguate misure di sicurezza o se hanno autorizzato transazioni anomale senza verifica supplementare.",
+        "consumer_protection": "Compensazione completa per vittime di hacking e phishing se hanno seguito le misure di sicurezza base. Financial Supervisory Service supervisiona rigorosamente. Sistema rapido di compensazione. Le banche coreane generalmente rimborsano rapidamente per mantenere fiducia. Forte cultura di responsabilità bancaria per la sicurezza digitale."
+      }
+    },
+    {
+      "id": 18,
+      "name": "Singapore",
+      "code": "SG",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria a Singapore",
+        "description": "Singapore ha uno dei sistemi finanziari più regolamentati e sicuri, con la Monetary Authority of Singapore (MAS) che impone standard elevati.",
+        "bank_fraud_liability": "Il MAS Notice on Technology Risk Management e il Code of Consumer Banking Practice stabiliscono che le banche sono responsabili per perdite da unauthorized access se non hanno implementato controlli di sicurezza adeguati. Le banche devono rimborsare salvo che dimostrino negligenza grave o frode del cliente. Strong Customer Authentication obbligatoria.",
+        "consumer_protection": "MAS richiede alle banche di avere chiari processi di rimborso. Financial Industry Disputes Resolution Centre (FIDReC) fornisce mediazione gratuita. Le banche singaporeane generalmente adottano politiche di rimborso comprehensive per mantenere la reputazione. Zero liability common per phishing e malware. Enforcement rigoroso da parte MAS."
+      }
+    },
+    {
+      "id": 19,
+      "name": "Svizzera",
+      "code": "CH",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Svizzera",
+        "description": "La Svizzera ha standard bancari elevati con FINMA (Swiss Financial Market Supervisory Authority) che supervisiona la protezione dei clienti.",
+        "bank_fraud_liability": "Le Condizioni Generali delle banche svizzere e le direttive FINMA stabiliscono responsabilità bancaria per transazioni non autorizzate se il cliente ha protetto adeguatamente le credenziali. Obbligo di diligenza della banca nell'identificare transazioni sospette. Le banche devono provare negligenza grave del cliente. Sistema di autenticazione forte obbligatorio.",
+        "consumer_protection": "Ombudsman delle banche svizzere fornisce mediazione. Le banche generalmente compensano rapidamente per mantenere la reputazione. Responsabilità del cliente limitata se ha seguito le istruzioni di sicurezza della banca. FINMA supervisiona che le banche adottino adeguate misure di sicurezza e processi di compensazione equi."
+      }
+    },
+    {
+      "id": 20,
+      "name": "Norvegia",
+      "code": "NO",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Norvegia",
+        "description": "La Norvegia ha implementato rigorosamente la PSD2 con supervisione di Finanstilsynet (Norwegian Financial Supervisory Authority).",
+        "bank_fraud_liability": "Il Financial Contracts Act e l'implementazione della PSD2 stabiliscono che le banche norvegesi sono responsabili per transazioni non autorizzate salvo grave negligenza del cliente. Le banche devono rimborsare immediatamente e possono recuperare solo se dimostrano colpa intenzionale o negligenza gravissima. Responsabilità bancaria per operazioni sospette non bloccate.",
+        "consumer_protection": "Responsabilità massima del cliente di NOK 1,200 prima della notifica se ha contribuito per negligenza. Zero dopo la notifica. Konfliktrådet (Consumer Banking Complaints Board) fornisce risoluzione gratuita. Le banche devono provare attivamente la negligenza grave. Sistema di protezione molto favorevole al consumatore."
+      }
+    },
+    {
+      "id": 21,
+      "name": "Svezia",
+      "code": "SE",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Svezia",
+        "description": "La Svezia è uno dei paesi più digitalmente avanzati con forte protezione dei consumatori bancari supervisionata da Finansinspektionen.",
+        "bank_fraud_liability": "Il Payment Services Act implementa PSD2. Le banche svedesi devono rimborsare transazioni non autorizzate salvo che provino frode intenzionale o negligenza grave del cliente. Sistema BankID nazionale fornisce autenticazione forte. Le banche sono responsabili se non hanno implementato adeguate misure di sicurezza o monitoraggio delle transazioni.",
+        "consumer_protection": "Responsabilità cliente limitata a SEK 1,500 prima della notifica per negligenza semplice. Zero per negligenza grave della banca o dopo notifica. Allmänna Reklamationsnämnden (ARN) fornisce risoluzione delle controversie. Le banche svedesi generalmente hanno politiche di rimborso molto favorevoli. Sistema altamente protettivo per i consumatori."
+      }
+    },
+    {
+      "id": 22,
+      "name": "Danimarca",
+      "code": "DK",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Danimarca",
+        "description": "La Danimarca ha un sistema bancario altamente digitalizzato con forte protezione dei consumatori supervisionata da Finanstilsynet.",
+        "bank_fraud_liability": "Il Payment Services Act danese implementa PSD2. Le banche sono responsabili per transazioni non autorizzate salvo grave negligenza provata del cliente. Le banche devono rimborsare entro il termine legale. Responsabilità bancaria per transazioni anomale non verificate. Sistema di autenticazione forte obbligatorio (NemID/MitID).",
+        "consumer_protection": "Responsabilità massima del cliente di DKK 1,000 prima della notifica per negligenza. Zero dopo. Pengeinstitutankenævnet fornisce risoluzione gratuita. Le banche danesi hanno standard elevati di sicurezza e compensazione. Sistema molto protettivo con onere della prova sulla banca per dimostrare negligenza grave."
+      }
+    },
+    {
+      "id": 23,
+      "name": "Paesi Bassi",
+      "code": "NL",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria nei Paesi Bassi",
+        "description": "I Paesi Bassi hanno implementato standard elevati di protezione dei consumatori con supervisione dell'AFM (Autoriteit Financiële Markten) e DNB.",
+        "bank_fraud_liability": "Il Burgerlijk Wetboek e l'implementazione PSD2 stabiliscono responsabilità bancaria per transazioni non autorizzate. Le banche olandesi devono rimborsare salvo grave negligenza provata del cliente. Le banche sono responsabili se non hanno implementato adeguate misure di sicurezza o se hanno elaborato transazioni palesemente sospette senza verifica.",
+        "consumer_protection": "Responsabilità massima di €50 per il cliente prima della notifica. Zero dopo. Klachteninstituut Financiële Dienstverlening (Kifid) fornisce risoluzione gratuita. Standard di prova elevati per la banca: deve provare negligenza grave, non basta la semplice negligenza. Sistema altamente protettivo per i consumatori."
+      }
+    },
+    {
+      "id": 24,
+      "name": "Belgio",
+      "code": "BE",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Belgio",
+        "description": "Il Belgio ha recepito rigorosamente la PSD2 con supervisione della FSMA (Financial Services and Markets Authority).",
+        "bank_fraud_liability": "La Loi relative aux services de paiement implementa PSD2. Le banche belghe sono responsabili per transazioni non autorizzate salvo frode intenzionale o negligenza grave del cliente provata dalla banca. Devono rimborsare immediatamente. Responsabilità bancaria se non hanno adottato Strong Customer Authentication o se hanno autorizzato transazioni evidentemente anomale.",
+        "consumer_protection": "Responsabilità massima di €50 prima della notifica per negligenza semplice. Zero dopo o se la banca non ha rispettato gli obblighi di sicurezza. Ombudsman des Services Financiers gratuito. La banca ha l'onere di provare la negligenza grave. Sistema favorevole ai consumatori con enforcement rigoroso."
+      }
+    },
+    {
+      "id": 25,
+      "name": "Austria",
+      "code": "AT",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Austria",
+        "description": "L'Austria ha implementato la PSD2 con supervisione della FMA (Financial Market Authority) e standard elevati di protezione consumatori.",
+        "bank_fraud_liability": "Il Zahlungsdienstegesetz (ZaDiG) implementa PSD2. Le banche austriache devono rimborsare transazioni non autorizzate salvo grave negligenza o frode del cliente. La banca ha l'onere di provare la colpa grave. Responsabilità bancaria per transazioni sospette non bloccate dal sistema antifrode. Strong Customer Authentication obbligatoria.",
+        "consumer_protection": "Responsabilità massima di €50 per il cliente prima della notifica. Zero dopo la notifica o se la banca ha violato obblighi di sicurezza. Gemeinsame Schlichtungsstelle der österreichischen Kreditwirtschaft fornisce mediazione gratuita. Sistema protettivo con supervisione attiva della FMA."
+      }
+    },
+    {
+      "id": 26,
+      "name": "Polonia",
+      "code": "PL",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Polonia",
+        "description": "La Polonia ha implementato la PSD2 con la supervisione della KNF (Komisja Nadzoru Finansowego).",
+        "bank_fraud_liability": "L'Ustawa o usługach płatniczych implementa PSD2. Le banche polacche sono responsabili per transazioni non autorizzate salvo che provino negligenza intenzionale o grave del cliente. Devono rimborsare le perdite entro i termini legali. Responsabilità bancaria se non hanno implementato adeguate misure di sicurezza o monitoraggio delle transazioni.",
+        "consumer_protection": "Responsabilità del cliente limitata a PLN 150 (circa €35) prima della notifica per negligenza. Zero dopo la notifica. Rzecznik Finansowy (Financial Ombudsman) fornisce supporto gratuito ai consumatori. KNF supervisiona il rispetto degli standard di sicurezza e rimborso. Sistema in crescente rafforzamento della protezione consumatori."
+      }
+    },
+    {
+      "id": 27,
+      "name": "Grecia",
+      "code": "GR",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Grecia",
+        "description": "La Grecia ha implementato la PSD2 con supervisione della Bank of Greece e della Hellenic Capital Market Commission.",
+        "bank_fraud_liability": "La Legge 4537/2018 implementa PSD2. Le banche greche devono rimborsare transazioni non autorizzate salvo grave negligenza provata del cliente. Responsabilità bancaria se i sistemi di sicurezza erano inadeguati o se hanno elaborato transazioni evidentemente sospette. La banca ha l'onere della prova per dimostrare la negligenza grave.",
+        "consumer_protection": "Responsabilità massima di €50 per il cliente prima della notifica. Zero dopo. Mediatore Bancario disponibile per controversie. Bank of Greece supervisiona il rispetto degli obblighi di rimborso e sicurezza. Sistema di protezione in linea con standard europei PSD2."
+      }
+    },
+    {
+      "id": 28,
+      "name": "Repubblica Ceca",
+      "code": "CZ",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria nella Repubblica Ceca",
+        "description": "La Repubblica Ceca ha implementato la PSD2 con supervisione della Czech National Bank (ČNB).",
+        "bank_fraud_liability": "La Zákon o platebním styku implementa PSD2. Le banche ceche devono rimborsare transazioni non autorizzate salvo che dimostrino frode intenzionale o negligenza grave del cliente. La banca è responsabile se non ha adottato Strong Customer Authentication o se non ha rilevato e bloccato transazioni anomale evidenti.",
+        "consumer_protection": "Responsabilità massima del cliente di CZK 1,150 (circa €45) prima della notifica per negligenza semplice. Zero dopo la notifica. Finanční arbitr (Financial Arbitrator) fornisce risoluzione gratuita delle controversie. ČNB supervisiona il rispetto degli standard. Sistema di protezione conforme a PSD2."
+      }
+    },
+    {
+      "id": 29,
+      "name": "Finlandia",
+      "code": "FI",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Finlandia",
+        "description": "La Finlandia ha uno dei sistemi bancari digitali più avanzati con forte protezione dei consumatori supervisionata da FIN-FSA.",
+        "bank_fraud_liability": "Il Payment Services Act implementa PSD2. Le banche finlandesi sono responsabili per transazioni non autorizzate salvo grave negligenza provata del cliente. Sistema di autenticazione forte obbligatorio. Le banche devono rimborsare immediatamente e possono recuperare solo se dimostrano colpa grave. Responsabilità per transazioni anomale non bloccate.",
+        "consumer_protection": "Responsabilità massima di €150 per il cliente prima della notifica in caso di negligenza. Zero dopo o se la banca non ha rispettato obblighi di sicurezza. FINE (Finnish Financial Ombudsman Bureau) fornisce risoluzione gratuita. Sistema altamente protettivo con standard di sicurezza elevati. Le banche finlandesi hanno eccellenti reputazioni per la gestione delle frodi."
+      }
+    },
+    {
+      "id": 30,
+      "name": "Irlanda",
+      "code": "IE",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Irlanda",
+        "description": "L'Irlanda ha implementato rigorosamente la PSD2 con supervisione della Central Bank of Ireland.",
+        "bank_fraud_liability": "I European Union (Payment Services) Regulations implementano PSD2. Le banche irlandesi devono rimborsare transazioni non autorizzate salvo frode intenzionale o negligenza grave del cliente provata dalla banca. Responsabilità bancaria se non hanno implementato Strong Customer Authentication o se hanno elaborato transazioni palesemente sospette senza verifica adeguata.",
+        "consumer_protection": "Responsabilità massima di €50 per il cliente prima della notifica. Zero dopo la notifica. Financial Services and Pensions Ombudsman fornisce risoluzione gratuita. Central Bank supervisiona rigorosamente il rispetto degli standard di sicurezza e rimborso. Sistema molto protettivo in linea con best practice europee."
+      }
+    },
+    {
+      "id": 31,
+      "name": "Nuova Zelanda",
+      "code": "NZ",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Nuova Zelanda",
+        "description": "La Nuova Zelanda ha un Code of Banking Practice robusto supervisionato dalla Reserve Bank of New Zealand e dalla Financial Markets Authority.",
+        "bank_fraud_liability": "Il Code of Banking Practice stabilisce che le banche sono responsabili per transazioni non autorizzate se il cliente ha protetto ragionevolmente le credenziali. Le banche devono provare negligenza del cliente. Devono investigare prontamente e compensare se non possono provare colpa del cliente. Responsabilità bancaria per inadeguate misure di sicurezza o mancato rilevamento di pattern sospetti.",
+        "consumer_protection": "Generalmente zero liability per il cliente se ha seguito ragionevolmente le procedure di sicurezza. Banking Ombudsman Scheme fornisce risoluzione gratuita e vincolante. Le banche neozelandesi hanno standard elevati di customer service e compensazione. Sistema favorevole ai consumatori con enforcement attivo."
+      }
+    },
+    {
+      "id": 32,
+      "name": "Israele",
+      "code": "IL",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Israele",
+        "description": "Israele ha un sistema bancario regolamentato con la Bank of Israel che supervisiona la protezione dei consumatori.",
+        "bank_fraud_liability": "La Banking (Customer Service) Law e le direttive della Bank of Israel stabiliscono responsabilità bancaria per frodi se il cliente ha agito ragionevolmente. Le banche devono provare negligenza grave del cliente. Responsabilità bancaria per transazioni non autorizzate se non hanno implementato adeguate misure di sicurezza o se hanno elaborato transazioni evidentemente anomale.",
+        "consumer_protection": "Sistema di compensazione basato sul Banking Ombudsman. Le banche israeliane generalmente compensano le vittime di frodi se hanno seguito le procedure di sicurezza base. Bank of Israel supervisiona che le banche adottino sistemi di sicurezza adeguati. Crescente attenzione alla protezione dei consumatori digitali."
+      }
+    },
+    {
+      "id": 33,
+      "name": "Emirati Arabi Uniti",
+      "code": "AE",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria negli Emirati Arabi Uniti",
+        "description": "Gli EAU hanno modernizzato significativamente la regolamentazione bancaria con la Central Bank of UAE che supervisiona la protezione dei consumatori.",
+        "bank_fraud_liability": "Le Consumer Protection Regulations della Central Bank UAE e il Decreed Federal Law on Commercial Companies stabiliscono responsabilità bancaria per transazioni non autorizzate. Le banche devono dimostrare che il cliente ha agito con negligenza grave o ha divulgato volontariamente le credenziali. Sistema di autenticazione a due fattori obbligatorio. Responsabilità per transazioni sospette non bloccate.",
+        "consumer_protection": "Crescente protezione dei consumatori con l'evoluzione del sistema bancario UAE. Le banche devono investigare prontamente i reclami. Sistema di complaint presso Central Bank. Le banche UAE generalmente compensano per mantenere la reputazione nel competitivo mercato bancario. Standard di sicurezza in continuo miglioramento."
+      }
+    },
+    {
+      "id": 34,
+      "name": "Arabia Saudita",
+      "code": "SA",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Arabia Saudita",
+        "description": "L'Arabia Saudita ha modernizzato il sistema bancario con la Saudi Central Bank (SAMA) che supervisiona la protezione dei consumatori.",
+        "bank_fraud_liability": "Le Consumer Protection Principles e le circolari SAMA stabiliscono che le banche sono responsabili per transazioni non autorizzate se non possono provare negligenza grave del cliente. Le banche devono implementare adeguate misure di sicurezza inclusa autenticazione forte. Responsabilità bancaria per frodi se i sistemi di sicurezza erano inadeguati.",
+        "consumer_protection": "SAMA richiede alle banche di avere chiari processi di complaint resolution. Le banche devono investigare e rispondere entro termini definiti. Sistema di consumer protection in rafforzamento. Le banche saudite generalmente compensano per mantenere fiducia del cliente. SAMA supervisiona attivamente il rispetto degli standard di sicurezza."
+      }
+    },
+    {
+      "id": 35,
+      "name": "Turchia",
+      "code": "TR",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Turchia",
+        "description": "La Turchia ha un sistema bancario regolamentato con la Banking Regulation and Supervision Agency (BDDK) e la Central Bank of Turkey.",
+        "bank_fraud_liability": "Il Payment and Securities Settlement Systems, Payment Services and Electronic Money Institutions Law implementa principi simili a PSD2. Le banche turche sono responsabili per transazioni non autorizzate salvo che provino negligenza grave del cliente. Devono rimborsare rapidamente. Responsabilità bancaria per inadeguate misure di sicurezza o mancato monitoraggio di transazioni anomale.",
+        "consumer_protection": "Sistema di protezione consumatori in via di rafforzamento. Arbitration Committee for Consumer Disputes gestisce i reclami. BDDK supervisiona che le banche rispettino standard di sicurezza. Le banche devono provare la negligenza del cliente. Sistema in evoluzione verso maggiore protezione consumatori."
+      }
+    },
+    {
+      "id": 36,
+      "name": "Russia",
+      "code": "RU",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Russia",
+        "description": "La Russia ha un sistema bancario supervisionato dalla Central Bank of Russia con crescente attenzione alla protezione dei consumatori.",
+        "bank_fraud_liability": "La Federal Law on the National Payment System e le direttive della Central Bank stabiliscono responsabilità bancaria per transazioni non autorizzate. Le banche devono compensare se non possono provare che il cliente ha divulgato volontariamente le credenziali o ha agito con negligenza grave. Responsabilità bancaria se non hanno implementato adeguate misure di sicurezza come autenticazione a due fattori.",
+        "consumer_protection": "Sistema di protezione in evoluzione. Bank of Russia supervisiona i complaint e può richiedere compensazione. Le banche devono investigare e rispondere ai reclami entro termini definiti. Finanzial Ombudsman service disponibile. Crescente enforcement della protezione consumatori con sanctions per banche che non rispettano standard."
+      }
+    },
+    {
+      "id": 37,
+      "name": "Ucraina",
+      "code": "UA",
+      "legislative_info": {
+        "title": "Responsabilità Bancaria in Ucraina",
+        "description": "L'Ucraina ha modernizzato il sistema bancario con la National Bank of Ukraine che ha rafforzato la protezione dei consumatori.",
+        "bank_fraud_liability": "La Law on Payment Services implementa principi allineati a PSD2 europeo. Le banche ucraine devono compensare per transazioni non autorizzate salvo che provino colpa grave del cliente. Sistema di autenticazione forte obbligatorio per transazioni online. Responsabilità bancaria se non hanno implementato adeguate misure di sicurezza o monitoraggio delle transazioni.",
+        "consumer_protection": "Sistema di protezione in significativo rafforzamento. National Bank of Ukraine supervisiona attivamente. Le banche devono investigare i reclami e compensare se non possono provare negligenza del cliente. Financial Ombudsman previsto nel framework di riforma. Standard di sicurezza in continuo miglioramento verso allineamento con UE."
+      }
+    }
+  ]
+}
