@@ -37,6 +37,9 @@ struttura_progetto.png
 index_minimal.html
 index_with_images.html
 
+# File di test
+test_*.html
+
 # File di cache o di sistema
 .DS_Store
 .gitattributes
