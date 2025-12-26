@@ -278,7 +278,13 @@
             
             // Populate the dropdown
             const select = document.getElementById('country-select');
-            bankData.forEach(country => {
+            
+            // Sort countries alphabetically by name
+            const sortedCountries = [...bankData].sort((a, b) => 
+                a.name.localeCompare(b.name, 'it')
+            );
+            
+            sortedCountries.forEach(country => {
                 const option = document.createElement('option');
                 option.value = country.id;
                 option.textContent = `${country.name} (${country.code})`;
