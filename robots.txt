@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://avvstancamarcello.github.io/LHISA-lecce-Italy-salento/sitemap.xml
