@@ -2,8 +2,16 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>LHISA Lecce NFT – Ricerca Scientifica STOP DEPRESSION - Cura e GUARIGIONE</title> <meta content="width=device-width, initial-scale=1" name="viewport"/>
+    <title>LHISA Lecce NFT – Ricerca Scientifica STOP DEPRESSION - Cura e GUARIGIONE</title> 
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
     <style>
+        * {
+            box-sizing: border-box;
+        }
+        html, body {
+            overflow-x: hidden;
+            width: 100%;
+        }
         body {
             font-family: Arial, sans-serif;
             margin: 0 auto;
@@ -12,8 +20,81 @@
             padding: 20px;
             text-align: center;
         }
+        
+        /* Responsive images - ensures all images fit screen */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* RESPONSIVE MOBILE FIX */
+        @media (max-width: 768px) {
+            body {
+                max-width: 100vw;
+                width: 100%;
+                padding: 5px;
+                margin: 0;
+                overflow-x: hidden;
+            }
+            .section-content {
+                padding: 5px;
+                max-width: 100%;
+                width: 100%;
+                margin: 10px 0;
+            }
+            .section-title {
+                font-size: 1.1em !important;
+                padding: 0 5px;
+                line-height: 1.3;
+            }
+            .grid-row {
+                flex-direction: row !important;
+                justify-content: center;
+                width: 100%;
+                gap: 10px;
+            }
+            .nft-card, .building-card {
+                width: 42%;
+                max-width: 180px;
+                margin: 5px;
+            }
+            .nft-card img, .building-card img {
+                width: 100%;
+                height: auto;
+                max-width: 180px;
+                max-height: 180px;
+            }
+            .banner-container {
+                width: 100%;
+                padding: 0;
+            }
+            .banner-container img {
+                width: 100%;
+                max-width: 100%;
+            }
+            h1 {
+                font-size: 1.2em !important;
+                padding: 0 5px;
+            }
+            .language-selector {
+                top: 5px !important;
+                right: 5px !important;
+            }
+        }
+        p, .seection-title, h1, h2, h3, h4, span, div {
+            word-break: break-word;
+            overflow-wrap: break-word;
+            white-space: pre-line;
+        }
         header {
             text-align: center;
+        }
+        .language-selector button:hover {
+            background-color: #0056b3;
+        }
+
+        .language-selector {
+            z-index: 1000;
         }
         .banner-container {
             width: 100%;
@@ -86,12 +167,74 @@
             margin-bottom: 10px;
             text-align: center;
         }
+        /* TESTO GIUSTIFICATO PER TUTTE LE SEZIONI */
+        .section-content,
+        .section-content p,
+        .section-content ul,
+        .section-content li,
+        .section-content span,
+        .section-content div {
+            text-align: justify !important;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+        /* GIUSTIFICA ANCHE NORMAL-TEXT */
+        .normal-text,
+        .normal-text p,
+        .normal-text ul,
+        .normal-text li {
+            text-align: justify !important;
+            word-break: break-word;
+        }
         .section-content {
-            margin: 15px auto;
-            max-width: 800px;
-            text-align: justify;
-            line-height: 1.6;
-            font-size: 1.1em;
+            margin: 30px auto;
+            width: 100%;
+            max-width: 1000px;
+            line-height: 1.7;
+            font-size: 1.1em !important;
+            display: block;
+            color: #000000;
+        }
+        .section-content p, .section-content a, .section-content li, .section-content span, .section-content strong {
+            font-size: 1.1em !important;
+            color: #000000;
+        }
+        .section-content a.normal-link {
+            font-size: 1em !important;
+            text-decoration: underline;
+            color: #0077cc;
+        }
+        .section-content a.title-link {
+            font-size: 1.3em !important;
+            color: #b22222;
+            text-decoration: underline;
+            font-weight: normal;
+        }
+        /* Forza dimensioni uniformi per TUTTI gli elementi di testo nelle sezioni */
+        .section-content * {
+            font-size: 1.1em !important;
+        }
+        /* Eccezioni per link specifici */
+        .section-content a.normal-link {
+            font-size: 1em !important;
+        }
+        .section-content a.title-link {
+            font-size: 1.3em !important;
+        }
+        .nft-card p, .building-card p {
+            font-size: 0.8em !important;
+        }
+        .normal-text {
+            font-size: 1.1em !important;
+            color: #000000;
+            margin: 20px auto;
+            text-align: justify !important;
+        }
+        .normal-text p {
+            font-size: 1.1em !important;
+            color: #000000;
+            text-align: justify !important;
         }
         .footer {
             margin-top: 50px;
@@ -101,9 +244,8 @@
             color: #666;
             text-align: center;
         }
-        /* Nuovo stile per la casella Mint */
+        /* Nuovo stile per le caselle Mint */
         .mint-box {
-            background: #e8f5e9; /* Sfondo verde chiaro */
             border-radius: 10px;
             padding: 25px;
             margin: 40px auto;
@@ -114,6 +256,17 @@
             align-items: center;
             gap: 15px;
         }
+        
+        .mint-box.ft-box {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+        }
+        
+        .mint-box.nft-box {
+            background: #e8f5e9; /* Sfondo verde chiaro */
+            color: #333;
+        }
+        
         .mint-box img {
             max-width: 180px;
             border-radius: 8px;
@@ -123,6 +276,19 @@
             padding: 12px 25px;
             font-size: 1.1em;
             background-color: #4CAF50; /* Verde */
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        
+        .ft-input {
+            padding: 10px;
+            font-size: 1.1em;
+            border: 2px solid #fff;
+            border-radius: 6px;
+            width: 200px;
+            text-align: center;
         }
         /* Stile per il link IPFS della collezione */
         .ipfs-collection-link {
@@ -177,41 +343,101 @@
 </head>
 <body>
     <div class="banner-container">
-        <img src="images/banner.jpg" alt="Banner del Progetto LHISA NFT">
+        <img src="images/banner.png" alt="Banner del Progetto LHISA NFT">
     </div>
 
     <header>
+        <div class="language-selector" style="position: absolute; top: 20px; right: 20px;">
+          <button id="translateBtn" onclick="toggleLanguage()" style="padding: 8px 16px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">English</button>
+        </div>     
         <h1 class="header-main">LHISA NFT – Ricerca Scientifica e Salute</h1> <p class="header-links">
             🔗 <a href="https://lhilecce.it" target="_blank">Visita lhilecce.it SITO UFFICIALE</a> |
             🗺️ <a href="https://www.google.com/maps/place/LHI+HEALTHY+HUB/" target="_blank">Esplora il Medical Hotel LHI con Google Maps</a> |
-            <a href="https://www.booking.com/hotel/it/lhi-healthy-lecce.it.html" target="_blank">Booking prenota la tua camera a Lecce in LHI</a>
+               <a href="https://www.booking.com/hotel/it/lhi-healthy-lecce.it.html" target="_blank">Booking prenota la tua camera a Lecce in LHI</a>
         </p>
     </header>
 
     <div class="grid-row">
+
         <div class="building-card">
-            <img alt="edificio1" src="images/edificio1.jpg" width="350" height="350">
+            <img alt="edificio1" src="images/edificio1.png" style="width: 100%; max-width: 300px; height: auto; object-fit: contain;">
             <p>La nostra struttura medica all'avanguardia.</p>
         </div>
         <div class="building-card">
-            <img alt="edificio2" src="images/edificio2.jpg" width="350" height="350">
+            <img alt="edificio2" src="images/edificio2.png" style="width: 100%; max-width: 300px; height: auto; object-fit: contain;">
             <p>Spazi dedicati al benessere e alla riabilitazione.</p>
         </div>
         <div class="building-card">
-            <img alt="edificio3" src="images/edificio3.jpg" width="350" height="350">
+            <img alt="edificio3" src="images/edificio3.png" style="width: 100%; max-width: 300px; height: auto; object-fit: contain;">
             <p>Architettura e comfort al servizio della salute.</p>
-        </div>
-        <div class="building-card">
-            <img alt="NFT marketplace" src="images/LHI_NFT_LECCE_logo.svg" width="350" height="350">
-            <p>Logo Icona LHI Lecce NFT per Polygon ed Opensea Market Place.</p>
-        </div>
-        <div class="building-card">
-            <img alt="moneta-scientifica-iconica" src="images/NFT_3277_Stop_depression.jpg" width="350" height="350">
-            <p><a href="https://polygonscan.com/address/0xF96ab75dEf75945e3E4a62E918468d49DaC97598" target="_blank">Smart Contract Verificato - Leggilo aprendo questo link.</a></p>
         </div>
     </div>
 
-    <div class="section-title">1. Un Progetto Immobiliare Reale, un Valore Tangibile</div>
+    <!-- Smart Contract Verificato centrato -->
+    <div style="display: flex; flex-direction: column; align-items: center; margin: 20px 0;">
+        <img alt="moneta-scientifica-iconica" src="images/STOP_DEPRESSION_LHI.jpg" style="width: 100%; max-width: 350px; height: auto; object-fit: contain;">
+        <p class="normal-text"><a href="https://polygonscan.com/address/0xcAD9C4EfBa776f9F55A71d442EC024BBB5DD2b1c" target="_blank" class="normal-link">Smart Contract Verificato - Leggilo aprendolo su Polygonscan</a></p>
+    </div>
+
+      <div class="section-title">1. La DEPRESSIONE. Un Progetto per la ricerca scientifica</div>
+    <div class="section-content">
+        Acquistando un NFT, non solo entri in possesso di un asset digitale di valore,
+        ma finanzi direttamente la ricerca scientifica per la guarigione dalla
+        "DEPRESSIONE", contribuendo a un obiettivo di immenso valore sociale.
+        Il referente scientifico, Responsabile del progetto di ricerca e cura
+        è il Prof. Riccardo SIMONI, iscritto all'Ordine dei Medici di Firenze.
+        <a href="images/Simoni2.jpg" target="_blank" class="normal-link">Consulta curriculum</a>
+        Il Responsabile scientifico del progetto, è medico specialista in
+        Psichiatria, che vanta 30 anni di grande esperienza clinica ospedaliera,
+        docenza in corsi di specializzazione e master di formazione per la ricerca
+        scientifica e farmacologica, e può documentare numerosi casi di guarigione
+        grazie all'uso di una terapia personalizzata, monitorata in tempo reale
+        con flusso di feedback individuali sulle terapie personalizzate.
+        dalla Depressione, anche di personaggi dello spettacolo.
+        La Depressione è ormai annoverata come una malattia sociale,
+        molto insidiosa e non facilmente riconoscibile nelle famiglie, che oggi
+        può colpire chiunque, senza distinzione di età, di livello d'istruzione
+        o di attività di lavoro. iL Prof. Riccardo SIMONI ha dedicato 35 anni
+        di studi clinici alla patologia depressiva, individuando i farmaci
+        più efficaci e meno aggressivi per l'organismo, e riportando il paziente
+        al pieno equilibrio psicofisico nella gestione delle proprie capacità.                        
+    </div>
+
+    <!-- Logo NFT LHI + Logo LHI istituzionale affiancati -->
+    <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 40px; margin: 20px 0;">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <a href="images/LHI_NFT_LECCE_logo.svg" target="_blank">
+                <img src="images/LHI_NFT_LECCE_logo.svg" alt="NFT marketplace" style="width: 100%; max-width: 320px; height: auto; object-fit: contain; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,0.12);">
+            </a>
+            <p class="normal-text" style="margin-top: 8px;">Logo Icona LHI Lecce NFT per Polygon ed Opensea Market Place.</p>
+            <p class="normal-text">
+                🌊 <a href="https://opensea.io/collection/lhi-lecce-nft" target="_blank" class="normal-link" style="font-weight: bold; color: #0077cc;">
+                    Visita la Collezione LHI Lecce NFT su OpenSea
+                </a>
+            </p>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <a href="https://www.lhilecce.it" target="_blank" title="LHI Lecce Sito Ufficiale">
+                <svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="320" height="124" viewBox="0 0 10000 3885.9" style="max-width:320px; height:auto; object-fit:contain; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,0.12);">
+                    <defs>
+                        <style type="text/css">
+                            .fil2 {fill:#952727}
+                            .fil1 {fill:#6B6B6A;fill-rule:nonzero}
+                            .fil0 {fill:#952727;fill-rule:nonzero}
+                        </style>
+                    </defs>
+                    <g id="Livello_x0020_1">
+                        <metadata id="CorelCorpID_0Corel-Layer"/>
+                        <path class="fil0" d="M2734.12 3338.59l0 -739.82 -1927.01 0c-38.48,0 -73.21,-34.67 -73.21,-77.09l0 -2515.95 -739.77 0 0 2593.04c0,404.62 331.25,739.82 739.77,739.82l2000.2"/>
+                        <polygon class="fil1" points="5232.83,2040.16 5232.83,1300.43 3749.46,1300.43 3749.46,5.86 3009.7,5.86 3009.7,3338.59 3749.46,3338.59 3749.46,2040.16 "/>
+                    </g>
+                </svg>
+            </a>
+            <p class="normal-text" style="margin-top: 8px;">Logo istituzionale LHI Lecce<br><a href="https://www.lhilecce.it" target="_blank" class="normal-link">www.lhilecce.it</a></p>
+        </div>
+    </div>
+
+    <div class="section-title">2. Un Progetto Immobiliare Reale, un Valore Tangibile</div>
     <div class="section-content">
         A differenza di molti progetti digitali, il valore di un NFT LHI non è astratto.
         È direttamente collegato a un <strong>bene immobile e reale del valore di 10 milioni di euro</strong>:
@@ -221,113 +447,169 @@
         nell'ospitalità sanitaria. Il capitale sociale è interamente versato. 
     </div>
 
-    <div class="building-card">
-        <img alt="NFT marketplace" src="images/STOP_DEPRESSION_LHI.jpg" width="350" height="350">
-    </div>
-
-    <div class="section-content">
-        la MONETA DIGITALE da 50 cent a 2 euro equivale al comune SMS telefonico usato per le donazioni eseguite per sostenere progetti di solidarietà.
-    </div>
-
-    <div class="grid-row" id="nft-grid-row-1"></div>
-    <div class="grid-row">
-        <div class="building-card">
-            <img alt="Moneta stop depression 25#" src="images/25.jpg" width="350" height="350">
-            <p>Moneta 25 LHI.</p>
+    <div style="display: flex; flex-direction: row; align-items: flex-start; justify-content: center; gap: 40px; margin: 30px 0;">
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <img alt="NFT Moneta Scientifico Stop Depression" src="images/STOP_DEPRESSION_LHI.jpg" style="width: 500px; height: 500px; object-fit: contain; border-radius: 18px; box-shadow: 0 2px 12px rgba(0,0,0,0.13); background: #fff;">
         </div>
-        <div class="building-card">
-            <img alt="Moneta stop depression 50#" src="images/50.jpg" width="350" height="350">
-            <p>Moneta 50 LHI.</p>
+        <div style="display: flex; flex-direction: column; align-items: center; max-width: 500px;">
+            <a href="images/LHI_NFT_LECCE_logo.svg" target="_blank">
+                <img src="images/LHI_NFT_LECCE_logo.svg" alt="NFT marketplace" style="width: 500px; height: 500px; object-fit: contain; border-radius:12px; box-shadow:0 2px 12px rgba(0,0,0,0.13); background:#fff;">
+            </a>
+            <p class="normal-text" style="margin-top: 12px; font-size: 1.08em; text-align: center;">Logo Icona LHI Lecce NFT per Polygon ed Opensea Market Place.</p>
+            <p class="normal-text" style="text-align: center;">
+                🌊 <a href="https://opensea.io/collection/lhi-lecce-nft" target="_blank" class="normal-link" style="font-weight: bold; color: #0077cc; font-size: 1.08em;">
+                    Visita la Collezione LHI Lecce NFT su OpenSea
+                </a>
+            </p>
         </div>
-        <div class="building-card">
-            <img alt="Moneta stop depression 75" src="images/75.jpg" width="350" height="350">
-            <p>Moneta 75 LHI.</p>
-        </div>
-        <div class="building-card">
-            <img alt="Moneta stop depression 100#" src="images/100.jpg" width="350" height="350">   
-        </div>
-        <p>Moneta 100 LHI.</p>
     </div>
 
-    <div class="section-title">2. La Depressione. Un Progetto per la ricerca scientifica</div>
+        <section class="nft-section">
+            <h2 class="section-title" data-translate="section3_title">Storia della Realizzazione di Life Healthcare International - L.H.I</h2>
+            
+            <div class="section-content" data-translate="section3_1">
+                Il progetto Life Healthcare International nasce dall'innovativa visione di creare una struttura sanitaria e ricettiva d'eccellenza nel cuore del Salento.
+            </div>
+            
+            <div class="grid-row">
+                <div class="nft-card">
+                    <img src="images/75.jpg" alt="NFT 75">
+                    <p data-translate="nft_75">NFT 75</p>
+                </div>
+                <div class="nft-card">
+                    <img src="images/80.jpg" alt="NFT 80">
+                    <p data-translate="nft_80">NFT 80</p>
+                </div>
+            </div>
+            
+            <div class="section-content" data-translate="section3_2">
+                La progettazione architettonica è stata affidata a un team d'eccellenza guidato dall'arch. Angelo Ingrosso e dall'ing. Pietro Licignano.
+            </div>
+            
+            <div class="grid-row">
+                <div class="nft-card">
+                    <img src="images/85.jpg" alt="NFT 85">
+                    <p data-translate="nft_85">NFT 85</p>
+                </div>
+                <div class="nft-card">
+                    <img src="images/90.jpg" alt="NFT 90">
+                    <p data-translate="nft_90">NFT 90</p>
+                </div>
+            </div>
+            
+            <div class="section-content" data-translate="section3_3">
+                L'aspetto strutturale del complesso è stato sviluppato dagli ingegneri Donato Nocco e Livio Calo'.
+            </div>
+            
+            <div class="grid-row">
+                <div class="nft-card">
+                    <img src="images/95.jpg" alt="NFT 95">
+                    <p data-translate="nft_95">NFT 95</p>
+                </div>
+                <div class="nft-card">
+                    <img src="images/100.jpg" alt="NFT 100">
+                    <p data-translate="nft_100">NFT 100</p>
+                </div>
+            </div>
+        </section>
+
+    <div class="section-title">4. La Nostra Zecca Digitale: Sicurezza e Affidabilità</div>
     <div class="section-content">
-        Acquistando un NFT, non solo entri in possesso di un asset digitale di valore,
-        ma finanzi direttamente la ricerca scientifica per la guarigione dalla
-        "DEPRESSIONE", contribuendo a un obiettivo di immenso valore sociale.
+        Il nostro SMART CONTRACT agisce come una <strong>ZECCA DIGITALE PRIVATA</strong>. 
+        È costruito sulla blockchain denominata Polygon usando gli strumenti software più robusti e moderni, 
+        e garantisce che ogni NFT sia irripetibile, non falsificabile e immutabile. 
+        Monitorato h24 per essere inattaccabile da virus e malware.
     </div>
-
-    <div class="grid-row" id="nft-grid-row-2">
-        <div class="nft-card"><img src="images/25.jpg" alt="NFT 25"><p>Token ID: #25</p></div>
-        <div class="nft-card"><img src="images/30.jpg" alt="NFT 30"><p>Token ID: #30</p></div>
-        <div class="nft-card"><img src="images/35.jpg" alt="NFT 35"><p>Token ID: #35</p></div>
-        <div class="nft-card"><img src="images/40.jpg" alt="NFT 40"><p>Token ID: #40</p></div>
-    </div>
-
-    <div class="section-title">3. La Nostra Zecca Digitale: Sicurezza e Affidabilità</div>
+    
+    <div class="section-title">5. Il Tuo NFT: Bene Unico con Certificato di Proprietà</div>
     <div class="section-content">
-        Il nostro SMART CONTRACT agisce come una <strong>Zecca Digitale</strong>. È costruito sulla blockchain Polygon usando gli strumenti più robusti e moderni.
+        Quando clicchi il pulsante "Mint", la Zecca Digitale di LHI, crea un bene virtuale immutabile, che è soltanto per te.
     </div>
 
-    <div class="grid-row" id="nft-grid-row-3">
-        <div class="nft-card"><img src="images/45.jpg" alt="NFT 45"><p>Token ID: #45</p></div>
-        <div class="nft-card"><img src="images/50.jpg" alt="NFT 50"><p>Token ID: #50</p></div>
-        <div class="nft-card"><img src="images/55.jpg" alt="NFT 55"><p>Token ID: #55</p></div>
-        <div class="nft-card"><img src="images/60.jpg" alt="NFT 60"><p>Token ID: #60</p></div>
-    </div>
-
-    <div class="section-title">4. Il Tuo NFT: Bene Unico con Certificato di Proprietà</div>
-    <div class="section-content">
-        Quando clicchi "Mint", la Zecca Digitale di LHI, crea un bene virtuale immutabile che è soltanto per te.
-    </div>
-
-    <div class="grid-row" id="nft-grid-row-4">
-        <div class="nft-card"><img src="images/65.jpg" alt="NFT 65"><p>Token ID: #65</p></div>
-        <div class="nft-card"><img src="images/70.jpg" alt="NFT 70"><p>Token ID: #70</p></div>
-        <div class="nft-card"><img src="images/75.jpg" alt="NFT 75"><p>Token ID: #75</p></div>
-        <div class="nft-card"><img src="images/80.jpg" alt="NFT 80"><p>Token ID: #80</p></div>
-    </div>
-
-    <div class="section-title">5.Un Valore di Partecipazione Destinato a Crescere nel tempo</div>
+    <div class="section-title">6. Un Valore di Partecipazione Destinato a Crescere nel tempo</div>
     <div class="section-content">
         Il valore del tuo NFT è destinato a crescere con l'eccellenza dei servizi offerti.
-    </div>
-
-    <div class="grid-row" id="nft-grid-row-6">
-        <div class="nft-card"><img src="images/85.jpg" alt="NFT 85"><p>Token ID: #85</p></div>
-        <div class="nft-card"><img src="images/90.jpg" alt="NFT 90"><p>Token ID: #90</p></div>
-        <div class="nft-card"><img src="images/95.jpg" alt="NFT 95"><p>Token ID: #95</p></div>
-        <div class="nft-card"><img src="images/100.jpg" alt="NFT 100"><p>Token ID: #100</p></div>
+        LHI è presente da tempo nell'elenco degli Hotel a 4 stelle offerto su Booking ed Espedia.
+        LHI vuole essere anche un <strong>centro di sollievo dalla sofferenza</strong>, offrendo una piscina
+        con acqua di mare purissima estratta a 350 metri di profondità per talassoterapia, sauna
+        e servizi di riabilitazione. Sostenere questo progetto significa investire in un ecosistema
+        di benessere reale.
     </div>
 
     <div class="section-title">6. Affidabilità e Trasparenza dei codici informatici che hanno costruito il tuo NFT tramite lo Smart Contract</div>
     <div class="section-content">
-        Controlla tu stesso il codice Solidity dello smart contract che è stato verificato sulla piattaforma blockchain Polygonscan, ma anche su GitHub.
+        CONTROLLA tu stesso il codice Solidity dello smart contract che è stato
+        verificato, con segno di spunta Verde, sulla piattaforma blockchain Polygonscan, 
+        (protetto da Copyright) ma è  anche  presente su GitHub,
+        piattaforma mondiale ed affidabile degli sviluppatori informatici.
+        <a href="https://polygonscan.com/address/0xcAD9C4EfBa776f9F55A71d442EC024BBB5DD2b1c"
+           target="_blank" class="title-link">🔍 Codice Trasparente del Contratto intelligente</a>
     </div>
 
-    <div class="section-title">✨ NOVITÀ: Integrazione con MetaMask Embedded Wallet SDK</div>
     <div class="section-content">
-        <p>L’interfaccia frontend include ora il nuovo SDK di <strong>MetaMask Embedded Wallet</strong>.</p>
+        <p>L’interfaccia frontend include ora il nuovo SDK di <strong>MetaMask Embedded
+        Wallet</strong>, che permette:</p>
+        <ul>
+            <li>Connessione diretta con MetaMask (senza estensione browser)</li>
+            <li>Onboarding semplificato con login via email/social</li>
+            <li>Compatibilità con oltre <strong>450 wallet</strong></li>
+        </ul>
+    </div>
+
+    <div class="section-title">🌍 Collegamenti e Risorse</div>
+    <div class="section-content">
+        <ul>
+            <li>🔗 Sito Web ufficiale: <a href="https://lhilecce.it" target="_blank" class="normal-link">
+                https://lhilecce.it</a></li>
+        </ul>
+    </div>
+
+    <div class="section-title">🧪 Funzionalità disponibili nel frontend</div>
+    <div class="section-content">
+        <ul>
+            <li>✅ Connessione con Embedded Wallet</li>
+            <li>✅ Preview 20 NFT numerati (Token IDs da 1 a 20)</li>
+            <li>✅ Pulsante di mint per ogni NFT</li>
+            <li>🖼️ Visualizzazione immagini 350x350 pixel</li>
+            <li>🛠️ Sistema log eventi: feedback interattivo all’utente</li>
+        </ul>
     </div>
 
     <div class="section-title">🧠 Autore</div>
     <div class="section-content">
-        <p>Avv. Marcello Stanca – <a href="https://github.com/avvstancamarcello" target="_blank">GitHub</a></p>
+        <p>Avv. Marcello Stanca – <a href="https://github.com/avvstancamarcello" target="_blank" class="normal-link">GitHub</a></p>
         <p>“Non chi comincia, ma quel che persevera.” 🇮🇹</p>
+        <p><strong>Copyright © Giugno 2025 Avv. Marcello Stanca - Firenze.</strong></p>
     </div>
 
-    <div class="section-content" style="text-align: center;">
+    <div class="normal-text">
         <p>🙏 Grazie ancora per la tua visita! Lascia un feedback!</p>
-    </div>
+    </div> 
 
-    <div class="section-content" style="text-align: center;">
-        <p>Copyright Avv. Marcello Stanca - Firenze</p>
+    <div class="normal-text">
+         <p>© Copyright Avv. Marcello Stanca - Firenze - Giugno 2024</p>
     </div>
-
-    <div class="mint-box">
-        <h3 class="section-title">Mint il Tuo NFT Scientifico!</h3>
-        <img src="images/NFT_100_Stop_depression.jpg" alt="NFT Scientifico" width="180" height="180">
-        <p>Sostieni la ricerca medica acquistando un NFT unico.</p>
-        <button id="interactive-mint-btn">Mint un NFT!</button>
+    
+    <div class="mint-box ft-box">
+        <h3 class="section-title" style="color: white;">🪙 Acquista Token FT LHI (ERC-20)</h3>
+        <p style="color: white;">Token fungibili per partecipare all'ecosistema LHI con pagamento in POL (Polygon)</p>
+        <div>
+            <label for="ft-amount" style="color: white; font-weight: bold;">Quantità Token:</label>
+            <input type="number" id="ft-amount" class="ft-input" min="1" max="1000" value="10" placeholder="10">
+        </div>
+        <div id="ft-price-display" style="color: white; font-weight: bold; margin: 10px 0;">
+            Prezzo: 0.02 POL (≈ $0.02)
+        </div>
+        <button id="buy-ft-btn" disabled style="background-color: #2E7D32;">Acquista Token FT</button>
+        <div id="ft-status" style="margin-top: 10px; color: white;"></div>
+    </div>
+    
+    <div class="mint-box nft-box">
+    <h3 class="section-title">Mint il Tuo NFT Scientifico!</h3>
+    <img src="images/STOP_DEPRESSION_LHI.jpg" alt="NFT Scientifico" width="180" height="180"> 
+    <p>Sostieni la ricerca medica acquistando un NFT unico.</p>
+    <button id="connect-btn" style="margin-bottom: 16px; padding: 10px 24px; background-color: #ff9800; color: white; border: none; border-radius: 6px; font-size: 1.1em; cursor: pointer;">Connetti Wallet</button>
+    <button id="interactive-mint-btn" disabled>Mint NFT Selezionato!</button>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/ethers@6.10.0/dist/ethers.umd.min.js" defer></script>
